@@ -21,19 +21,7 @@
       };
   }
 
-  let selectHeader = document.getElementById('header');
-  if (selectHeader) {
-    const headerScrolled = () => {
-      if (window.scrollY > 100) {
-        selectHeader.classList.add('header-scrolled');
-      } else {
-        selectHeader.classList.remove('header-scrolled');
-      }
-    };
-
-    window.addEventListener('load', headerScrolled);
-    window.addEventListener('scroll', headerScrolled); // Add this line to listen for scroll events
-  }
+  
 </script>
 
 </header><!-- End Header -->

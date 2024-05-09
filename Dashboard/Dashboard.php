@@ -38,7 +38,7 @@
     <!-- Chart  -->
     <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Column Chart</h5>
+              <h5 class="card-title">Revenue Chart</h5>
 
               <!-- Column Chart -->
               <div id="columnChart"></div>
@@ -47,14 +47,11 @@
                 document.addEventListener("DOMContentLoaded", () => {
                   new ApexCharts(document.querySelector("#columnChart"), {
                     series: [{
-                      name: 'Net Profit',
+                      name: 'Services',
                       data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
                     }, {
-                      name: 'Revenue',
+                      name: 'Product',
                       data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-                    }, {
-                      name: 'Free Cash Flow',
-                      data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
                     }],
                     chart: {
                       type: 'bar',
@@ -104,24 +101,32 @@
 
 
           <!-- Table  -->
-          <table class="table table-borderless">
-                <thead>
-                  <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Emp Name</th>
-                    <th scope="col">Username</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                  <tr>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- Table Ends  -->
+
+          <div class="card">
+          <div class="card-body">
+          <h1 class="card-title">Users</h1>
+        
+            <table  class=" customTable" >
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Emp Name</th>
+                      <th scope="col">Username</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr>
+                      <td>Raheem Lehner</td>
+                      <td>Dynamic Division Officer</td>
+                      <td>47</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                <!-- Table Ends  -->
+      </div>
+    </div>
 
   </main>
 </body>

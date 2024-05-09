@@ -34,7 +34,7 @@ h6 {
 # Main
 --------------------------------------------------------------*/
 #main {
-  margin-top: 30px;
+  margin-top: 80px;
   padding: 10px 30px;
   transition: all 0.3s;
 }
@@ -218,6 +218,26 @@ text-align:    center;
 .bg-dark-light {
   background-color: #d3d3d4;
   border-color: #d3d3d4;
+}
+
+table.customTable {
+  width: 100%;
+  background-color: #eae9ff;
+  
+}
+
+table.customTable td, table.customTable th {
+  border-width: 0px;
+  border-color: #7EA8F8;
+  border-style: solid;
+  padding: 5px;
+}
+
+table.customTable thead {
+  background-color: #eae9ff;
+}
+.tablebg{
+  background-color: transparent !important;
 }
 
 /* Card */

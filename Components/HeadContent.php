@@ -16,7 +16,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
   <!-- Vendor CSS Files -->
-  <!-- <link href="../Components/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="../Components/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../Components/assets/css/style.css" rel="stylesheet">
   <link href="../Components/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="../Components/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
