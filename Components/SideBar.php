@@ -51,7 +51,7 @@
   
   <li class="nav-item" style=" margin-top: 200px !important;">
     <a class="nav-link " href="index.html">
-      <i class="bi bi-graph-up-arrow"></i>
+      <i class="bi bi-box-arrow-left" style="font-size: x-large;"></i>
       <span>LogOut</span>
     </a>
   </li>
