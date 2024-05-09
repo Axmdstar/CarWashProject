@@ -1,14 +1,4 @@
-/**
-* Template Name: NiceAdmin
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Updated: Apr 20 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
 
-/*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
 }
@@ -36,15 +26,16 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Nunito", sans-serif;
+  font-family: "Calibri", sans-serif;
+  color: #9747FF;
 }
 
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
 #main {
-  margin-top: 0px;
-  padding: 20px 30px;
+  margin-top: 30px;
+  padding: 10px 30px;
   transition: all 0.3s;
 }
 
@@ -234,7 +225,17 @@ text-align:    center;
   margin-bottom: 30px;
   border: none;
   border-radius: 5px;
+  background-color: #eae9ff;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+
+.JazzeraCards{
+  padding: 0 20px 0 20px;
+  flex-basis: 30%;
+  background-color: #fff;
+  border-radius: 13px;
+  text-align: center;
+  font-size: larger;
 }
 
 .card-header,
@@ -247,15 +248,15 @@ text-align:    center;
 
 .card-title {
   padding: 20px 0 15px 0;
-  font-size: 18px;
+  font-size: 28px;
   font-weight: 500;
-  color: #012970;
+  color: #9747FF;
   font-family: "Poppins", sans-serif;
 }
 
 .card-title span {
-  color: #899bbd;
-  font-size: 14px;
+  color: #9747FF;
+  font-size: 15px;
   font-weight: 400;
 }
 
@@ -395,6 +396,10 @@ text-align:    center;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
   background-color: #fff;
   padding-left: 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  
   /* Toggle Sidebar Button */
   /* Search Bar */
 }
@@ -617,7 +622,7 @@ text-align:    center;
   top: 60px;
   left: 0;
   bottom: 0;
-  width: 220px;
+  width: 180px;
   z-index: 996;
   transition: all 0.3s;
   padding: 20px;
@@ -648,7 +653,7 @@ text-align:    center;
 
   #main,
   #footer {
-    margin-left: 300px;
+    margin-left: 200px;
   }
 }
 
@@ -698,7 +703,7 @@ text-align:    center;
   display: flex;
   align-items: center;
   font-size: 15px;
-  
+  font-weight: lighter;
   font-family: "Calibri";
   color: white;
   transition: 0.3;
