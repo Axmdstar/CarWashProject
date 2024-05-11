@@ -1,16 +1,15 @@
 <!doctype html>
+<head>
 <html lang="en">
-<?php include "../Components/HeadContent.php" ?>
+<?php include "../Components/HeadContent.php" ?> 
 <link rel="stylesheet" href="service.css">
-
+<?php include "../Components/connect.php"?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <body>
 
   <?php include '../Components/NavBar.php' ?>
 
-  <!-- <div class="form-floating mb-3">
-  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-  <label for="floatingInput">*** Text Here ***</label>
-  </div> -->
+`
 
   <main id="main" class="main">
 
@@ -49,7 +48,9 @@
               </div>
           </div>
 
-            <input type="submit" class="JazzeraBtn col" value="Add">
+            <input type="button" class="JazzeraBtn col" value="Add">
+           
+            
           </div>
         </div>
       </div>
@@ -97,17 +98,26 @@
                         <td>Raheem </td>
                         <td>20</td>
                         <td>Something</td>
-                        <td>buttons</td>
+                        <td><i class="fa-solid fa-plus"></i></td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
+                        
                       </tr>
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
                         <td>Something</td>
+                        <td><i class="fa-solid fa-plus"></i></td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
                       </tr>
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
                         <td>Something</td>
+                        <td><i class="fa-solid fa-plus"></i></td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
                       </tr>
                     </tbody>
                   </table>
@@ -132,17 +142,25 @@
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
-                        <td>buttons</td>
+                        <td><i class="fa-solid fa-plus"></i></td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
 
                       </tr>
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
+                        <td><i class="fa-solid fa-plus"></i></td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
 
                       </tr>
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
+                        <td><i class="fa-solid fa-plus"></i></td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
 
                       </tr>
                     </tbody>
@@ -158,4 +176,5 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
+</head>
 </html>
