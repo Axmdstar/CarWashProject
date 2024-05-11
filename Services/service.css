@@ -15,10 +15,12 @@ h2{
 body{
    overflow: hidden;
 }
-.add{
+/* .add{
   margin-left: 25px;
   color: white;
+  border: 0 solid;
   background-color: blueviolet;
+  border-radius: 7px;
   
  
 }
@@ -27,4 +29,4 @@ body{
 .category1{
   
   margin-top: 80px;
-}
+} */

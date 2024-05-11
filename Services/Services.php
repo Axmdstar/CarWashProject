@@ -26,6 +26,7 @@
         <input type="text" name="category name" id=""> 
         <label for="">Commission Rate :</label>
         <input type="text" name="commission rate" id=""> 
+        <button class="add" type="submit">Add </button>
 
 </form>
       
