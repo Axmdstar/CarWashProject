@@ -25,14 +25,14 @@
 
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" >
+                <input type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" autofocus required >
                 <label for="floatingInput">Service Name</label>
               </div>
             </div>
             
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="text" name="category" class="form-control" id="floatingInput" placeholder="">
+                <input type="text" name="category" class="form-control" id="floatingInput" placeholder="" autofocus required>
                 <label for="floatingInput">Category</label>
               </div>
             </div>
@@ -43,12 +43,12 @@
             
           <div class="col">
               <div class="form-floating mb-3">
-                <input type="text" name="price" class="form-control" id="floatingInput" placeholder="">
+                <input type="text" name="price" class="form-control" id="floatingInput" required step="0.01" required placeholder="$" autofocus required>
                 <label for="floatingInput">Price</label>
               </div>
           </div>
 
-            <input type="button" class="JazzeraBtn col" value="Add">
+            <button type="submit" class="JazzeraBtn col" value="Add">Add</button>
            
             
           </div>
@@ -63,16 +63,16 @@
 
         <form action="" method="post" class="d-flex flex-row gap-2">
         <div class="form-floating mb-3 flex-grow-1">
-            <input type="text" name="CategoryName" class="form-control" id="floatingInput" placeholder="">
+            <input type="text" name="CategoryName" class="form-control" id="floatingInput" placeholder="" required step="bajaaj,caasi,surf,feekon,market,harier,cabdibile,candhameedle" autofocus required>
             <label for="floatingInput">Category Name</label>
           </div>
 
           <div class="form-floating mb-3 flex-grow-1">
-            <input type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="">
+            <input type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" autofocus required>
             <label for="floatingInput">Commission Rate</label>
           </div>
 
-          <input type="submit" class="JazzeraBtn flex-grow-1" value="Add">
+          <button type="submit" class="JazzeraBtn flex-grow-1" value="Add">Add</button>
         </form>
 
       </div>
@@ -98,7 +98,6 @@
                         <td>Raheem </td>
                         <td>20</td>
                         <td>Something</td>
-                        <td><i class="fa-solid fa-plus"></i></td>
                         <td><i class="fa-solid fa-trash-can"></i></td>
                         <td><i class="fa-solid fa-pen"></i></td>
                         
@@ -107,7 +106,6 @@
                         <td>Raheem </td>
                         <td>20</td>
                         <td>Something</td>
-                        <td><i class="fa-solid fa-plus"></i></td>
                         <td><i class="fa-solid fa-trash-can"></i></td>
                         <td><i class="fa-solid fa-pen"></i></td>
                       </tr>
@@ -115,7 +113,6 @@
                         <td>Raheem </td>
                         <td>20</td>
                         <td>Something</td>
-                        <td><i class="fa-solid fa-plus"></i></td>
                         <td><i class="fa-solid fa-trash-can"></i></td>
                         <td><i class="fa-solid fa-pen"></i></td>
                       </tr>
@@ -142,7 +139,6 @@
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
-                        <td><i class="fa-solid fa-plus"></i></td>
                         <td><i class="fa-solid fa-trash-can"></i></td>
                         <td><i class="fa-solid fa-pen"></i></td>
 
@@ -150,7 +146,6 @@
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
-                        <td><i class="fa-solid fa-plus"></i></td>
                         <td><i class="fa-solid fa-trash-can"></i></td>
                         <td><i class="fa-solid fa-pen"></i></td>
 
@@ -158,7 +153,6 @@
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
-                        <td><i class="fa-solid fa-plus"></i></td>
                         <td><i class="fa-solid fa-trash-can"></i></td>
                         <td><i class="fa-solid fa-pen"></i></td>
 
