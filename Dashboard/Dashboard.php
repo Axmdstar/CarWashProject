@@ -37,6 +37,7 @@
           </div>
 
           <div class="JazzeraCards">
+          <!-- 1.73 0.77 -->
             <h2>$000</h2>
             <h3>Revenue</h3>
           </div>
