@@ -3,22 +3,38 @@
 <head>
 <html lang="en">
 <?php include "../Components/HeadContent.php" ?> 
-<link rel="stylesheet" href="service.css">
-<?php include "../Components/connection.php"?>
-<?php include "../Components/insert.php"?>
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <body>
 
   <?php include '../Components/NavBar.php' ?>
 
-`
+
 
   <main id="main" class="main">
 
 
-    <form method="">
+    <form method="POST">
       <!-- Content Here  -->
+
+      <?php
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $ServiceName = $_POST['ServiceName'];
+        $category = $_POST['category'];
+        $amount = $_POST['amount'];
+
+        $conn = new mysqli('localhost', 'root', 'root', 'carwash');
+        $query = $conn->query("INSERT into services(CarName, Amount, ServiceCategoryId) VALUES('$ServiceName', $amount, $category) ");
+        if ($query) {
+          echo "<script>alert(data inserted successfully)</script>";
+
+        } else {
+          echo "<script>alert(there is an error)</script>";
+
+        }
+      }
+      ?>
 
       <div class="card">
         <div class="card-body">
@@ -34,9 +50,22 @@
             </div>
             
             <div class="col">
-              <div class="form-floating mb-3 ">
-                <input type="text" name="category" class="form-control" id="floatingInput" placeholder="" autofocus required>
-                <label for="floatingInput">Category</label>
+            <div class="form-floating mb-3">
+                  <select class="form-select" name="category" id="floatingSelect" aria-label="Floating label select example">
+                      <option selected>Select Category</option>
+                      <?php
+                          $conn = new mysqli('localhost', 'root', 'root', 'carwash');
+                          $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
+                          $result = $conn->query($sql);
+                          while ($row = $result->fetch_assoc()) {
+                            echo "
+                            <option value='$row[id]'>$row[CatName]</option>
+                              ";
+                          } 
+
+                      ?>
+                  </select>
+                  <label for="floatingSelect">Category</label>
               </div>
             </div>
 
@@ -60,11 +89,35 @@
     </form>
 
 
+
     <div class="card">
       <div class="card-body">
         <h1 class="card-title">New Category</h1>
 
-        <form action="" method="post" class="d-flex flex-row gap-2">
+        <form  method="post" class="d-flex flex-row gap-2" onsubmit="stopredirect()">
+        <script>
+                function stopredirect (){
+                    event.preventDefault();
+                }
+            </script>
+
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+          $CommissionRate = $_POST['CommissionRate'];
+          $CategoryName = $_POST['CategoryName'];
+          $conn = new mysqli('localhost', 'root', 'root', 'carwash');
+
+          $query = $conn->query("INSERT INTO `servicecategory`( `CatName`, `CommisionRate`) VALUES ('$CategoryName','$CommissionRate')");
+          if ($query) {
+            echo "<script>alert(data inserted successfully)</script>";
+
+          } else {
+            echo "<script>alert(there is an error)</script>";
+
+          }
+        }
+        ?>
+
         <div class="form-floating mb-3 flex-grow-1">
             <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder=""  autofocus required >
             <label for="floatingInput">Category Name </label> 
@@ -138,28 +191,23 @@
                       </tr>
                     </thead>
                     <tbody>
-      
-                      <tr>
-                        <td>Raheem </td>
-                        <td>20</td>
-                        <td><i class="fa-solid fa-trash-can"></i></td>
-                        <td><i class="fa-solid fa-pen"></i></td>
+                    <?php
+                    $conn = new mysqli('localhost', 'root', 'root', 'carwash');
+                    $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
+                    $result = $conn->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                      echo "
+                        <tr>
+                        <td>$row[CatName]</td>
+                        <td>$row[CommisionRate]</td>
+                        <td><i class='fa-solid fa-trash-can'></i></td>
+                        <td><i class='fa-solid fa-pen'></i></td>
+                        </tr>
+                        ";
+                    }
 
-                      </tr>
-                      <tr>
-                        <td>Raheem </td>
-                        <td>20</td>
-                        <td><i class="fa-solid fa-trash-can"></i></td>
-                        <td><i class="fa-solid fa-pen"></i></td>
-
-                      </tr>
-                      <tr>
-                        <td>Raheem </td>
-                        <td>20</td>
-                        <td><i class="fa-solid fa-trash-can"></i></td>
-                        <td><i class="fa-solid fa-pen"></i></td>
-
-                      </tr>
+                    ?>
+                      
                     </tbody>
                   </table>
                 </div>

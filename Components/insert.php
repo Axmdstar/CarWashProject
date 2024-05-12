@@ -1,5 +1,4 @@
 <?php
-    include('connection.php');
     if(isset($_POST['add'])){
         $ServiceName=$_POST['ServiceName'];
         $category=$_POST['category'];
@@ -14,8 +13,4 @@
 
         }
     }
-
-
-
-
 ?>

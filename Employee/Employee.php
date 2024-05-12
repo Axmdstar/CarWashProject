@@ -40,15 +40,6 @@
             //     // echo "$conn->connect_errno";
             // }
             }
-            
-
-            
-
-            
-
-            
-
-            
 
         ?>
 
