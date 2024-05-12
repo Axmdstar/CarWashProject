@@ -1,9 +1,12 @@
+
 <!doctype html>
 <head>
 <html lang="en">
 <?php include "../Components/HeadContent.php" ?> 
 <link rel="stylesheet" href="service.css">
-<?php include "../Components/connect.php"?>
+<?php include "../Components/connection.php"?>
+<?php include "../Components/insert.php"?>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <body>
 
@@ -43,12 +46,12 @@
             
           <div class="col">
               <div class="form-floating mb-3">
-                <input type="text" name="price" class="form-control" id="floatingInput" required step="0.01" required placeholder="$" autofocus required>
-                <label for="floatingInput">Price</label>
+                <input type="number" name="amount" class="form-control" id="floatingInput" required step="0.01" required placeholder="$">
+                <label for="floatingInput">Amount</label>
               </div>
           </div>
 
-            <button type="submit" class="JazzeraBtn col" value="Add">Add</button>
+            <button type="submit" class="JazzeraBtn col" value="Add" name="add">Add</button>
            
             
           </div>
@@ -63,8 +66,8 @@
 
         <form action="" method="post" class="d-flex flex-row gap-2">
         <div class="form-floating mb-3 flex-grow-1">
-            <input type="text" name="CategoryName" class="form-control" id="floatingInput" placeholder="" required step="bajaaj,caasi,surf,feekon,market,harier,cabdibile,candhameedle" autofocus required>
-            <label for="floatingInput">Category Name</label>
+            <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder=""  autofocus required >
+            <label for="floatingInput">Category Name </label> 
           </div>
 
           <div class="form-floating mb-3 flex-grow-1">
@@ -88,7 +91,7 @@
                     <thead>
                       <tr>
                         <th scope="col">Service Name</th>
-                        <th scope="col">Price</th>
+                        <th scope="col">Amount</th>
                         <th scope="col">Category</th>
                       </tr>
                     </thead>
