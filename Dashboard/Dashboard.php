@@ -112,8 +112,7 @@
           <!-- Chart end  -->
 
 
-          <!-- Table  -->
-
+          <!-- User Table  -->
           <div class="card">
           <div class="card-body">
           <h1 class="card-title">Users</h1>

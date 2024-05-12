@@ -77,8 +77,8 @@
       </div>
     </div>
 
+    <!-- Service Table  -->
     <div class="row gap-2">
-      
       <div class="card col">
             <div class="card-body">
             <h1 class="card-title">All Services</h1>
