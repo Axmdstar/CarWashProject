@@ -28,7 +28,7 @@
 
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="text" name="CarName" class="form-control" id="floatingInput" placeholder="" autofocus required >
+                <input type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" autofocus required >
                 <label for="floatingInput">Service Name</label>
               </div>
             </div>
