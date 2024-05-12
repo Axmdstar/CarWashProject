@@ -1,4 +1,3 @@
-
 <!doctype html>
 <head>
 <html lang="en">
@@ -6,6 +5,7 @@
 <link rel="stylesheet" href="service.css">
 <?php include "../Components/connection.php"?>
 <?php include "../Components/insert.php"?>
+<?php include "../Components/insert1.php"?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <body>
@@ -28,7 +28,7 @@
 
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" autofocus required >
+                <input type="text" name="CarName" class="form-control" id="floatingInput" placeholder="" autofocus required >
                 <label for="floatingInput">Service Name</label>
               </div>
             </div>
@@ -50,7 +50,6 @@
                 <label for="floatingInput">Amount</label>
               </div>
           </div>
-
             <button type="submit" class="JazzeraBtn col" value="Add" name="add">Add</button>
            
             
@@ -75,7 +74,7 @@
             <label for="floatingInput">Commission Rate</label>
           </div>
 
-          <button type="submit" class="JazzeraBtn flex-grow-1" value="Add">Add</button>
+          <button type="submit" class="JazzeraBtn flex-grow-1" value="Add" name="add1">Add</button>
         </form>
 
       </div>
