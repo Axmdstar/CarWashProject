@@ -1,30 +1,29 @@
 
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
-
 <ul class="sidebar-nav" id="sidebar-nav">
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link " href="../Dashboard/Dashboard.php">
       <i class="bi bi-grid-1x2-fill"></i>
       <span>Dashboard</span>
     </a>
-  </li><!-- End Dashboard Nav -->
+  </li>End Dashboard Nav -->
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link " href="index.html">
       <i class="bi bi-people-fill"></i>
       <span>Employees</span>
     </a>
-  </li>
+  </li> -->
     <!-- End Employees Nav -->
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
     <a class="nav-link " href="index.html">
       <i class="bi bi-person-circle"></i>
       <span>Users</span>
     </a>
-  </li>
+  </li> -->
     <!-- End Users Nav -->
 
     <li class="nav-item">
@@ -41,12 +40,12 @@
     </a>
   </li><!-- End Product Nav -->
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link " href="../Finance/Finance.php">
       <i class="bi bi-graph-up-arrow"></i>
       <span>Finance</span>
     </a>
-  </li><!-- End Finance Nav -->
+  </li>End Finance Nav -->
 
   
   <li class="nav-item" style=" margin-top: 200px !important;">
