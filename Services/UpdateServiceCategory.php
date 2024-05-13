@@ -15,6 +15,7 @@
     <form method="POST" action="../Services/Services.php">
       <!-- Content Here  -->
       <?php
+      $id = $_GET['id'];
       if (isset($_POST['addNewService'])) {
         $ServiceName = $_POST['ServiceName'];
         $category = $_POST['category'];
@@ -87,47 +88,51 @@
       <div class="card-body">
         <h1 class="card-title">New Category</h1>
 
-        <form action="../Services/Services.php"  method="post" class="d-flex flex-row gap-2" >
-        <script>
-                function stopredirect (){
-                    event.preventDefault();
-                    
-                }
-            </script>
+        <form  method="POST" class="d-flex flex-row gap-2" >
+            
 
-        <?php
-        
-        if (isset($_POST['AddNewCategory'])) {
-          $CommissionRate = $_POST['CommissionRate'];
-          $CategoryName = $_POST['CategoryName'];
-          include_once "../Components/connection.php";
-
-          $query = $conn->query("INSERT INTO `servicecategory`( `CatName`, `CommisionRate`) VALUES ('$CategoryName', $CommissionRate)");
-          if ($query) {
-            echo "<script>alert(data inserted successfully)</script>";
-
-          } else {
-            echo "<script>alert(there is an error)</script>";
-
-          }
-        }
+        <?php 
+        include_once "../Components/connection.php";
+        $id = $_GET['id'];
+        $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory` WHERE id = $id";
+        $result = $conn->query($sql);
+        $UpdateData = $result->fetch_assoc();
         ?>
 
+        <?php
+        if (isset($_POST['AddNewCategory'])) {
+          $CommissionRate = $_POST["CommissionRate"];
+          $CategoryName = $_POST["CategoryName"];
+          $id = $_GET['id'];
+          include_once "../Components/connection.php";
+          $sql = "UPDATE servicecategory SET CatName ='$CategoryName', `CommisionRate`=$CommissionRate WHERE id = $id";
+          $query = $conn->query($sql);
+
+          if ($query){
+            echo '<script type="text/javascript">
+            window.location = "../Services/Services.php";
+            </script>  ';
+          }
+        }?>
+
         <div class="form-floating mb-3 flex-grow-1">
-            <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder=""  autofocus required >
+            <input value="<?php echo$UpdateData["CatName"]; ?>" type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder=""  autofocus required >
             <label for="floatingInput">Category Name </label> 
           </div>
 
           <div class="form-floating mb-3 flex-grow-1">
-            <input type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" autofocus required>
+            <input value="<?php echo$UpdateData["CommisionRate"]; ?>" type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" autofocus required>
             <label for="floatingInput">Commission Rate</label>
           </div>
 
-          <button type="submit" name="AddNewCategory" class="JazzeraBtn flex-grow-1" value="Add">Add</button>
+          <button type="submit" name="AddNewCategory" class="JazzeraBtn flex-grow-1" >Edit</button>
         </form>
 
       </div>
     </div>
+
+
+
 
     <!-- Service Table  -->
     <div class="row gap-2">
@@ -172,7 +177,7 @@
               <!-- Table Ends  -->
 
               <!-- Table Two  -->
-            <div class="card col">
+              <div class="card col">
             <div class="card-body">
             <h1 class="card-title">All Categories</h1>
       
@@ -189,7 +194,7 @@
                     $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                      echo "
+                        echo "
                         <tr>
                         <td>$row[CatName]</td>
                         <td>$row[CommisionRate]</td>

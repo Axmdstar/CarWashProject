@@ -1,6 +1,5 @@
 <?php
-$connect=new mysqli("localhost", "root","", "new service");
-if(!$connect){
-    die("connection successful");
+$conn = new mysqli('localhost', 'root', 'root', 'carwash');
+if ($conn->connect_error) {
+    die(''. $conn->connect_error);
 }
-?>

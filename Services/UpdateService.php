@@ -12,51 +12,67 @@
 
   <main id="main" class="main">
 
-    <form method="POST" action="../Services/Services.php">
+    <form method="POST" >
       <!-- Content Here  -->
       <?php
       if (isset($_POST['addNewService'])) {
         $ServiceName = $_POST['ServiceName'];
         $category = $_POST['category'];
         $amount = $_POST['amount'];
+        $id = $_GET['id'];
 
         include_once "../Components/connection.php";
-        $query = $conn->query("INSERT into services(CarName, Amount, ServiceCategoryId) VALUES('$ServiceName', $amount, $category) ");
-        if ($query) {
-          echo "<script>alert(data inserted successfully)</script>";
+        $sql = "UPDATE `services` SET `CarName`='$ServiceName',`Amount`=$amount, `ServiceCategoryId`=$category WHERE id = $id";  
+        $query = $conn->query($sql);
 
-        } else {
-          echo "<script>alert(there is an error)</script>";
-
-        }
+          if ($query){
+            echo '<script type="text/javascript">
+            window.location = "../Services/Services.php";
+            </script>  ';
+          }
+        
       }
       ?>
 
       <div class="card">
         <div class="card-body">
           <h1 class="card-title">New Service</h1>
+          <?php
+          include_once "../Components/connection.php";
+          $id = $_GET['id'];
+          $sql = "SELECT `id`, `CarName`, `Amount`, `ServiceCategoryId` FROM `services` WHERE id = $id";
+          $result = $conn->query($sql);
+          $UpdateData = $result->fetch_assoc();
+          ?>
           
           <div class="row">
-
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" autofocus required >
+                <input value="<?php echo$UpdateData["CarName"]; ?>" type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" autofocus required >
                 <label for="floatingInput">Service Name</label>
               </div>
             </div>
             
             <div class="col">
             <div class="form-floating mb-3">
-                  <select class="form-select" name="category" id="floatingSelect" aria-label="Floating label select example">
-                      <option selected>Select Category</option>
+                  <select  class="form-select"  name="category" id="floatingSelect" aria-label="Floating label select example">
+                      <option >Select Category</option>
                       <?php
                           include_once "../Components/connection.php";
                           $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
                           $result = $conn->query($sql);
                           while ($row = $result->fetch_assoc()) {
-                            echo "
-                            <option value='$row[id]'>$row[CatName]</option>
-                              ";
+                            if($row['id'] == $UpdateData['ServiceCategoryId']){
+                                echo "
+                            <option selected value='$row[id]'>$row[CatName]</option>
+                              ";    
+                            }
+                            else {
+
+                                echo "
+                                <option value='$row[id]'>$row[CatName]</option>
+                                  ";
+                            }
                           } 
                       ?>
                   </select>
@@ -70,7 +86,7 @@
             
           <div class="col">
               <div class="form-floating mb-3">
-                <input type="number" name="amount" class="form-control" id="floatingInput" required step="0.01" required placeholder="$">
+                <input value="<?php echo$UpdateData["Amount"]; ?>" type="number" name="amount" class="form-control" id="floatingInput" required step="0.01" required placeholder="$">
                 <label for="floatingInput">Amount</label>
               </div>
           </div>
@@ -172,7 +188,7 @@
               <!-- Table Ends  -->
 
               <!-- Table Two  -->
-            <div class="card col">
+              <div class="card col">
             <div class="card-body">
             <h1 class="card-title">All Categories</h1>
       
@@ -189,7 +205,7 @@
                     $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                      echo "
+                        echo "
                         <tr>
                         <td>$row[CatName]</td>
                         <td>$row[CommisionRate]</td>
