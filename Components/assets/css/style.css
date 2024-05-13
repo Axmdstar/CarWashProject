@@ -71,6 +71,19 @@ font:          normal bold 26px/50px "Calibri", sans-serif;
 text-align:    center;
 }
 
+.Login {
+background:    #ffff;
+border-radius: 11px;
+border:        none;
+width:         100px;
+height:        50px;
+color:         black;
+display:       inline-block;
+font:          normal bold 26px/50px "Calibri", sans-serif;
+text-align:    center;
+font-size: xx-large;
+font-weight: 900;
+}
 
 /*--------------------------------------------------------------
 # Back to top button
