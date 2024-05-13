@@ -1,16 +1,18 @@
 <!doctype html>
+<head>
 <html lang="en">
-<?php include "../Components/HeadContent.php" ?>
+<?php include "../Components/HeadContent.php" ?> 
 <link rel="stylesheet" href="service.css">
+<?php include "../Components/connection.php"?>
+<?php include "../Components/insert.php"?>
+<?php include "../Components/insert1.php"?>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <body>
 
   <?php include '../Components/NavBar.php' ?>
 
-  <!-- <div class="form-floating mb-3">
-  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-  <label for="floatingInput">*** Text Here ***</label>
-  </div> -->
+`
 
   <main id="main" class="main">
 
@@ -26,14 +28,14 @@
 
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" >
+                <input type="text" name="CarName" class="form-control" id="floatingInput" placeholder="" autofocus required >
                 <label for="floatingInput">Service Name</label>
               </div>
             </div>
             
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="text" name="category" class="form-control" id="floatingInput" placeholder="">
+                <input type="text" name="category" class="form-control" id="floatingInput" placeholder="" autofocus required>
                 <label for="floatingInput">Category</label>
               </div>
             </div>
@@ -44,12 +46,13 @@
             
           <div class="col">
               <div class="form-floating mb-3">
-                <input type="text" name="price" class="form-control" id="floatingInput" placeholder="">
-                <label for="floatingInput">Price</label>
+                <input type="number" name="amount" class="form-control" id="floatingInput" required step="0.01" required placeholder="$">
+                <label for="floatingInput">Amount</label>
               </div>
           </div>
-
-            <input type="submit" class="JazzeraBtn col" value="Add">
+            <button type="submit" class="JazzeraBtn col" value="Add" name="add">Add</button>
+           
+            
           </div>
         </div>
       </div>
@@ -62,16 +65,16 @@
 
         <form action="" method="post" class="d-flex flex-row gap-2">
         <div class="form-floating mb-3 flex-grow-1">
-            <input type="text" name="CategoryName" class="form-control" id="floatingInput" placeholder="">
-            <label for="floatingInput">Category Name</label>
+            <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder=""  autofocus required >
+            <label for="floatingInput">Category Name </label> 
           </div>
 
           <div class="form-floating mb-3 flex-grow-1">
-            <input type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="">
+            <input type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" autofocus required>
             <label for="floatingInput">Commission Rate</label>
           </div>
 
-          <input type="submit" class="JazzeraBtn flex-grow-1" value="Add">
+          <button type="submit" class="JazzeraBtn flex-grow-1" value="Add" name="add1">Add</button>
         </form>
 
       </div>
@@ -87,7 +90,7 @@
                     <thead>
                       <tr>
                         <th scope="col">Service Name</th>
-                        <th scope="col">Price</th>
+                        <th scope="col">Amount</th>
                         <th scope="col">Category</th>
                       </tr>
                     </thead>
@@ -97,17 +100,23 @@
                         <td>Raheem </td>
                         <td>20</td>
                         <td>Something</td>
-                        <td>buttons</td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
+                        
                       </tr>
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
                         <td>Something</td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
                       </tr>
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
                         <td>Something</td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
                       </tr>
                     </tbody>
                   </table>
@@ -132,17 +141,22 @@
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
-                        <td>buttons</td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
 
                       </tr>
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
 
                       </tr>
                       <tr>
                         <td>Raheem </td>
                         <td>20</td>
+                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td><i class="fa-solid fa-pen"></i></td>
 
                       </tr>
                     </tbody>
@@ -158,4 +172,5 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
+</head>
 </html>
