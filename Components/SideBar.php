@@ -12,7 +12,7 @@
   </li><!-- End Dashboard Nav -->
 
   <li class="nav-item">
-    <a class="nav-link " href="index.html">
+    <a class="nav-link " href="../Employee/Employee.php">
       <i class="bi bi-people-fill"></i>
       <span>Employees</span>
     </a>
@@ -35,7 +35,7 @@
   </li><!-- End Services Nav -->
 
   <li class="nav-item">
-    <a class="nav-link " href="index.html">
+    <a class="nav-link " href="../Products/Products.php">
       <i class="bi bi-box-fill"></i>
       <span>Product</span>
     </a>

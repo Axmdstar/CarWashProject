@@ -9,16 +9,12 @@
 
     <main id="main" class="main" >
 
-        <form method="POST"  onsubmit="stopredirect()" >
-            <script>
-                function stopredirect (){
-                    event.preventDefault();
-                }
-            </script>
+        <form method="POST" action="../Employee/Employee.php"" >
+            
 
         <?php 
             
-            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if (isset($_POST['submit'])){
             $firstname = $_POST['FirstName'];
             $middlename = $_POST['MiddleName'];
             $lastname = $_POST['LastName'];
@@ -32,13 +28,6 @@
             $sql = "INSERT INTO `employee`(`FirstName`, `MiddleName`, `LastName`, `sex`, `Number`, `District`, `magcaMasuulka`, `NumberkaMassulka`, `EmployeeType`)  VALUES ('$firstname','$middlename','$lastname','$sex',$tel,'$district','$magacamasuulka',$telmasuulka,'$usertype')";
             
             $result = $conn->query($sql);
-            // if ($result) {
-            //     echo" <script>
-            //     alert('Added Succesfully');
-            //     </script>";
-            // } else {
-            //     // echo "$conn->connect_errno";
-            // }
             }
 
         ?>
@@ -73,9 +62,6 @@
                         </div>
 
                     </div>
-
-
-
 
                     <div class="row">
                     <!-- Wadajir, Dharkenley, Daynile, Wardigley, H/Wadaag, Waberi, H/Jijab, H/Weyne, Bondere, Karaan,
