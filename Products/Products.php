@@ -6,9 +6,26 @@
     
   <?php include '../Components/NavBar.php' ?>
 
-  
   <main id="main" class="main">
-       <form method="">
+
+       <form method="POST" action="../Products/Products.php">
+        <?php 
+        if (isset($_POST['add'])){
+          $ProductName = $_POST['ProductName'];
+          $NumberOfItems = $_POST['NumberOfItems'];
+          $Date = $_POST['Date'];
+          $purchaseAmount = $_POST['purchaseAmount'];
+          $sellPrice = $_POST['sellPrice'];
+
+          include_once "../Components/connection.php";
+          $sql = "INSERT INTO `product`( `ProductName`, `PurchaseAmount`, `items`, `Amount`, AddDate) 
+                  VALUES ('$ProductName', $purchaseAmount, $NumberOfItems , $sellPrice, '$Date')";
+          $result = $conn->query($sql);
+          if (!$result) {
+            echo $conn->error;
+        }
+        }
+        ?>
         <div class="card">
             <div class="card-body">
             <h1 class="card-title">New Product</h1>
@@ -53,7 +70,7 @@
                 <label for="floatingInput">Sell Price</label>
               </div>
             </div>
-            <input type="submit" class="JazzeraBtn col" value="Add">
+            <input type="submit" class="JazzeraBtn col" value="Add" name="add">
           </div>
           
         </div>
@@ -78,26 +95,23 @@
                       </tr>
                     </thead>
                     <tbody>
-      
-                      <tr>
-                        <td>Raheem </td>
-                        <td>20</td>
-                        <td>Something</td>
-                        <td>20</td>
-                        <td>buttons</td>
-                      </tr>
-                      <tr>
-                        <td>Raheem </td>
-                        <td>20</td>
-                        <td>Something</td>
-                        <td>20</td>
-                      </tr>
-                      <tr>
-                        <td>Raheem </td>
-                        <td>20</td>
-                        <td>Something</td>
-                        <td>20</td>
-                      </tr>
+                    <?php 
+
+                        include_once "../Components/connection.php";
+                        $sql = "SELECT `id`, `ProductName`, `PurchaseAmount`, `items`, `Amount`, `AddDate` FROM `product` ";
+                        $result = $conn->query($sql);
+                        while ($row = $result->fetch_assoc()) {
+                          echo "
+                            <tr>
+                            <td>$row[ProductName]</td>
+                            <td>$row[PurchaseAmount]</td>
+                            <td>$row[items]</td>
+                            <td>$row[Amount]</td>
+                            ";
+                            
+                        }
+                    ?>
+                      
                     </tbody>
                   </table>
                 </div>

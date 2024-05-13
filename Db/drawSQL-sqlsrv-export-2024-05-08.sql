@@ -34,10 +34,11 @@ CREATE TABLE SoldProducts (
 
 CREATE TABLE Product (
     id INT NOT NULL AUTO_INCREMENT,
-    ProductName VARCHAR(255) NOT NULL,
-    PurchaseAmount VARCHAR(255) NOT NULL,
-    items VARCHAR(255) NOT NULL,
-    Amount VARCHAR(255) NOT NULL,
+    ProductName VARCHAR(155) NOT NULL,
+    PurchaseAmount FLOAT NOT NULL,
+    AddDate DATE NOT NULL,
+    items INT NOT NULL,
+    Amount FLOAT NOT NULL,
     PRIMARY KEY (id)
 );
 

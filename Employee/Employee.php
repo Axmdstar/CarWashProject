@@ -13,7 +13,6 @@
             
 
         <?php 
-            
             if (isset($_POST['submit'])){
             $firstname = $_POST['FirstName'];
             $middlename = $_POST['MiddleName'];
@@ -24,9 +23,8 @@
             $tel = $_POST['Tel'];
             $magacamasuulka = $_POST['MagacaMasuulka'];
             $telmasuulka = $_POST['TelMasuulka'];
-            $conn = new mysqli('localhost','root','root','carwash');
+            include_once "../Components/connection.php";
             $sql = "INSERT INTO `employee`(`FirstName`, `MiddleName`, `LastName`, `sex`, `Number`, `District`, `magcaMasuulka`, `NumberkaMassulka`, `EmployeeType`)  VALUES ('$firstname','$middlename','$lastname','$sex',$tel,'$district','$magacamasuulka',$telmasuulka,'$usertype')";
-            
             $result = $conn->query($sql);
             }
 

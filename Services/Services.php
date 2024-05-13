@@ -146,7 +146,7 @@
                     </thead>
                     <tbody>
                     <?php
-                    // $conn = new mysqli('localhost', 'root', 'root', 'carwash');
+                    
                     include_once "../Components/connection.php";
                     $sql = "SELECT `id`, `CarName`, `Amount`, `ServiceCategoryId` FROM `services`";
                     $result = $conn->query($sql);
