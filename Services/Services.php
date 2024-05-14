@@ -30,6 +30,8 @@
 
         }
       }
+
+      
       ?>
 
       <div class="card">
@@ -58,6 +60,7 @@
                             <option value='$row[id]'>$row[CatName]</option>
                               ";
                           } 
+                          
                       ?>
                   </select>
                   <label for="floatingSelect">Category</label>
@@ -111,6 +114,7 @@
 
           }
         }
+        
         ?>
 
         <div class="form-floating mb-3 flex-grow-1">
@@ -163,6 +167,7 @@
                         </tr>
                         ";
                     }
+                    
                     ?>
                       
                     </tbody>
@@ -201,6 +206,7 @@
                         ";
                         
                     }
+                    
                     ?>
                       
                     </tbody>

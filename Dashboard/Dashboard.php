@@ -22,7 +22,8 @@
           $result = $conn->query($sql);
           if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-          } 
+          }
+           
          ?>
         <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 20px;">
 

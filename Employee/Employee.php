@@ -158,7 +158,7 @@
                   </thead>
                   <tbody>
                     <?php 
-                    $conn = new mysqli('localhost','root','root','carwash');
+                    include_once "../Components/connection.php";
                     $sql = "SELECT  CONCAT(emp.FirstName,' ', emp.MiddleName,' ', emp.LastName) as FullName, `Number`,
                      sex, `District`, `magcaMasuulka`, `NumberkaMassulka`, `EmployeeType` FROM employee as emp";
                     $result = $conn->query($sql);
