@@ -4,6 +4,10 @@
 
 <ul class="sidebar-nav" id="sidebar-nav">
 
+  <li class="nav-item text-center">
+        <h4 class="d-none d-lg-block text-white"><?php echo $_COOKIE["Username"]; ?></h4>
+  </li>
+
   <li class="nav-item">
     <a class="nav-link " href="../Dashboard/Dashboard.php">
       <i class="bi bi-grid-1x2-fill"></i>
@@ -49,7 +53,7 @@
   </li><!-- End Finance Nav -->
 
   
-  <li class="nav-item" style=" margin-top: 200px !important;">
+  <li class="nav-item" style=" margin-top: 170px !important;">
     <a class="nav-link " href="index.html">
       <i class="bi bi-box-arrow-left" style="font-size: x-large;"></i>
       <span>LogOut</span>

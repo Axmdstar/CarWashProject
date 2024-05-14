@@ -1,55 +1,62 @@
-
-
-
-
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="Logincss.css">
     <?php include "../Components/HeadContent.php" ?>
 
 </head>
 <body style="background-color: #A635FF;">
 <main>
-    <form method="POST" action="">
+    <form method="POST" >
 
     <?php
-$msg = "";
-include_once "../Components/connection.php";
+    $msg = "";
+    include_once "../Components/connection.php";
 
-if ($conn === false) {
-    die("Could not connect to the server. Error: " . $conn->connect_error);
-}
+    if ($conn === false) {
+        die("Could not connect to the server. Error: " . $conn->connect_error);
+    }
 
-if (isset($_POST['submit'])) {
-    $username = $_POST['username'];
-    $pwd = $_POST['password'];
+    if (isset($_POST['Login'])) {
+        $username = $_POST['username'];
+        $pwd = $_POST['password'];
 
-    
+        $sql = "SELECT usr.Username, emp.EmployeeType FROM users as usr 
+        INNER JOIN employee as emp on emp.id = usr.emid
+        WHERE usr.Username = '$username' AND usr.Pwd = '$pwd';
+        ";
 
-    $sql = "SELECT `Username`, `Pwd` FROM `users` WHERE Username = '$username' AND Pwd = '$pwd'";
-
-    if ($username === "" || $pwd === "") {
-        $msg = "<div class='alert alert-danger'>Username or password does not match.</div>";
-    } else {
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-            $msg = "<div class='alert alert-success'>Login successfully.</div>";
+        if ($username === "" || $pwd === "") {
+            $msg = "<div class='alert alert-danger'>Username or password does not match.</div>";
         } else {
-            $msg = "<div class='alert alert-danger'>Username does not exist.</div>";
+            $result = $conn->query($sql);
+            $data = $result->fetch_assoc();
+            if ($data) {
+                
+                setcookie("Username", $data["Username"] , time() + (86400 * 30), "/");
+                setcookie("EmployeeType", $data["EmployeeType"] , time() + (86400 * 30), "/");
+
+                if ($data["EmployeeType"] == "Admin") {
+                    header('Location: ../Dashboard/Dashboard.php');    
+                } else {
+                    header('Location: ../Dashboard/Dashboard.php');    
+                }
+                
+
+            } else {
+                $msg = "<div class='alert alert-danger'>Username does not exist.</div>";
+                
+            }
         }
     }
-}
-?>
+    ?>
 
       
-      <?php echo $msg; ?>
       <div class="container d-flex flex-column  w-50 gap-4 " style="margin-top: 140px;">
           <img src="./LOGINCARWASH.png" alt="" width="330" class="mx-auto mb-5">
-            <!-- <label for="username">USERNAME</label>
-            <input type="text" class="insert" name="username" placeholder="Insert username"><br><br> -->
+            
+            <?php echo $msg; ?>
             <div class="form-floating mb-3">
               <input type="text" class="form-control" id="floatingInput" name="username">
               <label for="floatingInput">Username</label>

@@ -1,7 +1,11 @@
 
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
-<ul class="sidebar-nav" id="sidebar-nav">
+<ul class="sidebar-nav " id="sidebar-nav">
+
+<li class="nav-item text-center">
+      <h4 class="d-none d-lg-block text-white"><?php echo $_COOKIE["Username"]; ?></h4>
+</li>
 
   <!-- <li class="nav-item">
     <a class="nav-link " href="../Dashboard/Dashboard.php">
@@ -27,14 +31,14 @@
     <!-- End Users Nav -->
 
     <li class="nav-item">
-    <a class="nav-link " href="../Services/Services.php">
+    <a class="nav-link " href="../Services/UserServices.php">
       <i class="bi bi-car-front-fill"></i>
       <span>Services</span>
     </a>
   </li><!-- End Services Nav -->
 
   <li class="nav-item">
-    <a class="nav-link " href="index.html">
+    <a class="nav-link " href="../Products/UserProduct.php">
       <i class="bi bi-box-fill"></i>
       <span>Product</span>
     </a>
@@ -48,7 +52,7 @@
   </li>End Finance Nav -->
 
   
-  <li class="nav-item" style=" margin-top: 200px !important;">
+  <li class="nav-item" style=" margin-top: 340px !important;">
     <a class="nav-link " href="index.html">
       <i class="bi bi-box-arrow-left" style="font-size: x-large;"></i>
       <span>LogOut</span>
