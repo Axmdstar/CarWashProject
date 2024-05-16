@@ -15,23 +15,20 @@
     //     }
     // }
 
-    include('connection.php');
-    if(isset($_POST['add1'])){
-        $CatName=$_POST['CatName'];
-        $CommissionRate=$_POST['CommissionRate'];
 
-        $query = mysqli_query($connect, "Insert into servicecategory (CatName, CommissinRate) Values('$CatName, $CommissionRate");
-        if($query){
-            echo"<script>alert(data inserted successfully)</script>";
+    // if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    //     $CatName=$_POST['CatName'];
+    //     $CommissionRate=$_POST['CommissionRate'];
 
-        } else{
-            echo"<script>alert(there is an error)</script>";
+    //     $connect = new mysqli('localhost','root','','new service');
 
-        }
-    }
+    //     $sql = "INSERT INTO servicecategory(CatName, CommissionRate)  VALUES ('$CatName','$CommissionRate')";
+    //         $result = $connect->query($sql);
 
+        
 
-
-
+        
+        
+    // }
 
 ?>

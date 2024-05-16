@@ -1,8 +1,8 @@
-<?php
+<!-- <?php
 $msg = "";
 $mysqli = mysqli_connect("localhost", "root", "", "carwash");
 if ($mysqli === false) {
-    die("Could not connect to the server. Error: " . $mysqli->connect_error);
+    // die("Could not connect to the server. Error: " . $mysqli->connect_error);
 }
 
 if (isset($_POST['submit'])) {
@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
         }
     }
 }
-?>
+?> -->
 
 
 

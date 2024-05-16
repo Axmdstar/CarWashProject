@@ -1,5 +1,5 @@
 <?php
-$connect=new mysqli("localhost", "root","", "new service");
+$connect=new mysqli("localhost", "root","", "new srevice");
 if(!$connect){
     die("connection successful");
 }
