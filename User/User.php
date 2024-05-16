@@ -1,5 +1,7 @@
 <!doctype html>
 <head>
+  <?php include "../Components/insert.php" ?>
+  <?php include "../Components/connection.php"?>
 <html lang="en">
 <?php include "../Components/HeadContent.php" ?> 
 
@@ -37,29 +39,11 @@
             </div>
 
           </div>
-          <button type="submit" class="JazzeraBtn col" value="Add" name="add">Add</button>
+          <button type="submit" class="JazzeraBtn col" value="Add" name="Adduser">Add</button>
           </div>
         </div>
       </div>
     </form>
-    <?php
-        
-        if (isset($_POST['add'])) {
-          $EmployeeId = $_POST['EmployeeId'];
-          $Username = $_POST['Username'];
-          include_once "../Components/connection.php";
-
-          $query = $connect->query("INSERT INTO `new service`( `id`,'username','Pwd','emid') VALUES ('$EmployeeId', $Username)");
-          if ($query) {
-            echo "<script>alert(data inserted successfully)</script>";
-
-          } else {
-            echo "<script>alert(there is an error)</script>";
-
-          }
-        }
-        ?>
-
 
     <div class="row gap-2">
       <div class="card col">
