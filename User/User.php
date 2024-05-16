@@ -37,14 +37,14 @@
             </div>
 
           </div>
-          <button type="submit" class="JazzeraBtn col" value="Add" name="addNewService">Add</button>
+          <button type="submit" class="JazzeraBtn col" value="Add" name="add">Add</button>
           </div>
         </div>
       </div>
     </form>
     <?php
         
-        if (isset($_POST['Addnew user'])) {
+        if (isset($_POST['add'])) {
           $EmployeeId = $_POST['EmployeeId'];
           $Username = $_POST['Username'];
           include_once "../Components/connection.php";
