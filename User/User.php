@@ -22,7 +22,7 @@
 
             <div class="col">
               <div class="form-floating mb-3 ">
-              <select class="form-select" name="category" id="floatingSelect" aria-label="Floating label select example">
+              <select class="form-select" name="category" id="floatingSelect" aria-label="Floating label select example" autofocus required>
                       <option selected>EmployeeId</option>
                       </select>
                 
@@ -42,6 +42,24 @@
         </div>
       </div>
     </form>
+    <?php
+        
+        if (isset($_POST['Addnew user'])) {
+          $EmployeeId = $_POST['EmployeeId'];
+          $Username = $_POST['Username'];
+          include_once "../Components/connection.php";
+
+          $query = $connect->query("INSERT INTO `new service`( `id`,'username','Pwd','emid') VALUES ('$EmployeeId', $Username)");
+          if ($query) {
+            echo "<script>alert(data inserted successfully)</script>";
+
+          } else {
+            echo "<script>alert(there is an error)</script>";
+
+          }
+        }
+        ?>
+
 
     <div class="row gap-2">
       <div class="card col">

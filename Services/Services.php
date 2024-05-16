@@ -49,7 +49,7 @@
               </div>
           </div>
 
-            <button type="submit" class="JazzeraBtn col" value="Add" name="addNewService">Add</button>
+            <button type="submit" class="JazzeraBtn col" value="Add" name="addnew user">Add</button>
           </div>
         </div>
       </div>
