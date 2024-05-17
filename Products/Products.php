@@ -18,7 +18,7 @@
           $sellPrice = $_POST['sellPrice'];
 
           include_once "../Components/connection.php";
-          $sql = "INSERT INTO `product`( `ProductName`, `PurchaseAmount`, `items`, `Amount`, AddDate) 
+          $sql = "INSERT INTO `product`( `ProductName`, `PurchaseAmount`, `Available`, `Amount`, AddDate) 
                   VALUES ('$ProductName', $purchaseAmount, $NumberOfItems , $sellPrice, '$Date')";
           $result = $conn->query($sql);
           if (!$result) {
@@ -33,14 +33,14 @@
 
                 <div class="col">
                     <div class="form-floating mb-3 ">
-                        <input type="text" name="ProductName" class="form-control" id="floatingInput" placeholder="" >
+                        <input type="text" name="ProductName" class="form-control" id="floatingInput" placeholder="" required>
                         <label for="floatingInput">Product Name</label>
                     </div>
                 </div>
             
                 <div class="col">
                     <div class="form-floating mb-3 ">
-                        <input type="text" name="NumberOfItems" class="form-control" id="floatingInput" placeholder="">
+                        <input type="text" name="NumberOfItems" class="form-control" id="floatingInput" placeholder="" required>
                         <label for="floatingInput">Number Of Items</label>
                     </div>
                 </div>
@@ -48,17 +48,16 @@
           </div>
 
           <div class="row">
-            
             <div class="col">
               <div class="form-floating mb-3">
-                <input type="date" name="Date" class="form-control" id="floatingInput" placeholder="">
+                <input type="date" name="Date" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Date</label>
               </div>
             </div>
             <div class="col">
               <div class="form-floating mb-3">
-                <input type="number" name="purchaseAmount" class="form-control" id="floatingInput" placeholder="">
-                <label for="floatingInput">Purchase Amount</label>
+                <input type="number" name="purchaseAmount" class="form-control" id="floatingInput" placeholder="" required>
+                <label for="floatingInput">Purchase Price</label>
               </div>
             </div>
 
@@ -66,7 +65,7 @@
           <div class="row">
           <div class="col">
               <div class="form-floating mb-3">
-                <input type="number" name="sellPrice" class="form-control" id="floatingInput" placeholder="">
+                <input type="number" name="sellPrice" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Sell Price</label>
               </div>
             </div>
@@ -89,24 +88,26 @@
                     <thead>
                       <tr>
                         <th scope="col">Product Name</th>
-                        <th scope="col">Purchase Amount</th>
+                        <th scope="col">Purchase Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Sell Price</th>
+                        <th scope="col">Date</th>
                       </tr>
                     </thead>
                     <tbody>
                     <?php 
 
                         include_once "../Components/connection.php";
-                        $sql = "SELECT `id`, `ProductName`, `PurchaseAmount`, `items`, `Amount`, `AddDate` FROM `product` ";
+                        $sql = "SELECT `id`, `ProductName`, `PurchaseAmount`, `Available`, `Amount`, `AddDate` FROM `product` ";
                         $result = $conn->query($sql);
                         while ($row = $result->fetch_assoc()) {
                           echo "
                             <tr>
                             <td>$row[ProductName]</td>
                             <td>$row[PurchaseAmount]</td>
-                            <td>$row[items]</td>
+                            <td>$row[Available]</td>
                             <td>$row[Amount]</td>
+                            <td>$row[AddDate]</td>
                             ";
                             
                         }

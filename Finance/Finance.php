@@ -99,37 +99,7 @@
     </div>
 
 
-    <?php
-// Database connection
-include_once "../Components/connection.php";
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
-if (isset($_POST['Expense'])) {
-    // Retrieve form data
-    $expenseType = $_POST['ExpenseType'];
-    $description = $_POST['Description'];
-    $amount = $_POST['Amount'];
-    $createdAt = $_POST['CreatedAt'];
-    
-    
-
-    // Prepared statement to prevent SQL injection
-    $sql = "INSERT INTO expenses(`ExpenseType`, `Description`, `Amount`, `CreatedDateTime`, `UsrId`)
-     VALUES ('$expenseType', '$description', $amount , '$createdAt', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]'))";
-    
-    $result = $conn->query($sql);
-
-    if ($result) {
-        echo "Saved Successfully";
-
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-}
-
-?>
 
     <div class="card container-fluid">
       <div class="card-body">
@@ -137,7 +107,35 @@ if (isset($_POST['Expense'])) {
     
     <form action="../Finance/Finance.php" method="post">
         <div class="row">
+        <?php
+        // Database connection
+        include_once "../Components/connection.php";
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }
+        if (isset($_POST['Expense'])) {
+          // Retrieve form data
+          $expenseType = $_POST['ExpenseType'];
+          $description = $_POST['Description'];
+          $amount = $_POST['Amount'];
+          $createdAt = $_POST['CreatedAt'];
+          // Prepared statement to prevent SQL injection
+          $sql = "INSERT INTO expenses(`ExpenseType`, `Description`, `Amount`, `CreatedDateTime`, `UsrId`)
+          VALUES ('$expenseType', '$description', $amount , '$createdAt', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]'))";
 
+          $result = $conn->query($sql);
+
+          if ($result) {
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            New record created successfully
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+
+          } else {
+            echo "Error: " . $stmt->error;
+          }
+        }
+        ?>
           <div class="col">
             <div class="form-floating mb-3">
                 <input class="form-control" type="text" id="expense_type" name="ExpenseType" required>
@@ -176,7 +174,7 @@ if (isset($_POST['Expense'])) {
 
     <div class="card">
           <div class="card-body">
-          <h1 class="card-title">All Employees</h1>
+          <h1 class="card-title">All Expense</h1>
         
             <table  class=" customTable" >
                   <thead>
@@ -189,23 +187,23 @@ if (isset($_POST['Expense'])) {
                     </tr>
                   </thead>
                   <tbody>
-                    <?php 
+                    <?php
                     include_once "../Components/connection.php";
                     $sql = "SELECT  `ExpenseType`, `Description`, `Amount`, `CreatedDateTime`, usr.Username as Createdby FROM `expenses` as exp 
                     INNER join users as usr on usr.id = exp.id;";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                        echo "
+                      echo "
                         <tr>
                           <td>$row[ExpenseType]</td>
                           <td>$row[Description]</td>
-                          <td>$row[Amount]</td>
+                          <td>$$row[Amount]</td>
                           <td>$row[CreatedDateTime]</td>
                           <td>$row[Createdby]</td>
                         </tr>
                         ";
                     }
-                    
+
                     ?>
 
 

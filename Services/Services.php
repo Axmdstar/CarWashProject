@@ -15,7 +15,7 @@
     <form method="POST" action="../Services/Services.php">
       <!-- Content Here  -->
       <?php
-      if (isset($_POST['addNewService'])) {
+      if (isset($_POST[''])) {
         $ServiceName = $_POST['ServiceName'];
         $category = $_POST['category'];
         $amount = $_POST['amount'];
@@ -31,7 +31,7 @@
         }
       }
 
-      
+
       ?>
 
       <div class="card">
@@ -42,25 +42,24 @@
 
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" autofocus required >
+                <input type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" required >
                 <label for="floatingInput">Service Name</label>
               </div>
             </div>
             
             <div class="col">
             <div class="form-floating mb-3">
-                  <select class="form-select" name="category" id="floatingSelect" aria-label="Floating label select example">
+                  <select class="form-select" name="category" id="floatingSelect" aria-label="Floating label select example" required>
                       <option selected>Select Category</option>
                       <?php
-                          include_once "../Components/connection.php";
-                          $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
-                          $result = $conn->query($sql);
-                          while ($row = $result->fetch_assoc()) {
-                            echo "
+                      include_once "../Components/connection.php";
+                      $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
+                      $result = $conn->query($sql);
+                      while ($row = $result->fetch_assoc()) {
+                        echo "
                             <option value='$row[id]'>$row[CatName]</option>
                               ";
-                          } 
-                          
+                      }
                       ?>
                   </select>
                   <label for="floatingSelect">Category</label>
@@ -99,7 +98,7 @@
             </script>
 
         <?php
-        
+
         if (isset($_POST['AddNewCategory'])) {
           $CommissionRate = $_POST['CommissionRate'];
           $CategoryName = $_POST['CategoryName'];
@@ -114,16 +113,16 @@
 
           }
         }
-        
+
         ?>
 
         <div class="form-floating mb-3 flex-grow-1">
-            <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder=""  autofocus required >
+            <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder="" required >
             <label for="floatingInput">Category Name </label> 
           </div>
 
           <div class="form-floating mb-3 flex-grow-1">
-            <input type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" autofocus required>
+            <input type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" required>
             <label for="floatingInput">Commission Rate</label>
           </div>
 
@@ -150,7 +149,7 @@
                     </thead>
                     <tbody>
                     <?php
-                    
+
                     include_once "../Components/connection.php";
                     $sql = "SELECT `id`, `CarName`, `Amount`, `ServiceCategoryId` FROM `services`";
                     $result = $conn->query($sql);
@@ -161,13 +160,13 @@
                         <td>$row[Amount]</td>
                         <td>$row[ServiceCategoryId]</td>
                         ";
-                        echo "
+                      echo "
                         <td><a style='color: black;' href='../Services/DeleteService.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> </td>
                         <td><a style='color: black;' href='../Services/UpdateService.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> </td>
                         </tr>
                         ";
                     }
-                    
+
                     ?>
                       
                     </tbody>
@@ -199,14 +198,14 @@
                         <td>$row[CatName]</td>
                         <td>$row[CommisionRate]</td>
                         ";
-                        echo "
+                      echo "
                         <td><a style='color: black;' href='../Services/DeleteCategory.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> </td>
                         <td><a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> </td>
                         </tr>
                         ";
-                        
+
                     }
-                    
+
                     ?>
                       
                     </tbody>

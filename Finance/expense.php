@@ -25,10 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $stmt->error;
     }
 
-    $stmt->close(); // Close prepared statement
+    
 }
-
-$conn->close(); // Close database connection
 ?>
 
 

@@ -32,12 +32,13 @@ CREATE TABLE SoldProducts (
     FOREIGN KEY (UsrId) REFERENCES Users(id)
 );
 
+-- Changed items to Available
 CREATE TABLE Product (
     id INT NOT NULL AUTO_INCREMENT,
     ProductName VARCHAR(155) NOT NULL,
     PurchaseAmount FLOAT NOT NULL,
     AddDate DATE NOT NULL,
-    items INT NOT NULL,
+    Available INT NOT NULL,
     Amount FLOAT NOT NULL,
     PRIMARY KEY (id)
 );
@@ -106,5 +107,15 @@ DELIMITER //
 CREATE PROCEDURE GetNumberOfProductSold()
 BEGIN
     SELECT SUM(Quantity) as NumofProductSold FROM soldproducts;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE GetUserId(
+    IN username VARCHAR(100)
+)
+BEGIN
+    SELECT users.id FROM users WHERE users.Username = username ;
 END //
 DELIMITER ;

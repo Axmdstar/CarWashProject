@@ -40,7 +40,7 @@
                 if ($data["EmployeeType"] == "Admin") {
                     header('Location: ../Dashboard/Dashboard.php');    
                 } else {
-                    header('Location: ../Dashboard/Dashboard.php');    
+                    header('Location: ../Services/UserServices.php');    
                 }
                 
 

@@ -1,5 +1,3 @@
-<!-- setcookie("Username", $data["Username"] , time() + (86400 * 30), "/");
-setcookie("EmployeeType", $data["EmployeeType"] , time() + (86400 * 30), "/"); -->
 <?php 
   if(!isset($_COOKIE["Username"]) && !isset($_COOKIE["EmployeeType"]) ){
     header('Location: ../Login/LoginPage.php');
