@@ -15,32 +15,28 @@
                 <div class="card-body">
                     <h1 class="card-title">New Employee</h1> 
 
-        <?php 
-            if (isset($_POST['submit'])){
-            $firstname = $_POST['FirstName'];
-            $middlename = $_POST['MiddleName'];
-            $lastname = $_POST['LastName'];
-            $district = $_POST['District'];
-            $sex = $_POST['Sex'];
-            $usertype = $_POST['UserType'];
-            $tel = $_POST['Tel'];
-            $magacamasuulka = $_POST['MagacaMasuulka'];
-            $telmasuulka = $_POST['TelMasuulka'];
-            include_once "../Components/connection.php";
-            $sql = "INSERT INTO `employee`(`FirstName`, `MiddleName`, `LastName`, `sex`, `Number`, `District`, `magcaMasuulka`, `NumberkaMassulka`, `EmployeeType`)  VALUES ('$firstname','$middlename','$lastname','$sex',$tel,'$district','$magacamasuulka',$telmasuulka,'$usertype')";
-            $result = $conn->query($sql);
-            if ($result) {
-                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        New record created successfully
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>';
-            }
-            }
-
-        ?>
+                    <?php 
+                        if (isset($_POST['submit'])){
+                        $firstname = $_POST['FirstName'];
+                        $middlename = $_POST['MiddleName'];
+                        $lastname = $_POST['LastName'];
+                        $district = $_POST['District'];
+                        $sex = $_POST['Sex'];
+                        $usertype = $_POST['UserType'];
+                        $tel = $_POST['Tel'];
+                        $magacamasuulka = $_POST['MagacaMasuulka'];
+                        $telmasuulka = $_POST['TelMasuulka'];
+                        include_once "../Components/connection.php";
+                        $sql = "INSERT INTO `employee`(`FirstName`, `MiddleName`, `LastName`, `sex`, `Number`, `District`, `magcaMasuulka`, `NumberkaMassulka`, `EmployeeType`)  VALUES ('$firstname','$middlename','$lastname','$sex',$tel,'$district','$magacamasuulka',$telmasuulka,'$usertype')";
+                        $result = $conn->query($sql);
+                        if ($result) {
+                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    New record created successfully
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>';
+                        }}
+                    ?>
             
-
-
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3 ">

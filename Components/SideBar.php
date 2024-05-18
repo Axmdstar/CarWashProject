@@ -24,7 +24,7 @@
     <!-- End Employees Nav -->
 
     <li class="nav-item">
-    <a class="nav-link " href="index.html">
+    <a class="nav-link " href="../User/User.php">
       <i class="bi bi-person-circle"></i>
       <span>Users</span>
     </a>

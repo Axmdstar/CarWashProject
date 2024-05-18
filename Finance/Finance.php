@@ -189,7 +189,7 @@
                   <tbody>
                     <?php
                     include_once "../Components/connection.php";
-                    $sql = "SELECT  `ExpenseType`, `Description`, `Amount`, `CreatedDateTime`, usr.Username as Createdby FROM `expenses` as exp 
+                    $sql = "SELECT  `ExpenseType`, `Description`, `Amount`, `CreatedAt`, usr.Username as Createdby FROM `expenses` as exp 
                     INNER join users as usr on usr.id = exp.id;";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
@@ -198,7 +198,7 @@
                           <td>$row[ExpenseType]</td>
                           <td>$row[Description]</td>
                           <td>$$row[Amount]</td>
-                          <td>$row[CreatedDateTime]</td>
+                          <td>$row[CreatedAt]</td>
                           <td>$row[Createdby]</td>
                         </tr>
                         ";

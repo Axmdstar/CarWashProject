@@ -3,6 +3,7 @@ CREATE TABLE Employee (
     FirstName VARCHAR(255) NULL,
     MiddleName VARCHAR(255) NULL,
     LastName VARCHAR(255) NOT NULL,
+    sex VARCHAR(10) NOT NULL,
     Number INT NOT NULL,
     District VARCHAR(255) NOT NULL,
     magcaMasuulka VARCHAR(255) NOT NULL,
@@ -24,9 +25,9 @@ CREATE TABLE SoldProducts (
     id INT NOT NULL AUTO_INCREMENT,
     ProductName VARCHAR(255) NOT NULL,
     Quantity INT NOT NULL,
-    Amount INT NOT NULL,
+    Amount FLOAT NOT NULL,
     CustomerNumber INT NOT NULL,
-    DateTIme DATETIME NOT NULL,
+    Solddate DATETIME NOT NULL,
     UsrId INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (UsrId) REFERENCES Users(id)
@@ -47,7 +48,7 @@ CREATE TABLE DailyServices (
     id INT NOT NULL AUTO_INCREMENT,
     Cartype VARCHAR(255) NOT NULL,
     category VARCHAR(255) NOT NULL,
-    Amount INT NOT NULL,
+    Amount FLOAT NOT NULL,
     CreatedAT DATETIME NOT NULL,
     CustomerNumber INT NOT NULL,
     UsrId INT NOT NULL,
@@ -58,7 +59,7 @@ CREATE TABLE DailyServices (
 CREATE TABLE ServiceCategory (
     id INT NOT NULL AUTO_INCREMENT,
     CatName VARCHAR(255) NOT NULL,
-    CommisionRate DECIMAL(8, 2) NOT NULL,
+    CommisionRate FLOAT NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -75,11 +76,11 @@ CREATE TABLE Services (
 CREATE TABLE DailyAudit (
     id INT NOT NULL AUTO_INCREMENT,
     CreatedAt DATE NOT NULL,
-    ServiceRevenue DECIMAL(8, 2) NOT NULL,
-    ProductSoldAmount DECIMAL(8, 2) NOT NULL,
-    CommisionAmount DECIMAL(8, 2) NOT NULL,
+    ServiceRevenue FLOAT NOT NULL,
+    ProductSoldAmount FLOAT NOT NULL,
+    CommisionAmount FLOAT NOT NULL,
     Joornaati INT NOT NULL,
-    DailyIncome DECIMAL(8, 2) NOT NULL,
+    DailyIncome FLOAT NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -90,7 +91,7 @@ CREATE TABLE Expenses (
     ExpenseType VARCHAR(255) NOT NULL,
     Description VARCHAR(255) NOT NULL,
     Amount INT NOT NULL,
-    CreatedAt DATETIME NULL,
+    CreatedAt DATETIME NOT NULL,
     UsrId INT NOT NULL,
     PRIMARY KEY (id)
 );
