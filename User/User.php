@@ -81,20 +81,22 @@
                     <tbody>
                         <?php
                             include_once "../Components/connection.php";
-                            $sql = "SELECT `Username`, `Pwd`, `emid` FROM users";
+                            $sql = "SELECT id, `Username`, `Pwd`, `emid` FROM users";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
                                 echo "
                                 <tr>
                                     <td>$row[emid]</td>
                                     <td>$row[Username]</td>
-                                    <td class='d-flex gap-3'><i class='fa-solid fa-pen'></i> <i class='fa-solid fa-trash-can'></i></td>
+                                    <td class='d-flex gap-4'> 
+                                        <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
+                                        <a style='color: black;' href='../Services/DeleteCategory.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> 
+                                    </td>
                                 </tr>
                                 ";
                             }
                         ?>
                     </tbody>
-                            
                 </table>    
             </div>
         </div>

@@ -107,7 +107,9 @@ ALTER TABLE DailyServices ADD CONSTRAINT dailyservices_usrid_foreign FOREIGN KEY
 DELIMITER //
 CREATE PROCEDURE GetNumberOfProductSold()
 BEGIN
-    SELECT SUM(Quantity) as NumofProductSold FROM soldproducts;
+    SELECT
+    (SELECT SUM(Quantity) FROM soldproducts) as NumofProductSold,
+    (SELECT COUNT(dailyservices.id) FROM  dailyservices) as NumofServices;
 END //
 DELIMITER ;
 

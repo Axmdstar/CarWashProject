@@ -138,23 +138,29 @@
         ?>
           <div class="col">
             <div class="form-floating mb-3">
-                <input class="form-control" type="text" id="expense_type" name="ExpenseType" required>
-                <label for="expense_type">Expense Type:</label>
+                <select class="form-select" name="ExpenseType" id="floatingSelect" aria-label="Floating label select example" required>
+                  <option value="" selected>Select Expense Type</option>
+                  <option value="Bill">Bill</option>
+                  <option value="Salary">Salary</option>
+                  <option value="Utility">Utility</option>
+                  <option value="Other">Other</option>
+                </select>
+                <label for="expense_type">Expense Type</label>
             </div>
           </div>
   
           
           <div class="col">
-            <div class="form-floating mb-3">
-              <input class="form-control" type="number" id="amount" name="Amount" min="0" required>
-              <label for="amount">Amount:</label>
-            </div>
+              <div class="form-floating mb-3 ">
+                  <input type="text" name="Amount" class="form-control" id="floatingInput" placeholder="" required>
+                  <label for="floatingInput">Amount</label>
+              </div>
           </div>
           
           <div class="col">
             <div class="form-floating mb-3">
               <input class="form-control" type="datetime-local"  id="created_at" name="CreatedAt" required>
-              <label for="created_at">Created At:</label>
+              <label for="created_at">Created At</label>
             </div>
           </div>
 
@@ -162,7 +168,7 @@
         
         <div class="form-floating mb-3">
             <textarea class="form-control" name="Description" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;"></textarea>
-            <label for="description">Description:</label>
+            <label for="description">Description</label>
         </div>
         <button type="submit" name="Expense" class="JazzeraBtn flex-grow-1" value="Add">Add</button>
 

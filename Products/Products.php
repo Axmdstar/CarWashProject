@@ -40,7 +40,7 @@
             
                 <div class="col">
                     <div class="form-floating mb-3 ">
-                        <input type="text" name="NumberOfItems" class="form-control" id="floatingInput" placeholder="" required>
+                        <input type="number" name="NumberOfItems" class="form-control" id="floatingInput" placeholder="" required>
                         <label for="floatingInput">Number Of Items</label>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
             </div>
             <div class="col">
               <div class="form-floating mb-3">
-                <input type="number" name="purchaseAmount" class="form-control" id="floatingInput" placeholder="" required>
+                <input type="number" step="0.001" name="purchaseAmount" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Purchase Price</label>
               </div>
             </div>
@@ -65,7 +65,7 @@
           <div class="row">
           <div class="col">
               <div class="form-floating mb-3">
-                <input type="number" name="sellPrice" class="form-control" id="floatingInput" placeholder="" required>
+                <input type="number" step="0.001" name="sellPrice" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Sell Price</label>
               </div>
             </div>
@@ -96,7 +96,6 @@
                     </thead>
                     <tbody>
                     <?php 
-
                         include_once "../Components/connection.php";
                         $sql = "SELECT `id`, `ProductName`, `PurchaseAmount`, `Available`, `Amount`, `AddDate` FROM `product` ";
                         $result = $conn->query($sql);
@@ -105,7 +104,13 @@
                             <tr>
                             <td>$row[ProductName]</td>
                             <td>$row[PurchaseAmount]</td>
-                            <td>$row[Available]</td>
+                            ";
+                            if($row["Available"] > 0){
+                              echo "<td>$row[Available]</td>";
+                            } else{
+                              echo "<td class='text-bg-warning'>$row[Available]</td>";
+                            }
+                            echo "
                             <td>$row[Amount]</td>
                             <td>$row[AddDate]</td>
                             ";

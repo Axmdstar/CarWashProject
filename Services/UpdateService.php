@@ -197,6 +197,7 @@
                       <tr>
                         <th scope="col">Category Name</th>
                         <th scope="col">Comission Rate</th>
+                        <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -210,9 +211,13 @@
                         <td>$row[CatName]</td>
                         <td>$row[CommisionRate]</td>
                         ";
+                        // <td class='d-flex gap-4'><i class='fa-solid fa-pen'></i> <i class='fa-solid fa-trash-can'></i></td>
                         echo "
-                        <td><a style='color: black;' href='../Services/DeleteCategory.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> </td>
-                        <td><a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> </td>
+                        <td class='d-flex gap-4'> 
+                          <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
+                          <a style='color: black;' href='../Services/DeleteCategory.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> 
+                        </td>
+                        
                         </tr>
                         ";
                         

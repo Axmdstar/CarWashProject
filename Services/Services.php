@@ -39,7 +39,6 @@
           <h1 class="card-title">New Service</h1>
           
           <div class="row">
-
             <div class="col">
               <div class="form-floating mb-3 ">
                 <input type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" required >
@@ -65,14 +64,12 @@
                   <label for="floatingSelect">Category</label>
               </div>
             </div>
-
           </div>
 
           <div class="row">
-            
           <div class="col">
               <div class="form-floating mb-3">
-                <input type="number" name="amount" class="form-control" id="floatingInput" required step="0.01" required placeholder="$">
+                <input type="number" step="0.001" name="amount" class="form-control" id="floatingInput" required step="0.01" required placeholder="$">
                 <label for="floatingInput">Amount</label>
               </div>
           </div>
@@ -83,8 +80,6 @@
       </div>
     </form>
 
-
-
     <div class="card">
       <div class="card-body">
         <h1 class="card-title">New Category</h1>
@@ -93,10 +88,8 @@
         <script>
                 function stopredirect (){
                     event.preventDefault();
-                    
                 }
             </script>
-
         <?php
 
         if (isset($_POST['AddNewCategory'])) {
@@ -122,7 +115,7 @@
           </div>
 
           <div class="form-floating mb-3 flex-grow-1">
-            <input type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" required>
+            <input type="number" step="0.001" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" required>
             <label for="floatingInput">Commission Rate</label>
           </div>
 
@@ -166,7 +159,6 @@
                         </tr>
                         ";
                     }
-
                     ?>
                       
                     </tbody>
@@ -175,7 +167,7 @@
               </div>
               <!-- Table Ends  -->
 
-              <!-- Table Two  -->
+            <!-- Table Two  -->
             <div class="card col">
             <div class="card-body">
             <h1 class="card-title">All Categories</h1>
@@ -185,6 +177,7 @@
                       <tr>
                         <th scope="col">Category Name</th>
                         <th scope="col">Comission Rate</th>
+                        <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -193,19 +186,22 @@
                     $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                      echo "
+                        echo "
                         <tr>
                         <td>$row[CatName]</td>
                         <td>$row[CommisionRate]</td>
                         ";
-                      echo "
-                        <td><a style='color: black;' href='../Services/DeleteCategory.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> </td>
-                        <td><a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> </td>
+                        // <td class='d-flex gap-4'><i class='fa-solid fa-pen'></i> <i class='fa-solid fa-trash-can'></i></td>
+                        echo "
+                        <td class='d-flex gap-4'> 
+                          <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
+                          <a style='color: black;' href='../Services/DeleteCategory.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> 
+                        </td>
+                        
                         </tr>
                         ";
-
+                        
                     }
-
                     ?>
                       
                     </tbody>
