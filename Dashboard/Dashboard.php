@@ -14,7 +14,7 @@
         <h1 class="card-title">Recent Activity</h1>
         
         <?php
-          $conn = new mysqli('localhost','root','root','carwash');
+          include "../Components/connection.php";
           if ($conn->connect_error) {
             die(''. $conn->connect_error);
           }
@@ -38,8 +38,10 @@
           </div>
 
           <div class="JazzeraCards">
-          <!-- 1.73 0.77 -->
-            <h2>$000</h2>
+          
+            <h2>$<?php
+                $AddRevenue = $row['ProductRevenue'] + $row['ServiceRevenue'];
+                  echo "$AddRevenue"; ?></h2>
             <h3>Revenue</h3>
           </div>
           
@@ -128,7 +130,7 @@
                   </thead>
                   <tbody>
                     <?php 
-                    $conn = new mysqli('localhost','root','root','carwash');
+                    include "../Components/connection.php";
                     $sql = "SELECT users.id, CONCAT(emp.FirstName,' ', emp.MiddleName,' ', emp.LastName) as name, users.Username FROM users
                     JOIN employee as emp on emp.id = users.id ";
                     $result = $conn->query($sql);

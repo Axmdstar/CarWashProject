@@ -54,9 +54,24 @@
           <div id="pieChart"></div>
 
           <script>
+            <?php 
+              include "../Components/connection.php";
+              $sql = "CALL ServiceChartData";
+              $result = $conn->query($sql);
+
+              $ServiceNames = array();
+              $ServiceCounts = array();
+              while ($row = $result->fetch_assoc()) {
+                $ServiceNames[] = $row['ServiceName'];
+                $ServiceCounts[] = $row['ServiceCount'];
+              }
+                  
+            ?>
+            var SN = <?php echo json_encode($ServiceNames); ?>;
+            var SC = <?php echo json_encode($ServiceCounts); ?>;
             document.addEventListener("DOMContentLoaded", () => {
               new ApexCharts(document.querySelector("#pieChart"), {
-                series: [44, 55, 13, 43, 22],
+                series: SC,
                 chart: {
                   height: 250,
                   type: 'pie',
@@ -64,7 +79,7 @@
                     show: true
                   }
                 },
-                labels: ['Service a', 'Service b', 'Service c', 'Service d', 'Service e']
+                labels: SN
               }).render();
             });
           </script>
@@ -109,7 +124,7 @@
         <div class="row">
         <?php
         // Database connection
-        include_once "../Components/connection.php";
+        include "../Components/connection.php";
         if ($conn->connect_error) {
           die("Connection failed: " . $conn->connect_error);
         }

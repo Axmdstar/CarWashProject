@@ -105,11 +105,17 @@ ALTER TABLE DailyServices ADD CONSTRAINT dailyservices_usrid_foreign FOREIGN KEY
 -- Procedures 
 
 DELIMITER //
-CREATE PROCEDURE GetNumberOfProductSold()
+CREATE PROCEDURE GetDashboardSummary()
 BEGIN
-    SELECT
-    (SELECT SUM(Quantity) FROM soldproducts) as NumofProductSold,
-    (SELECT COUNT(dailyservices.id) FROM  dailyservices) as NumofServices;
+     SELECT
+    (SELECT IFNULL(SUM(Quantity),0) FROM soldproducts WHERE DAY(Solddate) = DAY(CURRENT_DATE()))
+    as NumofProductSoldAndRevenue,
+    (SELECT IFNULL(COUNT(dailyservices.id),0) FROM  dailyservices WHERE DAY(CreatedAT) = DAY(CURRENT_DATE())) 
+    as NumofServices,
+    (SELECT IFNULL(SUM(Amount * Quantity), 0) FROM soldproducts WHERE DAY(Solddate) = DAY(CURRENT_DATE()) ) 
+    as ProductRevenue,
+    (SELECT IFNULL(SUM(Amount),0) FROM DailyServices WHERE DAY(CreatedAT) = DAY(CURRENT_DATE()))  
+    as ServiceRevenue;
 END //
 DELIMITER ;
 
@@ -122,3 +128,13 @@ BEGIN
     SELECT users.id FROM users WHERE users.Username = username ;
 END //
 DELIMITER ;
+
+Pie Chart Data
+DELIMITER //
+CREATE PROCEDURE ServiceChartData()
+BEGIN
+    SELECT Cartype As ServiceName, COUNT(Cartype) As ServiceCount FROM dailyservices
+    GROUP BY Cartype;
+END //
+DELIMITER ;
+

@@ -71,10 +71,14 @@
             <div class="col">
               <div class="form-floating mb-3">
                 <select class="form-select" name="cartype" id="floatingSelect" required aria-label="Floating label select example">
-                  <option selected>Select Cartype</option>
-                  <option value="Sedan">Sedan</option>
-                  <option value="SUV">SUV</option>
-                  <option value="Truck">Truck</option>
+                  <?php
+                    include_once "../Components/connection.php";
+                    $sql = "SELECT CarName FROM services";
+                    $result = $conn->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                      echo "<option value='$row[CarName]'>$row[CarName]</option>";
+                    }?>
+                  
                 </select>
                 <label for="floatingSelect">CarType</label>
               </div>
@@ -85,7 +89,6 @@
                 <input required type="text" name="amount" class="form-control" id="floatingInput" placeholder="name@example.com">
                 <label for="floatingInput">Price</label>
               </div>
-
             </div>
           </div>
 
@@ -96,11 +99,7 @@
                 <label for="floatingInput">Customer Number</label>
               </div>
             </div>
-
-
             <input type="submit" name="submit" class="JazzeraBtn col" value="ADD">
-
-
           </div>
 
         </form>
@@ -119,13 +118,12 @@
               <th scope="col">Customer Number</th>
               <th scope="col">Createdby</th>
               <th scope="col">Date</th>
-
             </tr>
           </thead>
           <tbody>
             <?php
             include_once "../Components/connection.php";
-            $sql = "SELECT `Cartype`, `category`, `Amount`, `CreateddateTime`, `CustomerNumber`, usr.Username as Createdby FROM
+            $sql = "SELECT `Cartype`, `category`, `Amount`, `CreatedAT`, `CustomerNumber`, usr.Username as Createdby FROM
                     `dailyservices` as ds INNER JOIN users as usr on ds.UsrId = usr.id";
             $result = $conn->query($sql);
             while ($row = $result->fetch_assoc()) {
@@ -136,19 +134,15 @@
                       <td>$$row[Amount]</td>
                       <td>$row[CustomerNumber]</td>
                       <td>$row[Createdby]</td>
-                      <td>$row[CreateddateTime]</td>
+                      <td>$row[CreatedAT]</td>
                       </tr>
                       ";
-            }
-            ?>
+            }?>
 
           </tbody>
         </table>
-
       </div>
     </div>
-
-
 
   </main>
 </body>
