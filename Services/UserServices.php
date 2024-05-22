@@ -51,8 +51,8 @@
           <div class="row">
             <div class="col">
               <div class="form-floating mb-3">
-                <select class="form-select" name="category" id="floatingSelect" aria-label="Floating label select example">
-                  <option selected>Select Category</option>
+                <select class="form-select" name="category" id="floatingSelectCat" aria-label="Floating label select example">
+                  <option disabled selected>Select Category</option>
                   <?php
                   include_once "../Components/connection.php";
                   $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
@@ -70,14 +70,8 @@
 
             <div class="col">
               <div class="form-floating mb-3">
-                <select class="form-select" name="cartype" id="floatingSelect" required aria-label="Floating label select example">
-                  <?php
-                    include_once "../Components/connection.php";
-                    $sql = "SELECT CarName FROM services";
-                    $result = $conn->query($sql);
-                    while ($row = $result->fetch_assoc()) {
-                      echo "<option value='$row[CarName]'>$row[CarName]</option>";
-                    }?>
+                <select disabled class="form-select" name="cartype" id="floatingSelectCar" required aria-label="Floating label select example">
+                  
                   
                 </select>
                 <label for="floatingSelect">CarType</label>
@@ -145,6 +139,26 @@
     </div>
 
   </main>
+
+  <script>
+    document.getElementById("floatingSelectCat").addEventListener("change", (e) => {
+      const options = {method: 'GET'};
+      const Catname = e.target.options[e.target.selectedIndex].text;
+      
+      fetch(`http://localhost/CarWashProject/Services/GetCatService.php?Category=${Catname}`, options)
+        .then(response => response.json())
+        .then(response => {
+          const CarCombo = document.getElementById('floatingSelectCar');
+          CarCombo.disabled = false;
+          response.data.forEach(i => {
+            option = document.createElement( 'option' );
+            option.value = option.text = i;
+            CarCombo.add(option);
+          });
+        })
+        .catch(err => console.error(err));
+    })
+  </script>
 </body>
 
 </html>

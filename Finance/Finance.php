@@ -5,7 +5,6 @@
 <body>
 
   <?php include '../Components/NavBar.php' ?>
-
   <main id="main" class="main">
     <!-- Summary -->
     <div class="card container-fluid">
@@ -14,29 +13,41 @@
 
         <!-- <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 20px;"> -->
         <div class=" d-flex flex-row flex-wrap gap-2 ">
+          <?php 
+            include "../Components/connection.php";
+            if ($conn->connect_error) {
+              die(''. $conn->connect_error);
+            }
+            $sql = "CALL FinDashBoardData()"; 
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+            }
 
+          ?>
           <div class="JazzeraCards col">
-            <h2>$000</h2>
+            <h2>$<?php echo $row["TotalRevenue"] ; ?></h2>
             <h3>Total Revenue</h3>
           </div>
 
           <div class="JazzeraCards col">
-            <h2>$000</h2>
-            <h3>Today Revenue</h3>
-          </div>
-
-          <div class="JazzeraCards col">
-            <h2>$000</h2>
+            <h2>$<?php echo $row["MonthRevenue"] ; ?></h2>
             <h3>This month Revenue</h3>
           </div>
 
           <div class="JazzeraCards col">
-            <h2>$000</h2>
+            <h2>$<?php echo $row["TodayRevenue"] ; ?></h2>
+            <h3>Today Revenue</h3>
+          </div>
+
+
+          <div class="JazzeraCards col">
+            <h2>$<?php echo $row["TotalExpense"] ; ?></h2>
             <h3>Total Expense</h3>
           </div>
 
           <div class="JazzeraCards col">
-            <h2>$000</h2>
+            <h2>$<?php echo $row["MonthExpense"] ; ?></h2>
             <h3>This month Expense</h3>
           </div>
 
@@ -69,6 +80,8 @@
             ?>
             var SN = <?php echo json_encode($ServiceNames); ?>;
             var SC = <?php echo json_encode($ServiceCounts); ?>;
+            let SCtotal = SC.reduce((i1, i2) => Number(i1) + Number(i2), 0);
+            SC = SC.map((i) => Number(i)/SCtotal * 100 )
             document.addEventListener("DOMContentLoaded", () => {
               new ApexCharts(document.querySelector("#pieChart"), {
                 series: SC,
@@ -135,7 +148,7 @@
           $amount = $_POST['Amount'];
           $createdAt = $_POST['CreatedAt'];
           // Prepared statement to prevent SQL injection
-          $sql = "INSERT INTO expenses(`ExpenseType`, `Description`, `Amount`, `CreatedDateTime`, `UsrId`)
+          $sql = "INSERT INTO expenses(`ExpenseType`, `Description`, `Amount`, `CreatedAt`, `UsrId`)
           VALUES ('$expenseType', '$description', $amount , '$createdAt', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]'))";
 
           $result = $conn->query($sql);
@@ -211,7 +224,7 @@
                     <?php
                     include_once "../Components/connection.php";
                     $sql = "SELECT  `ExpenseType`, `Description`, `Amount`, `CreatedAt`, usr.Username as Createdby FROM `expenses` as exp 
-                    INNER join users as usr on usr.id = exp.id;";
+                    join users as usr on usr.id = exp.UsrId;";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                       echo "

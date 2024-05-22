@@ -129,6 +129,7 @@ BEGIN
 END //
 DELIMITER ;
 
+
 Pie Chart Data
 DELIMITER //
 CREATE PROCEDURE ServiceChartData()
@@ -138,3 +139,32 @@ BEGIN
 END //
 DELIMITER ;
 
+
+DELIMITER //
+CREATE PROCEDURE FinDashBoardData()
+BEGIN
+# Total
+SELECT
+    (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM SoldProducts), 0) 
+    +
+	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices), 0))
+    as TotalRevenue,
+# This Month Total
+    (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM SoldProducts 
+     WHERE MONTH(Solddate) = MONTH(CURRENT_DATE())), 0)
+     +
+	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices 
+     WHERE MONTH(CreatedAT) = MONTH(CURRENT_DATE())), 0)) as MonthRevenue,
+# Today
+	 (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM SoldProducts 
+     WHERE DAY(Solddate) = DAY(CURRENT_DATE())), 0)
+     +
+	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices 
+    WHERE DAY(CreatedAT) = DAY(CURRENT_DATE())), 0)) as TodayRevenue,
+# TotalExpense    
+    (SELECT SUM(Amount) AS TotalExpenses FROM Expenses) as TotalExpense,
+# MonthExpense
+	(SELECT SUM(Amount) AS TotalExpenses FROM Expenses
+	WHERE MONTH(CreatedAt) = MONTH(CURRENT_DATE())) as MonthExpense;
+END //
+DELIMITER ;

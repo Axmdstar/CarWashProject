@@ -52,7 +52,7 @@
                       <option selected>Select Category</option>
                       <?php
                       include_once "../Components/connection.php";
-                      $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
+                      $sql = "SELECT `id`, `CatName` FROM `servicecategory`";
                       $result = $conn->query($sql);
                       while ($row = $result->fetch_assoc()) {
                         echo "
