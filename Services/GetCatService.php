@@ -10,10 +10,8 @@ if (isset($_GET["Category"])) {
     $result = $conn->query($sql);
     $ServiceNames = array();
     while($row = $result->fetch_assoc()) {
-        $ServiceNames[] = $row["CarName"];
+        $ServiceNames[] = array("ServiceName" => $row["CarName"], "Amount" => $row["Amount"]);
     }
-    
-
 
     echo json_encode(
         ['data' => $ServiceNames ]

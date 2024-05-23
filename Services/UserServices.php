@@ -7,9 +7,6 @@
 
   <?php include '../Components/NavBar.php' ?>
 
-
-
-
   <main id="main" class="main">
 
     <div class="card">
@@ -31,7 +28,7 @@
             $customernumber = $_POST['customernumber'];
             // Validate input data
             if (!empty($cartype) && !empty($category) && !empty($amount) && !empty($customernumber)) {
-              $sql = "INSERT INTO dailyServices (`Cartype`, `category`, `Amount`, `CreateddateTime`, `CustomerNumber`, `UsrId`) 
+              $sql = "INSERT INTO dailyServices (`Cartype`, `category`, `Amount`, `CreatedAT`, `CustomerNumber`, `UsrId`) 
                 VALUES ('$cartype', '$category', $amount, Now(), '$customernumber', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]') )";
 
               if ($conn->query($sql) === TRUE) {
@@ -59,7 +56,7 @@
                   $result = $conn->query($sql);
                   while ($row = $result->fetch_assoc()) {
                     echo "
-                            <option value='$row[id]'>$row[CatName]</option>
+                            <option value='$row[CatName]'>$row[CatName]</option>
                               ";
                   }
                   ?>
@@ -71,8 +68,7 @@
             <div class="col">
               <div class="form-floating mb-3">
                 <select disabled class="form-select" name="cartype" id="floatingSelectCar" required aria-label="Floating label select example">
-                  
-                  
+                <option disabled selected>Select Service</option>
                 </select>
                 <label for="floatingSelect">CarType</label>
               </div>
@@ -80,8 +76,8 @@
 
             <div class="col">
               <div class="form-floating mb-3">
-                <input required type="text" name="amount" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">Price</label>
+                <input required type="text" name="amount" class="form-control" id="floatingInputPrice" placeholder="name@example.com">
+                <label for="floatingInputPrice">Price</label>
               </div>
             </div>
           </div>
@@ -141,22 +137,54 @@
   </main>
 
   <script>
+    let ServiceData;
     document.getElementById("floatingSelectCat").addEventListener("change", (e) => {
       const options = {method: 'GET'};
       const Catname = e.target.options[e.target.selectedIndex].text;
+
+      const CarCombo = document.getElementById('floatingSelectCar');
+      const PriceInput = document.getElementById('floatingInputPrice');
+      
+      // Remove All Options 
+      
+     // Remove all options except the first one
+     while (CarCombo.options.length > 1) {
+                CarCombo.remove(1); // Always remove the second option
+            }
+                
+          CarCombo.selectedIndex = 0;
       
       fetch(`http://localhost/CarWashProject/Services/GetCatService.php?Category=${Catname}`, options)
         .then(response => response.json())
         .then(response => {
-          const CarCombo = document.getElementById('floatingSelectCar');
+
+          ServiceData = response;
           CarCombo.disabled = false;
           response.data.forEach(i => {
             option = document.createElement( 'option' );
-            option.value = option.text = i;
+            option.value = option.text = i.ServiceName;
             CarCombo.add(option);
+
+            
           });
         })
         .catch(err => console.error(err));
+    })
+
+    document.getElementById("floatingSelectCar").addEventListener("change", (e) => {
+        console.log('ServiceData :>> ', ServiceData);
+        const PriceInput = document.getElementById('floatingInputPrice');
+        const Selectedname = e.target.options[e.target.selectedIndex].text;
+        PriceInput.value = "";
+        
+        
+        ServiceData.data.forEach(i => {
+          console.log(Selectedname);
+          if (i.ServiceName.trim() == Selectedname) {
+            PriceInput.value = i.Amount;
+          }
+          console.log(PriceInput.value);
+        })
     })
   </script>
 </body>
