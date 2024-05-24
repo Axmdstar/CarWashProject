@@ -79,7 +79,7 @@ CREATE TABLE DailyAudit (
     ServiceRevenue FLOAT NOT NULL,
     ProductSoldAmount FLOAT NOT NULL,
     CommisionAmount FLOAT NOT NULL,
-    Joornaati INT NOT NULL,
+    Expenses FLOAT NOT NULL,
     DailyIncome FLOAT NOT NULL,
     PRIMARY KEY (id)
 );
@@ -166,5 +166,116 @@ SELECT
 # MonthExpense
 	(SELECT SUM(Amount) AS TotalExpenses FROM Expenses
 	WHERE MONTH(CreatedAt) = MONTH(CURRENT_DATE())) as MonthExpense;
+END //
+DELIMITER ;
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE IncomeStatement() 
+BEGIN
+SELECT
+    IFNULL(
+        (
+            SELECT
+                SUM(Amount * Quantity) AS ProductRevenue
+            FROM
+                SoldProducts
+            WHERE
+                DAY(Solddate) = DAY(CURRENT_DATE())
+        ), 0
+    ) AS TodayProduct,
+    IFNULL(
+        (
+            SELECT
+                SUM(Amount) 
+            FROM
+                DailyServices
+            WHERE
+                DAY(CreatedAT) = DAY(CURRENT_DATE())
+        ), 0
+    ) AS TodayServices,
+    IFNULL(
+        (
+            SELECT
+                ROUND(SUM(sc.CommisionRate), 2)
+            FROM
+                DailyServices ds
+            JOIN
+                Services s ON ds.Cartype = s.CarName
+            JOIN
+                ServiceCategory sc ON sc.CatName = ds.category
+            WHERE
+                DAY(ds.CreatedAT) = DAY(CURRENT_DATE())
+        ), 0
+    ) AS TodayCommission,
+    IFNULL(
+        (
+            SELECT
+                SUM(Amount) 
+            FROM
+                Expenses
+            WHERE
+                DAY(CreatedAt) = DAY(CURRENT_DATE())
+        ), 0
+    ) AS TodayExpense;
+
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE InsertDailyAudit()
+BEGIN
+    DECLARE todayProduct DECIMAL(10, 2);
+    DECLARE todayServices DECIMAL(10, 2);
+    DECLARE todayCommission DECIMAL(10, 2);
+    DECLARE todayExpense DECIMAL(10, 2);
+    DECLARE dailyIncome DECIMAL(10, 2);
+
+    -- Calculate TodayProduct
+    SELECT IFNULL(SUM(Amount * Quantity), 0) INTO todayProduct
+    FROM SoldProducts
+    WHERE DAY(Solddate) = DAY(CURRENT_DATE());
+
+    -- Calculate TodayServices
+    SELECT IFNULL(SUM(Amount), 0) INTO todayServices
+    FROM DailyServices
+    WHERE DAY(CreatedAT) = DAY(CURRENT_DATE());
+
+    -- Calculate TodayCommission
+    SELECT IFNULL(ROUND(SUM(sc.CommisionRate), 2), 0) INTO todayCommission
+    FROM DailyServices ds
+    JOIN Services s ON ds.Cartype = s.CarName
+    JOIN ServiceCategory sc ON sc.CatName = ds.category
+    WHERE DAY(ds.CreatedAT) = DAY(CURRENT_DATE());
+
+    -- Calculate TodayExpense
+    SELECT IFNULL(SUM(Amount), 0) INTO todayExpense
+    FROM Expenses
+    WHERE DAY(CreatedAt) = DAY(CURRENT_DATE());
+
+    -- Calculate DailyIncome
+    SET dailyIncome = todayProduct + todayServices - todayExpense - todayCommission;
+
+    -- Insert into dailyaudit table
+    INSERT INTO dailyaudit (CreatedAt, ServiceRevenue, ProductSoldAmount, CommisionAmount, Expenses, DailyIncome)
+    VALUES (CURRENT_DATE(), todayServices, todayProduct, todayCommission, todayExpense, dailyIncome);
+END //
+
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE EVENT DailyAuditEvent
+ON SCHEDULE EVERY 1 DAY
+STARTS TIMESTAMP(CURRENT_DATE) + INTERVAL 10 HOUR   -- This specifies the time of day to run the event (10:00:00 in this case)
+DO
+BEGIN
+    CALL InsertDailyAudit; -- Replace my_task() with the name of your stored procedure
 END //
 DELIMITER ;

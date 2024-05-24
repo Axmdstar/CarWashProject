@@ -71,6 +71,28 @@ font:          normal bold 26px/50px "Calibri", sans-serif;
 text-align:    center;
 }
 
+.positive-income {
+  color: #5969f3;
+  font-size: large;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.positive-income::before{
+  content: "+";
+}
+
+.negative-income {
+  color: rgb(255, 0, 221) !important;
+  font-size: large;
+  font-family: 'Courier New', Courier, monospace !important;
+}
+
+
+.neutral-income{
+  color: gray;
+  font-family: 'Courier New', Courier, monospace;
+}
+
 .Login {
 background:    #ffff;
 border-radius: 11px;
