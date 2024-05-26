@@ -16,6 +16,7 @@ CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     Username VARCHAR(255) NOT NULL,
     Pwd VARCHAR(255) NOT NULL,
+    Reset BOOLEAN NOT NULL DEFAULT FALSE,
     emid INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (emid) REFERENCES Employee(id)
@@ -278,4 +279,35 @@ DO
 BEGIN
     CALL InsertDailyAudit; -- Replace my_task() with the name of your stored procedure
 END //
+DELIMITER ;
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE UpdateProduct(
+    
+    IN p_ProductName VARCHAR(255),
+    IN p_Quantity INT,
+    IN p_Amount DECIMAL(10,2),
+    IN p_CustomerNumber INT,
+    IN p_UsrName VARCHAR(255)
+)
+BEGIN
+
+    -- Update the product table
+    UPDATE product as pt
+    SET 
+        pt.Available = pt.Available - p_Quantity -- Subtract quantity from Available
+    WHERE pt.ProductName = p_ProductName;
+
+    -- Insert into soldproducts table
+    INSERT INTO soldproducts (
+        ProductName, Quantity, Amount, CustomerNumber, Solddate, UsrId
+    ) VALUES (
+         p_ProductName, p_Quantity, p_Amount, p_CustomerNumber, NOW(), (SELECT id FROM users WHERE Username = p_UsrName)
+    );
+
+END //
+
 DELIMITER ;

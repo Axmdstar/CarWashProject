@@ -46,7 +46,7 @@
                         <td>$row[DailyIncome]</td>
                         <td>$row[ServiceRevenue]</td>
                         <td>$$row[ProductSoldAmount]</td>
-                        <td>$row[CommissionAmount]</td>
+                        <td>$row[CommisionAmount]</td>
                         <td>$row[CreatedAt]</td>
                         </tr>
                     ";
@@ -81,7 +81,7 @@ function updateServiceTable(month) {
                 <td>$${Audit.DailyIncome}</td>
                 <td>$${Audit.ServiceRevenue}</td>
                 <td>$${Audit.ProductSoldAmount}</td>
-                <td>$${Audit.CommissionAmount}</td>
+                <td>$${Audit.CommisionAmount}</td>
                 <td>${Audit.CreatedAt}</td>
             `;
             tbody.appendChild(row);

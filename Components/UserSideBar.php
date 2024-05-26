@@ -53,7 +53,7 @@
 
   
   <li class="nav-item" style=" margin-top: 340px !important;">
-    <a class="nav-link " href="index.html">
+    <a class="nav-link " href="../Login/LogOut.php">
       <i class="bi bi-box-arrow-left" style="font-size: x-large;"></i>
       <span>LogOut</span>
     </a>

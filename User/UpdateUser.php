@@ -11,24 +11,32 @@
 
     <main id="main" class="main">
 
-        <form method="POST" action="../User/User.php">
+        <form method="POST" >
             <!-- Content Here  -->
 
             <div class="card">
                 <?php
-                if (isset($_POST['add'])) {
+                
                     include_once "../Components/connection.php";
-                    $id = $_POST['UsrId'];
+                    $id = $_GET['id'];
+                    $sql = "SELECT id, `Username`, `Pwd`, `emid` FROM users where id = $id";
+                    $result = $conn->query($sql);
+                    $UpdateData = $result->fetch_assoc();
+                    
+
+
+                if (isset($_POST['add'])) {
+                
+                    $empid = $_POST['UsrId'];
                     $Username = $_POST['username'];
                     
-                    $sql = "INSERT INTO `users`(`Username`, `Pwd`, `emid`) VALUES ('$Username', $id)";
+                    $sql = "UPDATE `users` SET `Username`='$Username', emid = $empid WHERE id = $id";
 
                     $result = $conn->query($sql);
                     if ($result) {
-                        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                New record created successfully
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>';
+                        echo '<script type="text/javascript">
+                            window.location = "../User/User.php";
+                            </script>  ';
                     } }
                 ?>
                 <div class="card-body">
@@ -39,13 +47,18 @@
                             <div class="form-floating mb-3 ">
                                 <select class="form-select" name="UsrId" id="floatingSelect" aria-label="Floating label select example">
                                     <?php
-                                        include_once "../Components/connection.php";
+                                        include "../Components/connection.php";
                                         $sql = "SELECT id, FirstName FROM employee
                                         WHERE EmployeeType = 'User'";
                                         $result = $conn->query($sql);
                                         echo "<option selected>Select Emp Id</option>";
                                         while ($row = $result->fetch_assoc()) {
-                                            echo "<option value=$row[id]>$row[id]-$row[FirstName]</option>";
+                                            if ($row["id"] == $id) {
+                                                echo "<option selected value=$row[id]>$row[id]-$row[FirstName]</option>";
+                                            } else {
+                                                echo "<option value=$row[id]>$row[id]-$row[FirstName]</option>";
+
+                                            }
                                         }
                                     ?>
                                 </select>
@@ -55,14 +68,14 @@
 
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input type="text" name="username" class="form-control" id="floatingInput" placeholder="" required>
+                                <input type="text" name="username" <?php echo "value='$UpdateData[Username]'"; ?> class="form-control" id="floatingInput" placeholder="" required>
                                 <label for="floatingInput">Username</label>
                             </div>
                         </div>
                             <input type="submit" class="JazzeraBtn col" value="Add" name="add">
                     </div>
                 </div>
-                </div>
+            </div>
         </form>
 
         
@@ -81,32 +94,22 @@
                     <tbody>
                         <?php
                             include_once "../Components/connection.php";
-                            $sql = "SELECT * FROM users";
+                            $sql = "SELECT id, `Username`, `Pwd`, `emid` FROM users";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
-                                
                                 echo "
                                 <tr>
                                     <td>$row[emid]</td>
                                     <td>$row[Username]</td>
                                     <td class='d-flex gap-4'> 
-                                    ";
-                                    ?>
-                                    <?php 
-                                    
-                                    echo "
-                                        <a style='color: black;' href='../User/ResetPassword.php?id=$row[id]'><i class='bi bi-arrow-repeat'></i></a> 
                                         <a style='color: black;' href='../User/UpdateUser.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
                                         <a style='color: black;' href='../User/DeleteUser.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> 
-                                    
-                                        ";
-                                if ($row['Reset'] == 1) {
-                                    echo "<i class='bi bi-exclamation-lg' style='color: red;'></i> </td> </tr>";
-                                }
+                                    </td>
+                                </tr>
+                                ";
                             }
-                            ?>
+                        ?>
                     </tbody>
-                    
                 </table>    
             </div>
         </div>

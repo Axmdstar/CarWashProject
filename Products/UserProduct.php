@@ -10,13 +10,37 @@
   <main id="main" class="main">
 
 
-    <form method="POST">
+    <form method="POST" >
       <?php
-        if (isset($_POST['add'])) {
-          
-        }
+      include "../Components/connection.php";
 
-       ?>
+      if (isset($_POST['Add'])) {
+        $product = $_POST['Product'];
+        $quantity = $_POST['Quantity'];
+        $customerNumber = $_POST['CustomerNumber'];
+        $Total = $_POST['Totalhid'];
+        
+        // paramter 
+        // IN p_ProductName VARCHAR(255),
+        // IN p_Quantity INT,
+        // IN p_Amount DECIMAL(10,2),
+        // IN p_CustomerNumber INT,
+        // IN p_UsrId INT 
+        // Example:
+        // Call UpdateProduct("Oil", 5, 20, 012313, 2);
+        $sql = "Call UpdateProduct('$product', $quantity, $Total, $customerNumber, '$_COOKIE[Username]')";
+        
+
+        if ($conn->query($sql) === TRUE) {
+          echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                  New record created successfully
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+        } else{
+          echo "Faild";
+        }
+        
+      }?>
       <div class="card">
         <div class="card-body">
           <h1 class="card-title">Sell Product</h1>
@@ -56,14 +80,15 @@
 
               <div class="row">
                 <div class="col">
-                  
                   <div class="form-floating mb-3">
                     <input type="text" name="CustomerNumber" class="form-control" id="floatingInput" placeholder="" required>
                     <label for="floatingInput">Customer Number</label>
                   </div>
                 </div>
               </div>
-              <div class="row"><input type="submit" class="JazzeraBtn col" value="Add" name="add"></div>
+              <div class="row">
+                <input type="submit" class="JazzeraBtn col" value="Add" name="Add">
+              </div>
 
               
           </div>
@@ -81,8 +106,9 @@
                   <hr>
                   <div class="row align-items-baseline">
                     <h2 class="col label">Total:</h2>
-                    <div class="col" id="Total" >0</div>
-                  </div>
+                    <div class="col" id="Total" name="Total" >0</div>
+                    <input type="hidden" name="Totalhid" id="Totalhid"></div>
+                    
             </div>
           </div>
         </div>
@@ -158,11 +184,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-  document.getElementById("quantity").addEventListener("change", function() {
+  document.getElementById("quantity").addEventListener("input", function() {
+    const available = Number(document.getElementById("available").textContent );
     var quantity = this.value;
-    // var price = document.getElementById("Price").textContent;
-    console.log(quantity);
-    document.getElementById("Total").textContent = price * quantity;
+
+    if (quantity > available) {
+      this.classList.add("is-invalid");
+    } else {
+      this.classList.remove("is-invalid");
+      document.getElementById("Total").textContent = price * quantity;
+      document.getElementById("Totalhid").value = price * quantity;
+    }
+    
   })
 });
 </script>

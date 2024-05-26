@@ -29,7 +29,7 @@
             // Validate input data
             if (!empty($cartype) && !empty($category) && !empty($amount) && !empty($customernumber)) {
               $sql = "INSERT INTO dailyServices (`Cartype`, `category`, `Amount`, `CreatedAT`, `CustomerNumber`, `UsrId`) 
-                VALUES ('$cartype', '$category', $amount, Now(), '$customernumber', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]') )";
+                VALUES ('$cartype', '$category', $amount, Now(), '$customernumber', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]'))";
 
               if ($conn->query($sql) === TRUE) {
                 echo '<div class="alert alert-success alert-dismissible fade show" role="alert">

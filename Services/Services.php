@@ -16,7 +16,7 @@
     <form method="POST" action="../Services/Services.php">
       <!-- Content Here  -->
       <?php
-      if (isset($_POST[''])) {
+      if (isset($_POST['addNewService'])) {
         $ServiceName = $_POST['ServiceName'];
         $category = $_POST['category'];
         $amount = $_POST['amount'];
