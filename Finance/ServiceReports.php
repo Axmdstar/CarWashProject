@@ -1,13 +1,30 @@
 <!-- Services -->
 <div class="card">
     <div class="card-body">
+        <h1 class="card-title">Services Report</h1>
         <div class="d-flex justify-content-center">
-            <h1 class="card-title">Services Report</h1>
             
-            <div class="btn-group" style="margin: 14px 0 0 auto; height: 40px;" role="group" aria-label="Basic example">
-                <input type="text" id="search-service-input" class="form-control" placeholder="Search by car type" style="margin-right: 10px;">
-                <input type="date" id="service-date-input" class="form-control" style="margin-right: 10px;">
-                <select class="form-select" id="service-month-select">
+            <div class="btn-group" style="margin: 14px auto 0 0; height: 40px;" role="group" aria-label="Basic example">
+                <select class="form-select" id="services_search-criteria-select" style="margin-right: 10px;">
+                    <option disabled selected>Search By</option>
+                    <option value="carType">Car Type</option>
+                    <option value="category">Category</option>
+                    <option value="customerNumber">Customer Number</option>
+                    <option value="createdBy">Created By</option>
+                </select>
+                <input type="text" id="search-service-input" class="form-control" placeholder="Search" style="margin-right: 10px;">
+
+                <!-- Dates  -->
+                <select class="form-select" id="services_Date-criteria-select" style="margin-right: 10px;">
+                    <option disabled selected>Filter DateBy</option>
+                    <option value="ByDay">By Day</option>
+                    <option value="ByMonth">By Month</option>
+                    <option value="Range">Custom Range</option>
+                </select>
+
+                <input type="date" id="service-date-input" class="form-control" hidden style="margin-right: 10px;">
+
+                <select class="form-select" id="service-month-select" hidden style="margin-right: 10px;">
                     <option disabled selected>Select Month</option>
                     <option value="1">January</option>
                     <option value="2">February</option>
@@ -22,6 +39,9 @@
                     <option value="11">November</option>
                     <option value="12">December</option>
                 </select>
+
+                <input type="date" id="service-start-date-input" class="form-control" hidden style="margin-right: 10px;">
+                <input type="date" id="service-end-date-input" class="form-control" hidden style="margin-right: 10px;">
             </div>
         </div>
 
@@ -41,6 +61,7 @@
                 include_once "../Components/connection.php";
                 $sql = "SELECT `Cartype`, `category`, `Amount`, `CreatedAT`, `CustomerNumber`, usr.Username as Createdby FROM
                         `dailyservices` as ds INNER JOIN users as usr on ds.UsrId = usr.id";
+
                 $result = $conn->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "
@@ -60,14 +81,50 @@
 </div>
 
 <script>
+document.getElementById("services_Date-criteria-select").addEventListener("change", (e) => {
+    const SelectedDate = e.target.value;
+    const DateInput = document.getElementById("service-date-input");
+    const SelectByMonth = document.getElementById("service-month-select");
+    const StartDateInput = document.getElementById("service-start-date-input");
+    const EndDateInput = document.getElementById("service-end-date-input");
+
+    switch (SelectedDate) {
+        case "ByDay":
+            DateInput.hidden = false;
+            SelectByMonth.hidden = true;
+            StartDateInput.hidden = true;
+            EndDateInput.hidden = true;
+            break;
+        case "ByMonth":
+            DateInput.hidden = true;
+            SelectByMonth.hidden = false;
+            StartDateInput.hidden = true;
+            EndDateInput.hidden = true;
+            break;
+        case "Range":
+            DateInput.hidden = true;
+            SelectByMonth.hidden = true;
+            StartDateInput.hidden = false;
+            EndDateInput.hidden = false;
+            break;
+        default:
+            DateInput.hidden = true;
+            SelectByMonth.hidden = true;
+            StartDateInput.hidden = true;
+            EndDateInput.hidden = true;
+            break;
+    }
+});
+
 document.getElementById('service-month-select').addEventListener("change", (e) => {
     const selectedMonth = e.target.value;
-    updateServiceTable(selectedMonth);
+    updateServiceTableByMonth(selectedMonth);
 });
 
 document.getElementById('search-service-input').addEventListener("input", (e) => {
     const searchTerm = e.target.value.toLowerCase();
-    filterServiceTable(searchTerm, 'carType');
+    const searchCriteria = document.getElementById('services_search-criteria-select').value;
+    filterServiceTable(searchTerm, searchCriteria);
 });
 
 document.getElementById('service-date-input').addEventListener("input", (e) => {
@@ -75,7 +132,19 @@ document.getElementById('service-date-input').addEventListener("input", (e) => {
     filterServiceTable(searchDate, 'date');
 });
 
-function updateServiceTable(month) {
+document.getElementById('service-start-date-input').addEventListener("input", (e) => {
+    const startDate = e.target.value;
+    const endDate = document.getElementById('service-end-date-input').value;
+    filterServiceTableByRange(startDate, endDate);
+});
+
+document.getElementById('service-end-date-input').addEventListener("input", (e) => {
+    const endDate = e.target.value;
+    const startDate = document.getElementById('service-start-date-input').value;
+    filterServiceTableByRange(startDate, endDate);
+});
+
+function updateServiceTableByMonth(month) {
     let tbody = document.getElementById("Serviceouttbody");
     const option = { method: "GET" };
     fetch(`http://localhost/CarWashProject/Finance/GetServiceMonth.php?Month=${month}`, option)
@@ -102,19 +171,35 @@ function filterServiceTable(searchTerm, type) {
     const rows = document.querySelectorAll('#Serviceouttbody tr');
     rows.forEach(row => {
         const carType = row.cells[0].textContent.toLowerCase();
+        const category = row.cells[1].textContent.toLowerCase();
+        const customerNumber = row.cells[3].textContent.toLowerCase();
+        const createdBy = row.cells[4].textContent.toLowerCase();
         const serviceDate = row.cells[5].textContent;
-        if (type === 'carType') {
-            if (carType.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        } else if (type === 'date') {
-            if (serviceDate.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+
+        if (type === 'carType' && carType.includes(searchTerm)) {
+            row.style.display = '';
+        } else if (type === 'category' && category.includes(searchTerm)) {
+            row.style.display = '';
+        } else if (type === 'customerNumber' && customerNumber.includes(searchTerm)) {
+            row.style.display = '';
+        } else if (type === 'createdBy' && createdBy.includes(searchTerm)) {
+            row.style.display = '';
+        } else if (type === 'date' && serviceDate.includes(searchTerm)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function filterServiceTableByRange(startDate, endDate) {
+    const rows = document.querySelectorAll('#Serviceouttbody tr');
+    rows.forEach(row => {
+        const serviceDate = row.cells[5].textContent;
+        if (serviceDate >= startDate && serviceDate <= endDate) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
         }
     });
 }

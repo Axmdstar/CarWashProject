@@ -87,7 +87,7 @@
                 </div>
               </div>
               <div class="row">
-                <input type="submit" class="JazzeraBtn col" value="Add" name="Add">
+                <input type="submit" id="AddBtn"  class="JazzeraBtn col" value="Add" name="Add">
               </div>
 
               
@@ -190,8 +190,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (quantity > available) {
       this.classList.add("is-invalid");
+      document.getElementById("AddBtn").setAttribute("disabled", true);
     } else {
       this.classList.remove("is-invalid");
+      document.getElementById("AddBtn").removeAttribute("disabled");
       document.getElementById("Total").textContent = price * quantity;
       document.getElementById("Totalhid").value = price * quantity;
     }
