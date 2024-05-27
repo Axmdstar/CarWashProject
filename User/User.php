@@ -21,8 +21,8 @@
                     $id = $_POST['UsrId'];
                     $Username = $_POST['username'];
                     
-                    $sql = "INSERT INTO `users`(`Username`, `Pwd`, `emid`) VALUES ('$Username', $id)";
-
+                    $sql = "INSERT INTO `users`(`Username`, `emid`) VALUES ('$Username', $id)";
+                    
                     $result = $conn->query($sql);
                     if ($result) {
                         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -101,7 +101,7 @@
                                     
                                         ";
                                 if ($row['Reset'] == 1) {
-                                    echo "<i class='bi bi-exclamation-lg' style='color: red;'></i> </td> </tr>";
+                                    echo "<span style='color: red;'>! Requested Password Reset</span> </td> </tr>";
                                 }
                             }
                             ?>
