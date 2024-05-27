@@ -17,12 +17,11 @@
         $ProductRestock = $_POST['ProductRestock'];
         $RestockQuantity = $_POST['RestockQuantity'];
 
-        $sql = "UPDATE product SET `Available`= $RestockQuantity WHERE id = $ProductRestock";
+        $sql = "UPDATE product SET Available = Available + $RestockQuantity WHERE id = $ProductRestock";
         $result = $conn->query($sql);
         if (!$result) {
           echo $conn->error;
         }
-        
       }
 
 

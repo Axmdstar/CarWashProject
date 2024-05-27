@@ -286,7 +286,6 @@ DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE UpdateProduct(
-    
     IN p_ProductName VARCHAR(255),
     IN p_Quantity INT,
     IN p_Amount DECIMAL(10,2),

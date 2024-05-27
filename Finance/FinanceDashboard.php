@@ -124,7 +124,7 @@
               <script>
                   let ServicesTotal = document.getElementById("ServicesTotal")
                   let CommissionTotal = document.getElementById("CommissionTotal")
-                  document.getElementById("TotalEstimated").innerText = Number(ServicesTotal.innerText.slice(1)) + Number(CommissionTotal.innerText.slice(1))
+                  document.getElementById("TotalEstimated").innerText = Number(ServicesTotal.innerText.slice(1)) - Number(CommissionTotal.innerText.slice(1))
               </script>
             </div>
           </div>
@@ -139,7 +139,7 @@
              $result = $conn->query($sql);
              $row = $result->fetch_assoc();
         ?>
-        <h1 clatat="card-title">Income Statement</h1>
+        <h1 clatat="card-title">Daily Audit</h1>
         <div class=" row">
                 <h5 class="col">Services Revenue</h5>
                 <h5 class="col w-25 text-end" id="Services_Revenue">$<?php echo $row["TodayServices"]; ?></h5>
