@@ -9,13 +9,22 @@
 
     <main id="main" class="main" >
 
-        <form method="POST" action="../Employee/Employee.php"" >
+        <form method="POST"  >
            <!-- Content Here  -->
            <div class="card">
                 <div class="card-body">
                     <h1 class="card-title">New Employee</h1> 
 
                     <?php 
+
+                        include_once "../Components/connection.php";
+                        $id = $_GET['id'];
+                        $sql = "SELECT * FROM `employee` WHERE id = $id";
+                        $result = $conn->query($sql);
+                        $UpdateData = $result->fetch_assoc();
+
+
+
                         if (isset($_POST['submit'])){
                         $firstname = $_POST['FirstName'];
                         $middlename = $_POST['MiddleName'];
@@ -26,35 +35,37 @@
                         $tel = $_POST['Tel'];
                         $magacamasuulka = $_POST['MagacaMasuulka'];
                         $telmasuulka = $_POST['TelMasuulka'];
-                        include_once "../Components/connection.php";
-                        $sql = "INSERT INTO `employee`(`FirstName`, `MiddleName`, `LastName`, `sex`, `Number`, `District`, `magcaMasuulka`, `NumberkaMassulka`, `EmployeeType`)  VALUES ('$firstname','$middlename','$lastname','$sex',$tel,'$district','$magacamasuulka',$telmasuulka,'$usertype')";
+
+
+                        $sql = "UPDATE `employee` SET `FirstName`='$firstname',`MiddleName`='$middlename',`LastName`='$lastname',`sex`='$sex',
+                                `Number`=$tel,`District`='$district',`magcaMasuulka`='$magacamasuulka',
+                                `NumberkaMassulka`=$tel,`EmployeeType`='$usertype' WHERE id = $id";
                         $result = $conn->query($sql);
                         if ($result) {
-                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    New record created successfully
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>';
+                            echo '<script type="text/javascript">
+                                    window.location = "../Employee/Employee.php";
+                                    </script>  ';
                         }}
                     ?>
             
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="FirstName" class="form-control" id="floatingInput" placeholder="" required>
+                                <input value="<?php echo$UpdateData["FirstName"];?>" type="text" name="FirstName" class="form-control" id="floatingInput" placeholder="" required>
                                 <label for="floatingInput">FirstName</label>
                             </div>
                         </div>
 
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="MiddleName" class="form-control" id="floatingInput" placeholder="" required>
+                                <input value="<?php echo$UpdateData["MiddleName"];?>" type="text" name="MiddleName" class="form-control" id="floatingInput" placeholder="" required>
                                 <label for="floatingInput">MiddleName</label>
                             </div>
                         </div>
 
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="LastName" class="form-control" id="floatingInput" placeholder="" required>
+                                <input value="<?php echo$UpdateData["LastName"];?>" type="text" name="LastName" class="form-control" id="floatingInput" placeholder="" required>
                                 <label for="floatingInput">LastName</label>
                             </div>
                         </div>
@@ -68,12 +79,24 @@
                             <div class="form-floating mb-3">
                                 <select class="form-select" name="District" id="floatingSelect" aria-label="Floating label select example" required>
                                     <option selected>Select District</option>
-                                    <option value="Wadajir">Wadajir</option>
-                                    <option value="Dharkenley">Dharkenley</option>
-                                    <option value="Daynile">Daynile</option>
-                                    <option value="Kahda">Kahda</option>
-                                    <option value="Karaan">Karaan</option>
-                                    <option value="Hodan">Hodan</option>
+                                    <option value="Wadajir" <?php if($UpdateData["District"] ==  "Wadajir"){
+                                        echo "Selected";
+                                    }  ?> >Wadajir</option>
+                                    <option <?php if($UpdateData["District"] ==  "Dharkenley"){
+                                        echo "Selected";
+                                    }  ?> value="Dharkenley">Dharkenley</option>
+                                    <option <?php if($UpdateData["District"] ==  "Daynile"){
+                                        echo "Selected";
+                                    }  ?> value="Daynile">Daynile</option>
+                                    <option <?php if($UpdateData["District"] ==  "Kahda"){
+                                        echo "Selected";
+                                    }  ?> value="Kahda">Kahda</option>
+                                    <option <?php if($UpdateData["District"] ==  "Karaan"){
+                                        echo "Selected";
+                                    }  ?> value="Karaan">Karaan</option>
+                                    <option <?php if($UpdateData["District"] ==  "Hodan"){
+                                        echo "Selected";
+                                    }  ?> value="Hodan">Hodan</option>
                                 </select>
                                 <label for="floatingSelect">District</label>
                             </div>
@@ -82,9 +105,13 @@
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <select class="form-select" name="Sex" id="floatingSelect" aria-label="Floating label select example" required>
-                                    <option selected>Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option selected>Select Sex</option>
+                                    <option <?php if($UpdateData["sex"] ==  "Male"){
+                                        echo "Selected";
+                                    }  ?> value="Male">Male</option>
+                                    <option <?php if($UpdateData["sex"] ==  "Female"){
+                                        echo "Selected";
+                                    }  ?> value="Female">Female</option>
                                 </select>
                                 <label for="floatingSelect">Sex</label>
                             </div>
@@ -95,9 +122,15 @@
                             <div class="form-floating mb-3">
                                 <select class="form-select" name="UserType" id="floatingSelect" aria-label="Floating label select example" required>
                                     <option selected>Select User Type</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="User">User</option>
-                                    <option value="Worker">Worker</option>
+                                    <option <?php if($UpdateData["EmployeeType"] ==  "Admin"){
+                                        echo "Selected";
+                                    }  ?> value="Admin">Admin</option>
+                                    <option <?php if($UpdateData["EmployeeType"] ==  "User"){
+                                        echo "Selected";
+                                    }  ?> value="User">User</option>
+                                    <option <?php if($UpdateData["EmployeeType"] ==  "Worker"){
+                                        echo "Selected";
+                                    }  ?> value="Worker">Worker</option>
                                 </select>
                                 <label for="floatingSelect">User Type</label>
                             </div>
@@ -110,21 +143,21 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="Tel" class="form-control" id="floatingInput" placeholder="" required>
+                                <input value="<?php echo$UpdateData["Number"];?>" type="text" name="Tel" class="form-control" id="floatingInput" placeholder="" required>
                                 <label for="floatingInput">Tel</label>
                             </div>
                         </div>
 
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="MagacaMasuulka" class="form-control" id="floatingInput" placeholder="" required>
+                                <input value="<?php echo$UpdateData["magcaMasuulka"];?>" type="text" name="MagacaMasuulka" class="form-control" id="floatingInput" placeholder="" required>
                                 <label for="floatingInput">Magaca Masuulka</label>
                             </div>
                         </div>
 
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="TelMasuulka" class="form-control" id="floatingInput" placeholder="" required>
+                                <input value="<?php echo$UpdateData["NumberkaMassulka"];?>" type="text" name="TelMasuulka" class="form-control" id="floatingInput" placeholder="" required>
                                 <label for="floatingInput">Tel Masuulka</label>
                             </div>
                         </div>

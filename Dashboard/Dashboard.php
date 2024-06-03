@@ -66,7 +66,7 @@
                 data: [<?php echo "$row[NumofServices]"; ?>]
               }, {
                 name: 'Product',
-                data: [<?php echo "$row[NumofProductSold]"; ?>]
+                data: [<?php echo "$row[NumofProductSoldAndRevenue]"; ?>]
               }],
               chart: {
                 type: 'bar',

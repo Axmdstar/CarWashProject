@@ -134,7 +134,7 @@
                 <th scope="col">Service Name</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Category</th>
-
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -151,8 +151,8 @@
                         <td>$row[ServiceCategoryId]</td>
                         ";
                 echo "
-                        <td><a style='color: black;' href='../Services/UpdateService.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> </td>
-                        <td><a style='color: black;' href='../Services/DeleteService.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> </td>
+                        <td class='d-flex gap-4' ><a style='color: black;' href='../Services/UpdateService.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
+                        <a style='color: black;' href='../Services/DeleteService.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> </td>
                         </tr>
                         ";
               }

@@ -94,7 +94,8 @@ CREATE TABLE Expenses (
     Amount INT NOT NULL,
     CreatedAt DATETIME NOT NULL,
     UsrId INT NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (UsrId) REFERENCES Users(id)
 );
 
 ALTER TABLE SoldProducts ADD CONSTRAINT soldproducts_usrid_foreign FOREIGN KEY (UsrId) REFERENCES Users(id);
