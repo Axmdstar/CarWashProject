@@ -28,7 +28,7 @@
         <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 20px;">
 
           <div class="JazzeraCards">
-            <h2><?php echo "$row[NumofProductSold]"; ?></h2>
+            <h2><?php echo "$row[NumofProductSoldAndRevenue]"; ?></h2>
             <h3>Product</h3>
           </div>
 
