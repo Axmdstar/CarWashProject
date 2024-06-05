@@ -37,13 +37,13 @@
                     <div class="row ">
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <select class="form-select" name="UsrId" id="floatingSelect" aria-label="Floating label select example">
+                                <select class="form-select" name="UsrId" id="floatingSelect" aria-label="Floating label select example" required>
                                     <?php
                                         include_once "../Components/connection.php";
                                         $sql = "SELECT id, FirstName FROM employee
                                         WHERE EmployeeType = 'User'";
                                         $result = $conn->query($sql);
-                                        echo "<option selected>Select Emp Id</option>";
+                                        echo "<option value='' selected disabled >Select Emp Id</option>";
                                         while ($row = $result->fetch_assoc()) {
                                             echo "<option value=$row[id]>$row[id]-$row[FirstName]</option>";
                                         }

@@ -23,8 +23,6 @@
                         $result = $conn->query($sql);
                         $UpdateData = $result->fetch_assoc();
 
-
-
                         if (isset($_POST['submit'])){
                         $firstname = $_POST['FirstName'];
                         $middlename = $_POST['MiddleName'];
@@ -35,7 +33,6 @@
                         $tel = $_POST['Tel'];
                         $magacamasuulka = $_POST['MagacaMasuulka'];
                         $telmasuulka = $_POST['TelMasuulka'];
-
 
                         $sql = "UPDATE `employee` SET `FirstName`='$firstname',`MiddleName`='$middlename',`LastName`='$lastname',`sex`='$sex',
                                 `Number`=$tel,`District`='$district',`magcaMasuulka`='$magacamasuulka',

@@ -51,8 +51,8 @@
             <tbody id="Prodouttbody">
                 <?php
                 include "../Components/connection.php";
-                $sql = "SELECT `ProductName`, `Quantity`, `Amount`, `CustomerNumber`, `Solddate`, usr.Username as Createdby FROM `soldproducts` as sp
-                        INNER JOIN users as usr on sp.UsrId = usr.id";
+                $sql = "SELECT `ProductName`, `Quantity`, `Amount`, `CustomerNumber`, `Solddate`, IFNULL(usr.Username, 'DeletedUser') as Createdby FROM `soldproducts` as sp
+                LEFT JOIN users as usr on sp.UsrId = usr.id";
                 $result = $conn->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "

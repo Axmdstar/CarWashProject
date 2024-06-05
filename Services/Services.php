@@ -48,17 +48,15 @@
             <div class="col">
               <div class="form-floating mb-3">
                 <select class="form-select" name="category" id="floatingSelect" aria-label="Floating label select example" required>
-                  <option selected>Select Category</option>
+                  <option value="" selected disabled>Select Category</option>
                   <?php
                   include_once "../Components/connection.php";
                   $sql = "SELECT `id`, `CatName` FROM `servicecategory`";
                   $result = $conn->query($sql);
+
                   while ($row = $result->fetch_assoc()) {
-                    echo "
-                            <option value='$row[id]'>$row[CatName]</option>
-                              ";
-                  }
-                  ?>
+                    echo "<option value='$row[id]'>$row[CatName]</option>";
+                  }?>
                 </select>
                 <label for="floatingSelect">Category</label>
               </div>
@@ -139,9 +137,9 @@
             </thead>
             <tbody>
               <?php
-
               include_once "../Components/connection.php";
               $sql = "SELECT `id`, `CarName`, `Amount`, `ServiceCategoryId` FROM `services`";
+
               $result = $conn->query($sql);
               while ($row = $result->fetch_assoc()) {
                 echo "
@@ -183,12 +181,10 @@
               $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
               $result = $conn->query($sql);
               while ($row = $result->fetch_assoc()) {
-                echo "
-                        <tr>
+                echo "  <tr>
                         <td>$row[CatName]</td>
                         <td>$row[CommisionRate]</td>
                         ";
-                // <td class='d-flex gap-4'><i class='fa-solid fa-pen'></i> <i class='fa-solid fa-trash-can'></i></td>
                 echo "
                         <td class='d-flex gap-4'> 
                           <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 

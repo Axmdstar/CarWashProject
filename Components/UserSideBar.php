@@ -52,8 +52,8 @@
   </li>End Finance Nav -->
 
   
-  <li class="nav-item" style=" margin-top: 340px !important;">
-    <a class="nav-link " href="../Login/LogOut.php">
+  <li class="nav-item" >
+    <a class="nav-link" style=" margin-top: auto !important;"  href="../Login/LogOut.php">
       <i class="bi bi-box-arrow-left" style="font-size: x-large;"></i>
       <span>LogOut</span>
     </a>

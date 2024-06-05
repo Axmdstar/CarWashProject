@@ -52,8 +52,8 @@
 
                 <div class="col">
                   <div class="form-floating mb-3">
-                      <select  class="form-select" name="Product" id="floatingSelect" aria-label="Floating label select example">
-                          <option selected>Select Product</option>
+                      <select  class="form-select" name="Product" id="floatingSelect" aria-label="Floating label select example" required>
+                          <option value="" selected disabled >Select Product</option>
                           <?php
                           $available = 0;
                           include_once "../Components/connection.php";
@@ -70,18 +70,16 @@
 
                   <div class="col">
                     <div class="form-floating mb-3 ">
-                      <input type="number" name="Quantity" class="form-control" id="quantity" placeholder="" required>
+                      <input type="number" name="Quantity" class="form-control" id="quantity" placeholder="" required min="0">
                       <label for="floatingInput">Quantity</label>
                     </div>
                   </div>
-                  
               </div>
-
 
               <div class="row">
                 <div class="col">
                   <div class="form-floating mb-3">
-                    <input type="text" name="CustomerNumber" class="form-control" id="floatingInput" placeholder="" required>
+                    <input type="tel" name="CustomerNumber" class="form-control" id="floatingInput" placeholder="" required maxlength="10" minlength="10" >
                     <label for="floatingInput">Customer Number</label>
                   </div>
                 </div>

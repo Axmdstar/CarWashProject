@@ -24,9 +24,9 @@
 
                   if ($result) {
                     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            New record created successfully
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>';
+                          New record created successfully
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>';
                   } else {
                     echo "Error: " . $stmt->error;
                   }

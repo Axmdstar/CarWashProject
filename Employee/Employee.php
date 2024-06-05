@@ -9,7 +9,7 @@
 
     <main id="main" class="main" >
 
-        <form method="POST" action="../Employee/Employee.php"" >
+        <form method="POST"  >
            <!-- Content Here  -->
            <div class="card">
                 <div class="card-body">
@@ -26,8 +26,12 @@
                         $tel = $_POST['Tel'];
                         $magacamasuulka = $_POST['MagacaMasuulka'];
                         $telmasuulka = $_POST['TelMasuulka'];
+                        
+
                         include_once "../Components/connection.php";
-                        $sql = "INSERT INTO `employee`(`FirstName`, `MiddleName`, `LastName`, `sex`, `Number`, `District`, `magcaMasuulka`, `NumberkaMassulka`, `EmployeeType`)  VALUES ('$firstname','$middlename','$lastname','$sex',$tel,'$district','$magacamasuulka',$telmasuulka,'$usertype')";
+                        $sql = "INSERT INTO `employee`(`FirstName`, `MiddleName`, `LastName`, `sex`, `Number`, `District`, `magcaMasuulka`, `NumberkaMassulka`, `EmployeeType`)  
+                                VALUES ('$firstname','$middlename','$lastname','$sex','$tel','$district','$magacamasuulka','$telmasuulka','$usertype')";
+                        
                         $result = $conn->query($sql);
                         if ($result) {
                             echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -67,7 +71,7 @@
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <select class="form-select" name="District" id="floatingSelect" aria-label="Floating label select example" required>
-                                    <option selected>Select District</option>
+                                    <option value="" selected disabled>Select District</option>
                                     <option value="Wadajir">Wadajir</option>
                                     <option value="Dharkenley">Dharkenley</option>
                                     <option value="Daynile">Daynile</option>
@@ -82,7 +86,7 @@
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <select class="form-select" name="Sex" id="floatingSelect" aria-label="Floating label select example" required>
-                                    <option selected>Select Gender</option>
+                                    <option value="" selected disabled>Select sex</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
@@ -94,7 +98,7 @@
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <select class="form-select" name="UserType" id="floatingSelect" aria-label="Floating label select example" required>
-                                    <option selected>Select User Type</option>
+                                    <option value="" selected disabled>Select User Type</option>
                                     <option value="Admin">Admin</option>
                                     <option value="User">User</option>
                                     <option value="Worker">Worker</option>
@@ -110,7 +114,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="Tel" class="form-control" id="floatingInput" placeholder="" required>
+                                <input type="tel" name="Tel" class="form-control" id="floatingInput" placeholder="" maxlength="10" minlength="10" required>
                                 <label for="floatingInput">Tel</label>
                             </div>
                         </div>
@@ -124,7 +128,7 @@
 
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="TelMasuulka" class="form-control" id="floatingInput" placeholder="" required>
+                                <input type="tel" name="TelMasuulka" class="form-control" id="floatingInput" placeholder="" maxlength="10" minlength="10" required>
                                 <label for="floatingInput">Tel Masuulka</label>
                             </div>
                         </div>

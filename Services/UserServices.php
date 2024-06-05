@@ -48,8 +48,8 @@
           <div class="row">
             <div class="col">
               <div class="form-floating mb-3">
-                <select class="form-select" name="category" id="floatingSelectCat" aria-label="Floating label select example">
-                  <option disabled selected>Select Category</option>
+                <select class="form-select" name="category" id="floatingSelectCat" aria-label="Floating label select example" required>
+                  <option value="" disabled selected>Select Category</option>
                   <?php
                   include_once "../Components/connection.php";
                   $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
@@ -68,7 +68,7 @@
             <div class="col">
               <div class="form-floating mb-3">
                 <select disabled class="form-select" name="cartype" id="floatingSelectCar" required aria-label="Floating label select example">
-                <option disabled selected>Select Service</option>
+                <option value="" disabled selected>Select Service</option>
                 </select>
                 <label for="floatingSelect">CarType</label>
               </div>
@@ -76,7 +76,7 @@
 
             <div class="col">
               <div class="form-floating mb-3">
-                <input required type="text" name="amount" class="form-control" id="floatingInputPrice" placeholder="name@example.com">
+                <input required type="text" name="amount" class="form-control" id="floatingInputPrice" >
                 <label for="floatingInputPrice">Price</label>
               </div>
             </div>
@@ -85,7 +85,7 @@
           <div class="row">
             <div class="col">
               <div class="form-floating mb-3">
-                <input required type="text" name="customernumber" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input required type="text" name="customernumber" class="form-control" id="floatingInput" maxlength="10" minlength="10" >
                 <label for="floatingInput">Customer Number</label>
               </div>
             </div>

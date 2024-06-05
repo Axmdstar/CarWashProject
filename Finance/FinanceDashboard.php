@@ -9,7 +9,7 @@
               if ($conn->connect_error) {
                 die('' . $conn->connect_error);
               }
-              $sql = "CALL FinDashBoardData()";
+              $sql = "CALL FinDashBoardData";
               $result = $conn->query($sql);
               if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();

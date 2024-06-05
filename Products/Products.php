@@ -3,7 +3,6 @@
 <?php include "../Components/HeadContent.php" ?>
 
 <body>
-
   <?php include '../Components/NavBar.php' ?>
 
   <main id="main" class="main">
@@ -52,7 +51,7 @@
               </div>
             </div>
 
-          <div class="col">
+            <div class="col">
               <div class="form-floating mb-3 ">
                 <input type="number" name="NumberOfItems" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Number Of Items</label>
@@ -66,23 +65,23 @@
                 <input type="date" name="Date" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Date</label>
               </div>
-          </div>
+            </div>
 
-          <div class="col">
-            <div class="form-floating mb-3">
-              <input type="number" step="0.001" name="purchaseAmount" class="form-control" id="floatingInput" placeholder="" required>
-              <label for="floatingInput">Purchase Price</label>
+            <div class="col">
+              <div class="form-floating mb-3">
+                <input type="number" step="0.001" name="purchaseAmount" class="form-control" id="floatingInput" placeholder="" required>
+                <label for="floatingInput">Purchase Price</label>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col">
-            <div class="form-floating mb-3">
-              <input type="number" step="0.001" name="sellPrice" class="form-control" id="floatingInput" placeholder="" required>
-              <label for="floatingInput">Sell Price</label>
+          <div class="row">
+            <div class="col">
+              <div class="form-floating mb-3">
+                <input type="number" step="0.001" name="sellPrice" class="form-control" id="floatingInput" placeholder="" required>
+                <label for="floatingInput">Sell Price</label>
+              </div>
             </div>
-        </div>
             <input type="submit" class="JazzeraBtn col" value="Submit" name="add">
           </div>
 
@@ -97,15 +96,15 @@
       <div class="card-body">
         <h1 class="card-title">Restock Product</h1>
         <form method="POST" action="">
-          
+
           <div class="row">
             <div class="col">
               <div class="form-floating mb-3">
-                <select class="form-select" name="ProductRestock" id="floatingSelect" aria-label="Floating label select example">
-                  <option selected>Select Product</option>
+                <select class="form-select" name="ProductRestock" id="floatingSelect" aria-label="Floating label select example" required>
+                  <option selected disabled value="">Select Product</option>
                   <?php
                   include_once "../Components/connection.php";
-          
+
                   $sql = "SELECT * FROM `product`";
                   $result = $conn->query($sql);
                   while ($row = $result->fetch_assoc()) {
@@ -116,12 +115,12 @@
               </div>
             </div>
             <div class="col">
-                <div class="form-floating mb-3 ">
-                  <input type="number" name="RestockQuantity" class="form-control" id="floatingInput" placeholder="" required>
-                  <label for="floatingInput">Quantity</label>
-                </div>
+              <div class="form-floating mb-3 ">
+                <input type="number" name="RestockQuantity" class="form-control" id="floatingInput" placeholder="" required>
+                <label for="floatingInput">Quantity</label>
               </div>
-              <input type="submit" class="JazzeraBtn col" value="Add" name="Restock">
+            </div>
+            <input type="submit" class="JazzeraBtn col" value="Add" name="Restock">
           </div>
         </form>
 

@@ -4,10 +4,10 @@ CREATE TABLE Employee (
     MiddleName VARCHAR(255) NULL,
     LastName VARCHAR(255) NOT NULL,
     sex VARCHAR(10) NOT NULL,
-    Number INT NOT NULL,
+    Number VARCHAR(10) NOT NULL,
     District VARCHAR(255) NOT NULL,
     magcaMasuulka VARCHAR(255) NOT NULL,
-    NumberkaMassulka INT NOT NULL,
+    NumberkaMassulka VARCHAR(10) NOT NULL,
     EmployeeType VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
@@ -111,7 +111,7 @@ CREATE PROCEDURE GetDashboardSummary()
 BEGIN
      SELECT
     (SELECT IFNULL(SUM(Quantity),0) FROM soldproducts WHERE DAY(Solddate) = DAY(CURRENT_DATE()))
-    as NumofProductSoldAndRevenue,
+    as NumofProduct,
     (SELECT IFNULL(COUNT(dailyservices.id),0) FROM  dailyservices WHERE DAY(CreatedAT) = DAY(CURRENT_DATE())) 
     as NumofServices,
     (SELECT IFNULL(SUM(Amount * Quantity), 0) FROM soldproducts WHERE DAY(Solddate) = DAY(CURRENT_DATE()) ) 
@@ -164,10 +164,10 @@ SELECT
 	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices 
     WHERE DAY(CreatedAT) = DAY(CURRENT_DATE())), 0)) as TodayRevenue,
 # TotalExpense    
-    (SELECT SUM(Amount) AS TotalExpenses FROM Expenses) as TotalExpense,
+    IFNULL((SELECT SUM(Amount) AS TotalExpenses FROM Expenses),0) as TotalExpense,
 # MonthExpense
-	(SELECT SUM(Amount) AS TotalExpenses FROM Expenses
-	WHERE MONTH(CreatedAt) = MONTH(CURRENT_DATE())) as MonthExpense;
+	IFNULL((SELECT SUM(Amount) AS TotalExpenses FROM Expenses
+	WHERE MONTH(CreatedAt) = MONTH(CURRENT_DATE())),0) as MonthExpense;
 END //
 DELIMITER ;
 

@@ -74,14 +74,21 @@
             </div>
 
             <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="floatingInput" name="password">
+              <input type="password" 
+                     class="form-control" 
+                     id="floatingInput" 
+                     name="password" 
+                     required 
+                     autocomplete="off"
+                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                     >
               <label for="floatingInput">Password</label>
               <span class="text-light " style="cursor: pointer;"  id="Forgot" >Forgot Password</span>
             </div>
             
 
 
-            <input type="submit" value="LOGIN" id="input" class="Login w-auto  " name="Login" >
+            <input type="submit" value="LOGIN" id="input" class="Login w-auto" name="Login" >
             <input type="hidden" id="Status" name="Status" value="">
             <input type="hidden" id="UsrId" name="UsrId" value="">
             <div id="alert-container"></div>
@@ -104,36 +111,34 @@ function getCookie(name) {
 }
 
 function CallAlert(msg){
-                const alertContainer = document.getElementById('alert-container');
-                const alertDiv = document.createElement('div');
+    const alertContainer = document.getElementById('alert-container');
+    const alertDiv = document.createElement('div');
 
-                alertDiv.className = 'alert alert-info alert-dismissible fade show';
-                alertDiv.role = 'alert';
+    alertDiv.className = 'alert alert-info alert-dismissible fade show';
+    alertDiv.role = 'alert';
 
-                const icon = document.createElement('i');
-                icon.className = 'bi bi-info-circle me-1';
-                alertDiv.appendChild(icon);
+    const icon = document.createElement('i');
+    icon.className = 'bi bi-info-circle me-1';
+    alertDiv.appendChild(icon);
 
-                const alertText = document.createTextNode(msg);
-                alertDiv.appendChild(alertText);
+    const alertText = document.createTextNode(msg);
+    alertDiv.appendChild(alertText);
 
-                const button = document.createElement('button');
-                button.type = 'button';
-                button.className = 'btn-close';
-                button.setAttribute('data-bs-dismiss', 'alert');
-                button.setAttribute('aria-label', 'Close');
-                alertDiv.appendChild(button);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn-close';
+    button.setAttribute('data-bs-dismiss', 'alert');
+    button.setAttribute('aria-label', 'Close');
+    alertDiv.appendChild(button);
 
-                alertContainer.appendChild(alertDiv);
-
+    alertContainer.appendChild(alertDiv);
 }
 
 
     document.getElementById("Forgot").addEventListener("click", () => {
         const Username = getCookie("Username");
-
         const options = {method: 'GET'};
-        fetch('http://localhost/CarWashProject/User/ResetRequest.php?usrname=' + Username, options)
+        fetch('http://localhost/CarWashProject/User/ResetRequest.php?=' + Username, options)
         .then(response => response.json())
         .then(response => {
              CallAlert(response.Msg);            
