@@ -10,10 +10,10 @@ $result = $conn->query( $sql );
 
 
 if($result) {
-    echo json_encode(array("Msg"=> "Please Wait Admin Approval 👍"));
+    echo json_encode(array("Msg" => "Please Wait Admin Approval"));
 }
 else{
-    echo json_encode( array("error"=> "Not Found") );
+    echo json_encode( array("error" => "Not Found") );
 }
 
 

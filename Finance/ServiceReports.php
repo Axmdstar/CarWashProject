@@ -4,7 +4,9 @@
         <h1 class="card-title">Services Report</h1>
         <div class="d-flex justify-content-center">
             
+        <!-- filter start  -->
             <div class="btn-group" style="margin: 14px auto 0 0; height: 40px;" role="group" aria-label="Basic example">
+                <!-- search     -->
                 <select class="form-select" id="services_search-criteria-select" style="margin-right: 10px;">
                     <option disabled selected>Search By</option>
                     <option value="carType">Car Type</option>
@@ -40,11 +42,18 @@
                     <option value="12">December</option>
                 </select>
 
-                <input type="date" id="service-start-date-input" class="form-control" hidden style="margin-right: 10px;">
-                <input type="date" id="service-end-date-input" class="form-control" hidden style="margin-right: 10px;">
+                <div id="FromTo" hidden >
+                    <div class="d-flex justify-content-center">
+                        <label for="" class="p-2">from</label>
+                        <input type="date" id="service-start-date-input" class="form-control"  style="margin-right: 10px;">
+                        <label for="" class="p-2">to</label>
+                        <input type="date" id="service-end-date-input" class="form-control"  style="margin-right: 10px;">
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- filter end  -->
         <table class="customTable" id="ServiceTable">
             <thead>
                 <tr>
@@ -60,7 +69,7 @@
                 <?php
                 include_once "../Components/connection.php";
                 $sql = "SELECT `Cartype`, `category`, `Amount`, `CreatedAT`, `CustomerNumber`, usr.Username as Createdby FROM
-                        `dailyservices` as ds INNER JOIN users as usr on ds.UsrId = usr.id";
+                        `dailyservices` as ds INNER JOIN users as usr on ds.UsrId = usr.id  ORDER BY `CreatedAT` DESC";
 
                 $result = $conn->query($sql);
                 while ($row = $result->fetch_assoc()) {
@@ -85,33 +94,42 @@ document.getElementById("services_Date-criteria-select").addEventListener("chang
     const SelectedDate = e.target.value;
     const DateInput = document.getElementById("service-date-input");
     const SelectByMonth = document.getElementById("service-month-select");
-    const StartDateInput = document.getElementById("service-start-date-input");
-    const EndDateInput = document.getElementById("service-end-date-input");
+    const fromtoRange = document.getElementById("FromTo");
+    // const StartDateInput = document.getElementById("service-start-date-input");
+    // const EndDateInput = document.getElementById("service-end-date-input");
 
     switch (SelectedDate) {
         case "ByDay":
             DateInput.hidden = false;
             SelectByMonth.hidden = true;
-            StartDateInput.hidden = true;
-            EndDateInput.hidden = true;
+            
+            fromtoRange.hidden = true;
+            // StartDateInput.hidden = true;
+            // EndDateInput.hidden = true;
             break;
         case "ByMonth":
             DateInput.hidden = true;
             SelectByMonth.hidden = false;
-            StartDateInput.hidden = true;
-            EndDateInput.hidden = true;
+
+            fromtoRange.hidden = true;
+            // StartDateInput.hidden = true;
+            // EndDateInput.hidden = true;
             break;
         case "Range":
             DateInput.hidden = true;
             SelectByMonth.hidden = true;
-            StartDateInput.hidden = false;
-            EndDateInput.hidden = false;
+
+            fromtoRange.hidden = false;
+            // StartDateInput.hidden = false;
+            // EndDateInput.hidden = false;
             break;
         default:
             DateInput.hidden = true;
             SelectByMonth.hidden = true;
-            StartDateInput.hidden = true;
-            EndDateInput.hidden = true;
+
+            fromtoRange.hidden = true;
+            // StartDateInput.hidden = true;
+            // EndDateInput.hidden = true;
             break;
     }
 });

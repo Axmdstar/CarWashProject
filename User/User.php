@@ -4,7 +4,6 @@
     <html lang="en">
     <?php include "../Components/HeadContent.php" ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 <body>
 
     <?php include '../Components/NavBar.php' ?>
@@ -16,17 +15,33 @@
 
             <div class="card">
                 <?php
+
+                function generateRandomString($length = 6) {
+                    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    $charactersLength = strlen($characters);
+                    $randomString = '';
+                    for ($i = 0; $i < $length; $i++) {
+                        $randomString .= $characters[rand(0, $charactersLength - 1)];
+                    }
+                    return $randomString;
+                }
+
+                $ReadyAccessCode = generateRandomString();
+                
                 if (isset($_POST['add'])) {
                     include_once "../Components/connection.php";
                     $id = $_POST['UsrId'];
                     $Username = $_POST['username'];
+                    $AccessCode = $ReadyAccessCode;
+
                     
-                    $sql = "INSERT INTO `users`(`Username`, `emid`) VALUES ('$Username', $id)";
+                    $sql = "INSERT INTO `users`(`Username`, `emid`, `AccessCode`) VALUES ('$Username', $id, '$AccessCode')";
                     
                     $result = $conn->query($sql);
                     if ($result) {
                         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                New record created successfully
+                                New User created successfully <br>
+                                User Access Code is :'.$AccessCode.'
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>';
                     } }
@@ -93,18 +108,19 @@
                                     ";
                                     ?>
                                     <?php 
-                                    
+                                    $link = "../User/ResetPassword.php?id=$row[id]&ascde=$ReadyAccessCode";
                                     echo "
-                                        <a style='color: black;' href='../User/ResetPassword.php?id=$row[id]'><i class='bi bi-arrow-repeat'></i></a> 
+                                        <a onclick='resetAlert(\"$link\",\"$ReadyAccessCode\")' style='color: black;' href='javascript:void(0);'><i class='bi bi-arrow-repeat'></i></a> 
                                         <a style='color: black;' href='../User/UpdateUser.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
                                         <a style='color: black;' href='../User/DeleteUser.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> 
-                                    
                                         ";
                                 if ($row['Reset'] == 1) {
                                     echo "<span style='color: red;'>! Requested Password Reset</span> </td> </tr>";
                                 }
                             }
                             ?>
+                                        
+
                     </tbody>
                     
                 </table>    
@@ -112,6 +128,13 @@
         </div>
         
     </main>
+    <script>
+        const resetAlert = (url, asc) => {
+            
+            alert("User Access Code: "+ asc);
+            window.location.href = url;
+        }
+    </script>
 </body>
 
 </html>

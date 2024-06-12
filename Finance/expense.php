@@ -18,7 +18,7 @@
                   $createdAt = $_POST['CreatedAt'];
                   // Prepared statement to prevent SQL injection
                   $sql = "INSERT INTO expenses(`ExpenseType`, `Description`, `Amount`, `CreatedAt`, `UsrId`)
-          VALUES ('$expenseType', '$description', $amount , '$createdAt', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]'))";
+                          VALUES ('$expenseType', '$description', $amount , '$createdAt', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]'))";
 
                   $result = $conn->query($sql);
 
@@ -92,7 +92,7 @@
                 <?php
                 include "../Components/connection.php";
                 $sql = "SELECT  `ExpenseType`, `Description`, `Amount`, `CreatedAt`, usr.Username as Createdby FROM `expenses` as exp 
-                    join users as usr on usr.id = exp.UsrId;";
+                        join users as usr on usr.id = exp.UsrId  ORDER BY `CreatedAt` DESC";
                 $result = $conn->query($sql);
                 while ($row = $result->fetch_assoc()) {
                   echo "

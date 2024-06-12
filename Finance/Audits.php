@@ -25,8 +25,19 @@
                     <option value="11">November</option>
                     <option value="12">December</option>
                 </select>
-                <input type="date" id="audit-start-date-input" class="form-control" hidden style="margin-right: 10px;">
-                <input type="date" id="audit-end-date-input" class="form-control" hidden style="margin-right: 10px;">
+
+
+                <!-- <input type="date" id="audit-start-date-input" class="form-control" hidden style="margin-right: 10px;">
+                <input type="date" id="audit-end-date-input" class="form-control" hidden style="margin-right: 10px;"> -->
+                <div id="FromToAudit" hidden >
+                    <div class="d-flex justify-content-center">
+                        <label for="" class="p-2">from</label>
+                        <input type="date" id="audit-start-date-input" class="form-control"  style="margin-right: 10px;">
+                        <label for="" class="p-2">to</label>
+                        <input type="date" id="audit-end-date-input" class="form-control"  style="margin-right: 10px;">
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -67,33 +78,34 @@ document.getElementById("audits_Date-criteria-select").addEventListener("change"
     const selectedDate = e.target.value;
     const dateInput = document.getElementById("Audit-date-input");
     const selectByMonth = document.getElementById("Audit-month-select");
-    const startDateInput = document.getElementById("audit-start-date-input");
-    const endDateInput = document.getElementById("audit-end-date-input");
+    const fromtoRange = document.getElementById("FromToAudit");
+    // const startDateInput = document.getElementById("audit-start-date-input");
+    // const endDateInput = document.getElementById("audit-end-date-input");
 
     switch (selectedDate) {
         case "ByDay":
             dateInput.hidden = false;
             selectByMonth.hidden = true;
-            startDateInput.hidden = true;
-            endDateInput.hidden = true;
+            fromtoRange.hidden = true;
+
             break;
         case "ByMonth":
             dateInput.hidden = true;
             selectByMonth.hidden = false;
-            startDateInput.hidden = true;
-            endDateInput.hidden = true;
+            fromtoRange.hidden = true;
+
             break;
         case "Range":
             dateInput.hidden = true;
             selectByMonth.hidden = true;
-            startDateInput.hidden = false;
-            endDateInput.hidden = false;
+            fromtoRange.hidden = false;
+            
             break;
         default:
             dateInput.hidden = true;
             selectByMonth.hidden = true;
-            startDateInput.hidden = true;
-            endDateInput.hidden = true;
+            fromtoRange.hidden = true;
+
             break;
     }
 });

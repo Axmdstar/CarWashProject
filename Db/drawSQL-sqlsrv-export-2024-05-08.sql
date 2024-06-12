@@ -17,6 +17,7 @@ CREATE TABLE users (
     Username VARCHAR(255) NOT NULL,
     Pwd VARCHAR(255) NOT NULL,
     Reset BOOLEAN NOT NULL DEFAULT FALSE,
+    AccessCode VARCHAR(255) NUll,
     emid INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (emid) REFERENCES Employee(id)
@@ -42,6 +43,7 @@ CREATE TABLE Product (
     AddDate DATE NOT NULL,
     Available INT NOT NULL,
     Amount FLOAT NOT NULL,
+    LastUpdated DATE NUll,
     PRIMARY KEY (id)
 );
 
@@ -109,14 +111,14 @@ ALTER TABLE DailyServices ADD CONSTRAINT dailyservices_usrid_foreign FOREIGN KEY
 DELIMITER //
 CREATE PROCEDURE GetDashboardSummary()
 BEGIN
-     SELECT
-    (SELECT IFNULL(SUM(Quantity),0) FROM soldproducts WHERE DAY(Solddate) = DAY(CURRENT_DATE()))
+    SELECT
+    (SELECT IFNULL(SUM(Quantity),0) FROM soldproducts WHERE DATE(Solddate) = DATE(CURRENT_DATE()))
     as NumofProduct,
-    (SELECT IFNULL(COUNT(dailyservices.id),0) FROM  dailyservices WHERE DAY(CreatedAT) = DAY(CURRENT_DATE())) 
+    (SELECT IFNULL(COUNT(dailyservices.id),0) FROM  dailyservices WHERE DATE(CreatedAT) = DATE(CURRENT_DATE())) 
     as NumofServices,
-    (SELECT IFNULL(SUM(Amount * Quantity), 0) FROM soldproducts WHERE DAY(Solddate) = DAY(CURRENT_DATE()) ) 
+    (SELECT IFNULL(SUM(Amount * Quantity), 0) FROM soldproducts WHERE DATE(Solddate) = DATE(CURRENT_DATE()) ) 
     as ProductRevenue,
-    (SELECT IFNULL(SUM(Amount),0) FROM DailyServices WHERE DAY(CreatedAT) = DAY(CURRENT_DATE()))  
+    (SELECT IFNULL(SUM(Amount),0) FROM DailyServices WHERE DATE(CreatedAT) = DATE(CURRENT_DATE()))  
     as ServiceRevenue;
 END //
 DELIMITER ;
@@ -151,20 +153,24 @@ SELECT
     +
 	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices), 0))
     as TotalRevenue,
+
 # This Month Total
     (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM SoldProducts 
-     WHERE MONTH(Solddate) = MONTH(CURRENT_DATE())), 0)
+     WHERE MONTH(Solddate) = MONTH(CURRENT_DATE()) AND Year(Solddate) = Year(CURRENT_DATE) ), 0)
      +
 	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices 
-     WHERE MONTH(CreatedAT) = MONTH(CURRENT_DATE())), 0)) as MonthRevenue,
+     WHERE MONTH(CreatedAT) = MONTH(CURRENT_DATE()) AND Year(CreatedAT) = Year(CURRENT_DATE) ), 0)) as MonthRevenue,
+
 # Today
 	 (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM SoldProducts 
-     WHERE DAY(Solddate) = DAY(CURRENT_DATE())), 0)
+     WHERE DATE(Solddate) = DATE(CURRENT_DATE())), 0)
      +
 	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices 
-    WHERE DAY(CreatedAT) = DAY(CURRENT_DATE())), 0)) as TodayRevenue,
+    WHERE DATE(CreatedAT) = DATE(CURRENT_DATE())), 0)) as TodayRevenue,
+
 # TotalExpense    
     IFNULL((SELECT SUM(Amount) AS TotalExpenses FROM Expenses),0) as TotalExpense,
+
 # MonthExpense
 	IFNULL((SELECT SUM(Amount) AS TotalExpenses FROM Expenses
 	WHERE MONTH(CreatedAt) = MONTH(CURRENT_DATE())),0) as MonthExpense;
@@ -185,7 +191,7 @@ SELECT
             FROM
                 SoldProducts
             WHERE
-                DAY(Solddate) = DAY(CURRENT_DATE())
+                DATE(Solddate) = DATE(CURRENT_DATE())
         ), 0
     ) AS TodayProduct,
     IFNULL(
@@ -195,7 +201,7 @@ SELECT
             FROM
                 DailyServices
             WHERE
-                DAY(CreatedAT) = DAY(CURRENT_DATE())
+                DATE(CreatedAT) = DATE(CURRENT_DATE())
         ), 0
     ) AS TodayServices,
     IFNULL(
@@ -209,7 +215,7 @@ SELECT
             JOIN
                 ServiceCategory sc ON sc.CatName = ds.category
             WHERE
-                DAY(ds.CreatedAT) = DAY(CURRENT_DATE())
+                DATE(ds.CreatedAT) = DATE(CURRENT_DATE())
         ), 0
     ) AS TodayCommission,
     IFNULL(
@@ -219,7 +225,7 @@ SELECT
             FROM
                 Expenses
             WHERE
-                DAY(CreatedAt) = DAY(CURRENT_DATE())
+                DATE(CreatedAt) = DATE(CURRENT_DATE())
         ), 0
     ) AS TodayExpense;
 
@@ -241,24 +247,24 @@ BEGIN
     -- Calculate TodayProduct
     SELECT IFNULL(SUM(Amount * Quantity), 0) INTO todayProduct
     FROM SoldProducts
-    WHERE DAY(Solddate) = DAY(CURRENT_DATE());
+    WHERE DATE(Solddate) = DATE(CURRENT_DATE());
 
     -- Calculate TodayServices
     SELECT IFNULL(SUM(Amount), 0) INTO todayServices
     FROM DailyServices
-    WHERE DAY(CreatedAT) = DAY(CURRENT_DATE());
+    WHERE DATE(CreatedAT) = DATE(CURRENT_DATE());
 
     -- Calculate TodayCommission
     SELECT IFNULL(ROUND(SUM(sc.CommisionRate), 2), 0) INTO todayCommission
     FROM DailyServices ds
     JOIN Services s ON ds.Cartype = s.CarName
     JOIN ServiceCategory sc ON sc.CatName = ds.category
-    WHERE DAY(ds.CreatedAT) = DAY(CURRENT_DATE());
+    WHERE DATE(ds.CreatedAT) = DATE(CURRENT_DATE());
 
     -- Calculate TodayExpense
     SELECT IFNULL(SUM(Amount), 0) INTO todayExpense
     FROM Expenses
-    WHERE DAY(CreatedAt) = DAY(CURRENT_DATE());
+    WHERE DATE(CreatedAt) = DATE(CURRENT_DATE());
 
     -- Calculate DailyIncome
     SET dailyIncome = todayProduct + todayServices - todayExpense - todayCommission;
@@ -290,7 +296,7 @@ CREATE PROCEDURE UpdateProduct(
     IN p_ProductName VARCHAR(255),
     IN p_Quantity INT,
     IN p_Amount DECIMAL(10,2),
-    IN p_CustomerNumber INT,
+    IN p_CustomerNumber VARCHAR(20),
     IN p_UsrName VARCHAR(255)
 )
 BEGIN

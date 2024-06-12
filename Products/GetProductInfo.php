@@ -7,7 +7,7 @@ if(isset($_GET['product'])) {
     $selectedProduct = mysqli_real_escape_string($conn, $_GET['product']);
     
     // Query to retrieve available quantity from the database
-    $sql = "SELECT Available, Amount FROM `product` Where  `ProductName` = '$selectedProduct'";
+    $sql = "SELECT * FROM `product` Where  `ProductName` = '$selectedProduct'";
     
     // Execute the query
     $result = mysqli_query($conn, $sql);
@@ -18,7 +18,7 @@ if(isset($_GET['product'])) {
         $row = mysqli_fetch_assoc($result);
         // Return the available quantity as JSON
         echo json_encode(
-            ['data' => array('available_quantity' => $row['Available'], 'price' => $row['Amount']) ]
+            ['data' => array('available_quantity' => $row['Available'], 'price' => $row['Amount'], 'PurchaseAmount' => $row['PurchaseAmount']) ]
              );
     } else {
         // Return an error message if query fails

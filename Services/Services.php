@@ -16,18 +16,28 @@
     <form method="POST" action="../Services/Services.php">
       <!-- Content Here  -->
       <?php
+        include_once "../Components/connection.php";
       if (isset($_POST['addNewService'])) {
         $ServiceName = $_POST['ServiceName'];
         $category = $_POST['category'];
         $amount = $_POST['amount'];
 
-        include_once "../Components/connection.php";
-        $query = $conn->query("INSERT into services(CarName, Amount, ServiceCategoryId) VALUES('$ServiceName', $amount, $category) ");
-        if ($query) {
-          echo "<script>alert(data inserted successfully)</script>";
-        } else {
-          echo "<script>alert(there is an error)</script>";
+        try {
+          $query = $conn->query("INSERT into services(CarName, Amount, ServiceCategoryId) VALUES('$ServiceName', $amount, $category) ");
+          if ($query) {
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            New Service Created Successfully
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+          }  
+        } catch (\Throwable $th) {
+          //throw $th;
+          echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            '.$ServiceName .' already exists.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
         }
+        
       }
 
 
@@ -77,16 +87,12 @@
       </div>
     </form>
 
+    <form action="../Services/Services.php" method="post" >
     <div class="card">
       <div class="card-body">
         <h1 class="card-title">New Category</h1>
 
-        <form action="../Services/Services.php" method="post" class="d-flex flex-row gap-2">
-          <script>
-            function stopredirect() {
-              event.preventDefault();
-            }
-          </script>
+          
           <?php
 
           if (isset($_POST['AddNewCategory'])) {
@@ -94,31 +100,46 @@
             $CategoryName = $_POST['CategoryName'];
             include_once "../Components/connection.php";
 
-            $query = $conn->query("INSERT INTO `servicecategory`( `CatName`, `CommisionRate`) VALUES ('$CategoryName', $CommissionRate)");
-            if ($query) {
-              echo "<script>alert(data inserted successfully)</script>";
-            } else {
-              echo "<script>alert(there is an error)</script>";
+            try {
+              $query = $conn->query("INSERT INTO `servicecategory`( `CatName`, `CommisionRate`) VALUES ('$CategoryName', $CommissionRate)");
+              if ($query) {
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                      New Service Category Created Successfully
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>';
+              }  
+            } catch (\Throwable $th) {
+              //throw $th;
+              echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+             Category '.$CategoryName .' already exists.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
             }
+            
           }
 
           ?>
+          <div class="row">
+            
+            <div class="col">
+              <div class="form-floating  mb-3 flex-grow-1">
+                <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder="" required>
+                <label for="floatingInput">Category Name </label>
+              </div>
+            </div>
 
-          <div class="form-floating mb-3 flex-grow-1">
-            <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder="" required>
-            <label for="floatingInput">Category Name </label>
+            <div class="col">
+              <div class="form-floating  mb-3 flex-grow-1">
+                <input type="number" step="0.001" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" required>
+                <label for="floatingInput">Commission Rate</label>
+              </div>
+            </div>
+            <button type="submit" name="AddNewCategory" class="JazzeraBtn flex-grow-1" value="Add">Add</button>
           </div>
-
-          <div class="form-floating mb-3 flex-grow-1">
-            <input type="number" step="0.001" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" required>
-            <label for="floatingInput">Commission Rate</label>
-          </div>
-
-          <button type="submit" name="AddNewCategory" class="JazzeraBtn flex-grow-1" value="Add">Add</button>
-        </form>
-
+        
+        </div>
       </div>
-    </div>
+    </form>
 
     <!-- Service Table  -->
     <div class="row gap-2">
@@ -185,16 +206,21 @@
                         <td>$row[CatName]</td>
                         <td>$row[CommisionRate]</td>
                         ";
-                echo "
-                        <td class='d-flex gap-4'> 
-                          <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
-                          <a style='color: black;' href='../Services/DeleteCategory.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> 
-                        </td>
-                        
-                        </tr>
+                        $link = "../Services/DeleteCategory.php?id=" . $row['id'];
+                        echo "
+                            <td class='d-flex gap-4'> 
+                                <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'>
+                                    <i class='bi bi-pencil-fill'></i>
+                                </a> 
+                                <a style='color: black;' onclick='alertUser(\"$link\")' href='javascript:void(0);'>
+                                    <i class='bi bi-trash-fill'></i>
+                                </a> 
+                            </td>
+                            </tr>
                         ";
               }
               ?>
+                          
 
             </tbody>
           </table>
@@ -207,6 +233,15 @@
 
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script>
+    const alertUser = (url) => {
+      console.log("hello");
+      const res = confirm("This will delete Any service with this category");
+      if (res) {
+        window.location.href = url;
+      }
+    } 
+  </script>  
 </body>
 
 </head>

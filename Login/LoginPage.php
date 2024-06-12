@@ -20,12 +20,15 @@
     if (isset($_POST['Login'])) {
         $username = $_POST['username'];
         $pwd = $_POST['password'];
+        // $AccessCode = 
         $status = $_POST['Status'];
         $UsrId = $_POST["UsrId"];
 
         // Check Status 
         if($status == "New"){
-            $sql = "UPDATE `users` SET `Pwd`='$pwd' WHERE $UsrId";
+            $sql = "UPDATE `users` SET `Pwd`='$pwd', `AccessCode`=NULL WHERE $UsrId";
+            // $sql = "Select * from users where AccessCode = '$pwd'";
+            
             $result = $conn->query( $sql );
             if ($result) {
                 $msg = "<div class='alert alert-info alert-dismissible fade show' role='alert'>
@@ -76,7 +79,7 @@
             <div class="form-floating mb-3">
               <input type="password" 
                      class="form-control" 
-                     id="floatingInput" 
+                     id="floatingPassword" 
                      name="password" 
                      required 
                      autocomplete="off"
@@ -88,7 +91,7 @@
             
 
 
-            <input type="submit" value="LOGIN" id="input" class="Login w-auto" name="Login" >
+            <input type="submit" value="LOGIN" id="input" class="Login w-auto " name="Login" >
             <input type="hidden" id="Status" name="Status" value="">
             <input type="hidden" id="UsrId" name="UsrId" value="">
             <div id="alert-container"></div>
@@ -110,7 +113,85 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
+function CheckAccessCode(){
+    const accesscode = document.getElementById("AccessCode");
+    const Usrname = document.getElementById("Username");
+
+    if (!accesscode.value) {
+        alert("Fill accesscode ");
+    } else {
+        const options = {method: 'GET'};
+
+        fetch(`http://localhost/CarWashProject/Login/CheckAccessCode.php?ascde=${accesscode.value}&username=${Usrname.value}`, options)
+        .then(response => response.json())
+        .then(response => {
+            if (response) {
+                if (response.Username == Usrname.value) {
+                console.log("Valid user");
+                accesscode.classList.remove("is-invalid");
+                accesscode.classList.add("is-valid");
+                accesscode.setAttribute("disabled", true);
+                alert("Enter your Password");
+                document.getElementById("floatingPassword").removeAttribute("disabled");
+            }    
+            }
+            else {
+                accesscode.classList.add("is-invalid");
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
+}
+
 function CallAlert(msg){
+    const alertContainer = document.getElementById('alert-container');
+    const alertDiv = document.createElement('div');
+
+    alertDiv.className = 'alert alert-info alert-dismissible fade show ';
+    alertDiv.role = 'alert';
+
+    const icon = document.createElement('i');
+    icon.className = 'bi bi-info-circle me-1';
+    alertDiv.appendChild(icon);
+
+    const alertText = document.createTextNode(msg);
+    alertDiv.appendChild(alertText);
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn-close';
+    button.setAttribute('data-bs-dismiss', 'alert');
+    button.setAttribute('aria-label', 'Close');
+    alertDiv.appendChild(button);
+
+    const textdiv =document.createElement('div');
+    textdiv.className = "d-flex";
+
+    const AccessCode = document.createElement('input');
+    AccessCode.type = 'text';
+    AccessCode.className = "form-control";
+    AccessCode.name = 'AccessCode';
+    AccessCode.id = 'AccessCode';
+    textdiv.appendChild(AccessCode);
+
+    const AccessCodeBtn = document.createElement('button');
+    AccessCodeBtn.type = 'button';
+    AccessCodeBtn.className = 'btn btn-info ';
+    const checki = document.createElement('i');
+    checki.className = "bi bi-check";
+    AccessCodeBtn.appendChild(checki);
+    AccessCodeBtn.name = 'AccessCodeBtn';
+    AccessCodeBtn.id = 'AccessCodeBtn';
+    AccessCodeBtn.addEventListener('click', CheckAccessCode)
+    textdiv.appendChild(AccessCodeBtn);
+    alertDiv.appendChild(textdiv);
+
+
+    alertContainer.appendChild(alertDiv);
+}
+
+function CallAlertMsg(msg){
     const alertContainer = document.getElementById('alert-container');
     const alertDiv = document.createElement('div');
 
@@ -136,33 +217,40 @@ function CallAlert(msg){
 
 
     document.getElementById("Forgot").addEventListener("click", () => {
-        const Username = getCookie("Username");
-        const options = {method: 'GET'};
-        fetch('http://localhost/CarWashProject/User/ResetRequest.php?=' + Username, options)
-        .then(response => response.json())
-        .then(response => {
-             CallAlert(response.Msg);            
-            })
-        .catch(err => CallAlert(err));
+        // const Username = getCookie("Username");
+        const usrnameinput = document.getElementById("Username").value;
+        if (usrnameinput) {
+            
+            const options = {method: 'GET'};
+            fetch('http://localhost/CarWashProject/User/ResetRequest.php?usrname=' + usrnameinput, options)
+            .then(response => response.json())
+            .then(response => {
+                CallAlertMsg(response.Msg);            
+                })
+            .catch(err => console.log(err));
+
+        } else {
+            alert("Enter Username");
+        }
     })
     
     document.getElementById("Username").addEventListener("change", (e) => {
         let Username = e.target.value;
-
+        console.log(Username);
         // Userstatus
         const options = {method: 'GET'};
         fetch('http://localhost/CarWashProject/User/CheckUser.php?usrname=' + Username, options)
         .then(response => response.json())
         .then(response => {
+            console.log(response);
             if (response.Userstatus == "New") {
                 const hideinput = document.getElementById("Status")
                 const UsrId = document.getElementById("UsrId");
                 hideinput.value = "New";
                 UsrId.value = response.Id;
+                CallAlert('Enter AccessCode Provided By the Admin');
                 
-                CallAlert('Welcome New User Create your Password');
-                
-                         
+                document.getElementById("floatingPassword").setAttribute("disabled", true);
             }
         })
         .catch(err => console.error(err));

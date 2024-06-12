@@ -3,14 +3,28 @@
     <div class="card-body">
         <h1 class="card-title">Products Report</h1>
         <div class="d-flex justify-content-center">
+
+            <!-- filter start  -->
             <div class="btn-group" style="margin: 14px auto 0 0; height: 40px;" role="group" aria-label="Basic example">
+             <!-- search     -->
+            <select class="form-select" id="products_search-criteria-select" style="margin-right: 10px;">
+                    <option disabled selected>Search By</option>
+                    <option value="product">Product Name</option>
+                    <option value="customerNumber">Customer Number</option>
+                    <option value="createdBy">Created By</option>
+                </select>
+                <input type="text" id="search-product-input" class="form-control" placeholder="Search" style="margin-right: 10px;">
+
+                <!-- date  -->
                 <select class="form-select" id="products_Date-criteria-select" style="margin-right: 10px;">
                     <option disabled selected>Filter Date</option>
                     <option value="ByDay">By Day</option>
                     <option value="ByMonth">By Month</option>
                     <option value="Range">Custom Range</option>
                 </select>
+
                 <input type="date" id="product-date-input" class="form-control" hidden style="margin-right: 10px;">
+
                 <select class="form-select" id="product-month-select" hidden style="margin-right: 10px;">
                     <option disabled selected>Select Month</option>
                     <option value="1">January</option>
@@ -26,17 +40,24 @@
                     <option value="11">November</option>
                     <option value="12">December</option>
                 </select>
-                <input type="date" id="product-start-date-input" class="form-control" hidden style="margin-right: 10px;">
-                <input type="date" id="product-end-date-input" class="form-control" hidden style="margin-right: 10px;">
-                <select class="form-select" id="products_search-criteria-select" style="margin-right: 10px;">
-                    <option value="product">Product Name</option>
-                    <option value="customerNumber">Customer Number</option>
-                    <option value="createdBy">Created By</option>
-                </select>
-                <input type="text" id="search-product-input" class="form-control" placeholder="Search" style="margin-right: 10px;">
+                
+                
+
+                <!-- <input type="date" id="product-start-date-input" class="form-control" hidden style="margin-right: 10px;">
+                <input type="date" id="product-end-date-input" class="form-control" hidden style="margin-right: 10px;"> -->
+
+                <div id="FromToProducts" hidden >
+                    <div class="d-flex justify-content-center">
+                        <label for="" class="p-2">from</label>
+                        <input type="date" id="product-start-date-input" class="form-control"  style="margin-right: 10px;">
+                        <label for="" class="p-2">to</label>
+                        <input type="date" id="product-end-date-input" class="form-control"  style="margin-right: 10px;">
+                    </div>
+                </div>
+
             </div>
         </div>
-      
+      <!-- filter end  -->
         <table class="customTable" id="ProductTable">
             <thead>
                 <tr>
@@ -52,7 +73,7 @@
                 <?php
                 include "../Components/connection.php";
                 $sql = "SELECT `ProductName`, `Quantity`, `Amount`, `CustomerNumber`, `Solddate`, IFNULL(usr.Username, 'DeletedUser') as Createdby FROM `soldproducts` as sp
-                LEFT JOIN users as usr on sp.UsrId = usr.id";
+                LEFT JOIN users as usr on sp.UsrId = usr.id  ORDER BY `Solddate` DESC";
                 $result = $conn->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "
@@ -76,33 +97,36 @@ document.getElementById("products_Date-criteria-select").addEventListener("chang
     const SelectedDate = e.target.value;
     const DateInput = document.getElementById("product-date-input");
     const SelectByMonth = document.getElementById("product-month-select");
-    const StartDateInput = document.getElementById("product-start-date-input");
-    const EndDateInput = document.getElementById("product-end-date-input");
+    const fromtoRange = document.getElementById("FromToProducts");
 
     switch (SelectedDate) {
         case "ByDay":
             DateInput.hidden = false;
             SelectByMonth.hidden = true;
-            StartDateInput.hidden = true;
-            EndDateInput.hidden = true;
+            fromtoRange.hidden = true;
+
+            
             break;
         case "ByMonth":
             DateInput.hidden = true;
             SelectByMonth.hidden = false;
-            StartDateInput.hidden = true;
-            EndDateInput.hidden = true;
+            fromtoRange.hidden = true;
+
+            
             break;
         case "Range":
             DateInput.hidden = true;
             SelectByMonth.hidden = true;
-            StartDateInput.hidden = false;
-            EndDateInput.hidden = false;
+            fromtoRange.hidden = false;
+
+            
+            
             break;
         default:
             DateInput.hidden = true;
             SelectByMonth.hidden = true;
-            StartDateInput.hidden = true;
-            EndDateInput.hidden = true;
+            fromtoRange.hidden = true;
+            
             break;
     }
 });
