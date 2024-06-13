@@ -75,7 +75,7 @@
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <select class="form-select" name="District" id="floatingSelect" aria-label="Floating label select example" required>
-                                    <option selected>Select District</option>
+                                    <option value="" selected disabled>Select District</option>
                                     <option value="Wadajir" <?php if($UpdateData["District"] ==  "Wadajir"){
                                         echo "Selected";
                                     }  ?> >Wadajir</option>
@@ -102,7 +102,7 @@
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <select class="form-select" name="Sex" id="floatingSelect" aria-label="Floating label select example" required>
-                                    <option selected>Select Sex</option>
+                                    <option value="" selected disabled>Select Sex</option>
                                     <option <?php if($UpdateData["sex"] ==  "Male"){
                                         echo "Selected";
                                     }  ?> value="Male">Male</option>
@@ -118,7 +118,7 @@
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <select class="form-select" name="UserType" id="floatingSelect" aria-label="Floating label select example" required>
-                                    <option selected>Select User Type</option>
+                                    <option value="" selected disabled>Select User Type</option>
                                     <option <?php if($UpdateData["EmployeeType"] ==  "Admin"){
                                         echo "Selected";
                                     }  ?> value="Admin">Admin</option>
@@ -140,7 +140,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input value="<?php echo$UpdateData["Number"];?>" type="text" name="Tel" class="form-control" id="floatingInput" placeholder="" required>
+                                <input value="<?php echo$UpdateData["Number"];?>" type="tel" name="Tel" class="form-control" id="floatingInput" maxlength="10" minlength="10" placeholder="" required>
                                 <label for="floatingInput">Tel</label>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
 
                         <div class="col">
                             <div class="form-floating mb-3 ">
-                                <input value="<?php echo$UpdateData["NumberkaMassulka"];?>" type="text" name="TelMasuulka" class="form-control" id="floatingInput" placeholder="" required>
+                                <input value="<?php echo$UpdateData["NumberkaMassulka"];?>" type="text" name="TelMasuulka" class="form-control" maxlength="10" minlength="10" id="floatingInput" placeholder="" required>
                                 <label for="floatingInput">Tel Masuulka</label>
                             </div>
                         </div>

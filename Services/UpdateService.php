@@ -48,7 +48,7 @@
           <div class="row">
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input value="<?php echo$UpdateData["CarName"]; ?>" type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder="" autofocus required >
+                <input value="<?php echo$UpdateData["CarName"]; ?>" type="text" name="ServiceName" class="form-control" id="floatingInput" placeholder=""  required >
                 <label for="floatingInput">Service Name</label>
               </div>
             </div>
@@ -56,7 +56,7 @@
             <div class="col">
             <div class="form-floating mb-3">
                   <select  class="form-select"  name="category" id="floatingSelect" aria-label="Floating label select example">
-                      <option >Select Category</option>
+                      <option value="" selected disabled>Select Category</option>
                       <?php
                           include_once "../Components/connection.php";
                           $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
@@ -99,51 +99,59 @@
 
 
 
+    <form action="../Services/Services.php" method="post" >
     <div class="card">
       <div class="card-body">
         <h1 class="card-title">New Category</h1>
 
-        <form action="../Services/Services.php"  method="post" class="d-flex flex-row gap-2" >
-        <script>
-                function stopredirect (){
-                    event.preventDefault();
-                    
-                }
-            </script>
+          
+          <?php
 
-        <?php
-        
-        if (isset($_POST['AddNewCategory'])) {
-          $CommissionRate = $_POST['CommissionRate'];
-          $CategoryName = $_POST['CategoryName'];
-          include_once "../Components/connection.php";
+          if (isset($_POST['AddNewCategory'])) {
+            $CommissionRate = $_POST['CommissionRate'];
+            $CategoryName = $_POST['CategoryName'];
+            include_once "../Components/connection.php";
 
-          $query = $conn->query("INSERT INTO `servicecategory`( `CatName`, `CommisionRate`) VALUES ('$CategoryName', $CommissionRate)");
-          if ($query) {
-            echo "<script>alert(data inserted successfully)</script>";
-
-          } else {
-            echo "<script>alert(there is an error)</script>";
-
+            try {
+              $query = $conn->query("INSERT INTO `servicecategory`( `CatName`, `CommisionRate`) VALUES ('$CategoryName', $CommissionRate)");
+              if ($query) {
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                      New Service Category Created Successfully
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>';
+              }  
+            } catch (\Throwable $th) {
+              //throw $th;
+              echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+             Category '.$CategoryName .' already exists.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+            }
+            
           }
-        }
-        ?>
 
-        <div class="form-floating mb-3 flex-grow-1">
-            <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder=""  autofocus required >
-            <label for="floatingInput">Category Name </label> 
+          ?>
+          <div class="row">
+            
+            <div class="col">
+              <div class="form-floating  mb-3 flex-grow-1">
+                <input type="Quantity" name="CategoryName" class="form-control" id="floatingInput" placeholder="" required>
+                <label for="floatingInput">Category Name </label>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-floating  mb-3 flex-grow-1">
+                <input type="number" step="0.001" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" required>
+                <label for="floatingInput">Commission Rate</label>
+              </div>
+            </div>
+            <button type="submit" name="AddNewCategory" class="JazzeraBtn flex-grow-1" value="Add">Add</button>
           </div>
-
-          <div class="form-floating mb-3 flex-grow-1">
-            <input type="text" name="CommissionRate" class="form-control" id="floatingInput" placeholder="" autofocus required>
-            <label for="floatingInput">Commission Rate</label>
-          </div>
-
-          <button type="submit" name="AddNewCategory" class="JazzeraBtn flex-grow-1" value="Add">Add</button>
-        </form>
-
+        
+        </div>
       </div>
-    </div>
+    </form>
 
     <!-- Service Table  -->
     <div class="row gap-2">
@@ -151,38 +159,38 @@
             <div class="card-body">
             <h1 class="card-title">All Services</h1>
       
-              <table  class=" customTable" >
-                    <thead>
-                      <tr>
-                        <th scope="col">Service Name</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Category</th>
-                        
-                      </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    // $conn = new mysqli('localhost', 'root', 'root', 'carwash');
-                    include_once "../Components/connection.php";
-                    $sql = "SELECT `id`, `CarName`, `Amount`, `ServiceCategoryId` FROM `services`";
-                    $result = $conn->query($sql);
-                    while ($row = $result->fetch_assoc()) {
-                      echo "
+            <table class=" customTable">
+            <thead>
+              <tr>
+                <th scope="col">Service Name</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Category</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              include_once "../Components/connection.php";
+              $sql = "SELECT `id`, `CarName`, `Amount`, `ServiceCategoryId` FROM `services`";
+
+              $result = $conn->query($sql);
+              while ($row = $result->fetch_assoc()) {
+                echo "
                         <tr>
                         <td>$row[CarName]</td>
                         <td>$row[Amount]</td>
                         <td>$row[ServiceCategoryId]</td>
                         ";
-                        echo "
-                        <td><a style='color: black;' href='../Services/DeleteService.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> </td>
-                        <td><a style='color: black;' href='../Services/UpdateService.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> </td>
+                echo "
+                        <td class='d-flex gap-4' ><a style='color: black;' href='../Services/UpdateService.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
+                        <a style='color: black;' href='../Services/DeleteService.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> </td>
                         </tr>
                         ";
-                    }
-                    ?>
-                      
-                    </tbody>
-                  </table>
+              }
+              ?>
+
+            </tbody>
+          </table>
                 </div>
               </div>
               <!-- Table Ends  -->
@@ -192,40 +200,42 @@
             <div class="card-body">
             <h1 class="card-title">All Categories</h1>
       
-              <table  class=" customTable" >
-                    <thead>
-                      <tr>
-                        <th scope="col">Category Name</th>
-                        <th scope="col">Comission Rate</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    include_once "../Components/connection.php";
-                    $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
-                    $result = $conn->query($sql);
-                    while ($row = $result->fetch_assoc()) {
-                        echo "
-                        <tr>
+            <table class=" customTable">
+            <thead>
+              <tr>
+                <th scope="col">Category Name</th>
+                <th scope="col">Comission Rate</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              include_once "../Components/connection.php";
+              $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
+              $result = $conn->query($sql);
+              while ($row = $result->fetch_assoc()) {
+                echo "  <tr>
                         <td>$row[CatName]</td>
                         <td>$row[CommisionRate]</td>
                         ";
-                        // <td class='d-flex gap-4'><i class='fa-solid fa-pen'></i> <i class='fa-solid fa-trash-can'></i></td>
+                        $link = "../Services/DeleteCategory.php?id=" . $row['id'];
                         echo "
-                        <td class='d-flex gap-4'> 
-                          <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
-                          <a style='color: black;' href='../Services/DeleteCategory.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> 
-                        </td>
-                        
-                        </tr>
+                            <td class='d-flex gap-4'> 
+                                <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'>
+                                    <i class='bi bi-pencil-fill'></i>
+                                </a> 
+                                <a style='color: black;' onclick='alertUser(\"$link\")' href='javascript:void(0);'>
+                                    <i class='bi bi-trash-fill'></i>
+                                </a> 
+                            </td>
+                            </tr>
                         ";
-                        
-                    }
-                    ?>
-                      
-                    </tbody>
-                  </table>
+              }
+              ?>
+                          
+
+            </tbody>
+          </table>
                 </div>
               </div>
               <!-- Table Ends  -->
@@ -234,7 +244,16 @@
 
 
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script>
+    const alertUser = (url) => {
+      console.log("hello");
+      const res = confirm("This will delete Any service with this category");
+      if (res) {
+        window.location.href = url;
+      }
+    } 
+  </script>  
 </body>
 
 </head>

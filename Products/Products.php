@@ -38,9 +38,22 @@
 
         $sql = "INSERT INTO `product`( `ProductName`, `PurchaseAmount`, `Available`, `Amount`, AddDate) 
                   VALUES ('$ProductName', $purchaseAmount, $NumberOfItems , $sellPrice, '$Date')";
-        $result = $conn->query($sql);
-        if (!$result) {
-          echo $conn->error;
+        
+
+        try {
+          $query = $conn->query($sql);
+          if ($query) {
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            New Product added Successfully
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+          }  
+        } catch (\Throwable $th) {
+          //throw $th;
+          echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            '.$ProductName .' already exists.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
         }
       }
       ?>
@@ -67,7 +80,7 @@
           <div class="row">
             <div class="col">
               <div class="form-floating mb-3">
-                <input type="date" name="Date" class="form-control" id="floatingInput" placeholder="" required>
+                <input type="date" name="Date" max="<?= date('Y-m-d'); ?>" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Date</label>
               </div>
             </div>
@@ -138,7 +151,7 @@
 
             <div class="col">
                 <div class="form-floating mb-3 ">
-                  <input type="number" name="UnitSellRestock" class="form-control" id="PriceR" placeholder="" required>
+                  <input type="number" name="UnitSellRestock"  step="0.001" class="form-control" id="PriceR" placeholder="" required>
                   <label for="floatingInput">Unit Sell</label>
                 </div>
             </div>

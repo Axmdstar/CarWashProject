@@ -133,6 +133,7 @@ function CheckAccessCode(){
                 accesscode.setAttribute("disabled", true);
                 alert("Enter your Password");
                 document.getElementById("floatingPassword").removeAttribute("disabled");
+                document.getElementById("input").value = "Create Password";
             }    
             }
             else {

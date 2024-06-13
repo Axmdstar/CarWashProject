@@ -55,7 +55,7 @@
 
                 <div class="col">
                   <div class="form-floating mb-3">
-                    <input class="form-control" type="datetime-local" id="created_at" name="CreatedAt" required>
+                    <input class="form-control" max="<?= date('Y-m-d'); ?>" type="date" id="created_at" name="CreatedAt" required>
                     <label for="created_at">Created At</label>
                   </div>
                 </div>
