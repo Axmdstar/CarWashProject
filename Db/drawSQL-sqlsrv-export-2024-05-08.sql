@@ -1,4 +1,4 @@
-CREATE TABLE Employee (
+CREATE TABLE employee (
     id INT NOT NULL AUTO_INCREMENT,
     FirstName VARCHAR(255) NULL,
     MiddleName VARCHAR(255) NULL,
@@ -21,9 +21,10 @@ CREATE TABLE users (
     emid INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (emid) REFERENCES Employee(id)
+    ON DELETE CASCADE 
 );
 
-CREATE TABLE SoldProducts (
+CREATE TABLE soldProducts (
     id INT NOT NULL AUTO_INCREMENT,
     ProductName VARCHAR(255) NOT NULL,
     Quantity INT NOT NULL,
@@ -36,7 +37,7 @@ CREATE TABLE SoldProducts (
 );
 
 -- Changed items to Available
-CREATE TABLE Product (
+CREATE TABLE product (
     id INT NOT NULL AUTO_INCREMENT,
     ProductName VARCHAR(155) NOT NULL,
     PurchaseAmount FLOAT NOT NULL,
@@ -47,7 +48,7 @@ CREATE TABLE Product (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE DailyServices (
+CREATE TABLE dailyServices (
     id INT NOT NULL AUTO_INCREMENT,
     Cartype VARCHAR(255) NOT NULL,
     category VARCHAR(255) NOT NULL,
@@ -59,7 +60,7 @@ CREATE TABLE DailyServices (
     FOREIGN KEY (UsrId) REFERENCES Users(id)
 );
 
-CREATE TABLE ServiceCategory (
+CREATE TABLE serviceCategory (
     id INT NOT NULL AUTO_INCREMENT,
     CatName VARCHAR(255) NOT NULL,
     CommisionRate FLOAT NOT NULL,
@@ -67,7 +68,7 @@ CREATE TABLE ServiceCategory (
 );
 
 
-CREATE TABLE Services (
+CREATE TABLE services (
     id INT NOT NULL AUTO_INCREMENT,
     CarName VARCHAR(255) NOT NULL,
     Amount INT NOT NULL,
@@ -76,7 +77,7 @@ CREATE TABLE Services (
     FOREIGN KEY (ServiceCategoryId) REFERENCES ServiceCategory(id)
 );
 
-CREATE TABLE DailyAudit (
+CREATE TABLE dailyAudit (
     id INT NOT NULL AUTO_INCREMENT,
     CreatedAt DATE NOT NULL,
     ServiceRevenue FLOAT NOT NULL,
@@ -89,7 +90,7 @@ CREATE TABLE DailyAudit (
 
 
 
-CREATE TABLE Expenses (
+CREATE TABLE expenses (
     id INT NOT NULL AUTO_INCREMENT,
     ExpenseType VARCHAR(255) NOT NULL,
     Description VARCHAR(255) NOT NULL,
@@ -100,9 +101,9 @@ CREATE TABLE Expenses (
     FOREIGN KEY (UsrId) REFERENCES Users(id)
 );
 
-ALTER TABLE SoldProducts ADD CONSTRAINT soldproducts_usrid_foreign FOREIGN KEY (UsrId) REFERENCES Users(id);
-ALTER TABLE Services ADD CONSTRAINT services_servicecategoryid_foreign FOREIGN KEY (ServiceCategoryId) REFERENCES ServiceCategory(id);
-ALTER TABLE DailyServices ADD CONSTRAINT dailyservices_usrid_foreign FOREIGN KEY (UsrId) REFERENCES Users(id);
+ALTER TABLE soldProducts ADD CONSTRAINT soldproducts_usrid_foreign FOREIGN KEY (UsrId) REFERENCES Users(id);
+ALTER TABLE services ADD CONSTRAINT services_servicecategoryid_foreign FOREIGN KEY (ServiceCategoryId) REFERENCES ServiceCategory(id);
+ALTER TABLE dailyServices ADD CONSTRAINT dailyservices_usrid_foreign FOREIGN KEY (UsrId) REFERENCES Users(id);
 
 
 
@@ -118,7 +119,7 @@ BEGIN
     as NumofServices,
     (SELECT IFNULL(SUM(Amount * Quantity), 0) FROM soldproducts WHERE DATE(Solddate) = DATE(CURRENT_DATE()) ) 
     as ProductRevenue,
-    (SELECT IFNULL(SUM(Amount),0) FROM DailyServices WHERE DATE(CreatedAT) = DATE(CURRENT_DATE()))  
+    (SELECT IFNULL(SUM(Amount),0) FROM dailyServices WHERE DATE(CreatedAT) = DATE(CURRENT_DATE()))  
     as ServiceRevenue;
 END //
 DELIMITER ;
@@ -149,30 +150,30 @@ CREATE PROCEDURE FinDashBoardData()
 BEGIN
 # Total
 SELECT
-    (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM SoldProducts), 0) 
+    (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM soldProducts), 0) 
     +
-	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices), 0))
+	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM dailyServices), 0))
     as TotalRevenue,
 
 # This Month Total
-    (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM SoldProducts 
+    (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM soldProducts 
      WHERE MONTH(Solddate) = MONTH(CURRENT_DATE()) AND Year(Solddate) = Year(CURRENT_DATE) ), 0)
      +
-	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices 
+	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM dailyServices 
      WHERE MONTH(CreatedAT) = MONTH(CURRENT_DATE()) AND Year(CreatedAT) = Year(CURRENT_DATE) ), 0)) as MonthRevenue,
 
 # Today
-	 (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM SoldProducts 
+	 (IFNULL((SELECT SUM(Amount * Quantity) AS ProductRevenue FROM soldProducts 
      WHERE DATE(Solddate) = DATE(CURRENT_DATE())), 0)
      +
-	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM DailyServices 
+	IFNULL((SELECT SUM(Amount) AS ServiceRevenue FROM dailyServices 
     WHERE DATE(CreatedAT) = DATE(CURRENT_DATE())), 0)) as TodayRevenue,
 
 # TotalExpense    
-    IFNULL((SELECT SUM(Amount) AS TotalExpenses FROM Expenses),0) as TotalExpense,
+    IFNULL((SELECT SUM(Amount) AS TotalExpenses FROM expenses),0) as TotalExpense,
 
 # MonthExpense
-	IFNULL((SELECT SUM(Amount) AS TotalExpenses FROM Expenses
+	IFNULL((SELECT SUM(Amount) AS TotalExpenses FROM expenses
 	WHERE MONTH(CreatedAt) = MONTH(CURRENT_DATE())),0) as MonthExpense;
 END //
 DELIMITER ;
@@ -189,7 +190,7 @@ SELECT
             SELECT
                 SUM(Amount * Quantity) AS ProductRevenue
             FROM
-                SoldProducts
+                soldProducts
             WHERE
                 DATE(Solddate) = DATE(CURRENT_DATE())
         ), 0
@@ -199,7 +200,7 @@ SELECT
             SELECT
                 SUM(Amount) 
             FROM
-                DailyServices
+                dailyServices
             WHERE
                 DATE(CreatedAT) = DATE(CURRENT_DATE())
         ), 0
@@ -209,7 +210,7 @@ SELECT
             SELECT
                 ROUND(SUM(sc.CommisionRate), 2)
             FROM
-                DailyServices ds
+                dailyServices ds
             JOIN
                 Services s ON ds.Cartype = s.CarName
             JOIN
@@ -223,7 +224,7 @@ SELECT
             SELECT
                 SUM(Amount) 
             FROM
-                Expenses
+                expenses
             WHERE
                 DATE(CreatedAt) = DATE(CURRENT_DATE())
         ), 0
@@ -246,24 +247,24 @@ BEGIN
 
     -- Calculate TodayProduct
     SELECT IFNULL(SUM(Amount * Quantity), 0) INTO todayProduct
-    FROM SoldProducts
+    FROM soldProducts
     WHERE DATE(Solddate) = DATE(CURRENT_DATE());
 
     -- Calculate TodayServices
     SELECT IFNULL(SUM(Amount), 0) INTO todayServices
-    FROM DailyServices
+    FROM dailyServices
     WHERE DATE(CreatedAT) = DATE(CURRENT_DATE());
 
     -- Calculate TodayCommission
     SELECT IFNULL(ROUND(SUM(sc.CommisionRate), 2), 0) INTO todayCommission
-    FROM DailyServices ds
+    FROM dailyServices ds
     JOIN Services s ON ds.Cartype = s.CarName
     JOIN ServiceCategory sc ON sc.CatName = ds.category
     WHERE DATE(ds.CreatedAT) = DATE(CURRENT_DATE());
 
     -- Calculate TodayExpense
     SELECT IFNULL(SUM(Amount), 0) INTO todayExpense
-    FROM Expenses
+    FROM expenses
     WHERE DATE(CreatedAt) = DATE(CURRENT_DATE());
 
     -- Calculate DailyIncome

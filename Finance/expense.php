@@ -28,7 +28,7 @@
                           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                           </div>';
                   } else {
-                    echo "Error: " . $stmt->error;
+                    echo "Error: " . $conn->error;
                   }
                 }
                 ?>

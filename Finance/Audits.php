@@ -9,6 +9,34 @@
                     <option value="ByMonth">By Month</option>
                     <option value="Range">Custom Range</option>
                 </select>
+                <!-- Audit Button  -->
+                <form action="../Finance/Finance.php" method="post">
+                    <?php
+                    include "../Components/connection.php";
+
+                    if (isset($_POST['Audit'])) { 
+                        $sql = "Call InsertDailyAudit";
+                        
+                        try {
+                            $query = $conn->query($sql);
+                            if ($query) {
+                              echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                              Successfully Generated Audit
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>';
+                            }  
+                          } catch (\Throwable $th) {
+                            //throw $th;
+                            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                Something When Wrong                            
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>';
+                          }
+                        }
+                    ?>
+                    <input class="btn btn-outline-success" type="button" value="Generate Audit" name="Audit">
+                </form>
+
                 <input type="date" id="Audit-date-input" class="form-control" hidden style="margin-right: 10px;">
                 <select class="form-select" id="Audit-month-select" hidden style="margin-right: 10px;">
                     <option disabled selected>Select Month</option>
