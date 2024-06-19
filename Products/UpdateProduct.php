@@ -8,7 +8,7 @@
   <main id="main" class="main">
 
     <!-- New Product Form  -->
-    <form method="POST" action="../Products/Products.php">
+    <form method="POST" >
       <?php
       include "../Components/connection.php";
 
@@ -29,29 +29,30 @@
       }
 
 
-      if (isset($_POST['add'])) {
+      if (isset($_POST['Update'])) {
         $ProductName = $_POST['ProductName'];
         $NumberOfItems = $_POST['NumberOfItems'];
         $Date = $_POST['Date'];
         $purchaseAmount = $_POST['purchaseAmount'];
         $sellPrice = $_POST['sellPrice'];
+        $id = $_GET['id'];
 
-        $sql = "INSERT INTO `product`( `ProductName`, `PurchaseAmount`, `Available`, `Amount`, AddDate) 
-                  VALUES ('$ProductName', $purchaseAmount, $NumberOfItems , $sellPrice, '$Date')";
+        $sql = "UPDATE `product` SET `ProductName`='$ProductName',`PurchaseAmount`= $purchaseAmount,
+        `Available`= $NumberOfItems,`Amount`=$sellPrice,`AddDate`= '$Date',
+        `LastUpdated`= Null WHERE id = $id";
         
 
         try {
           $query = $conn->query($sql);
           if ($query) {
-            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            New Product added Successfully
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>';
+            echo '<script type="text/javascript">
+            window.location = "../Products/Products.php";
+            </script>  ';
           }  
         } catch (\Throwable $th) {
           //throw $th;
           echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-            '.$ProductName .' already exists.
+            '.$ProductName.$th.' already exists.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
         }
@@ -59,19 +60,26 @@
       ?>
       <div class="card">
         <div class="card-body">
-          <h1 class="card-title">New Product</h1>
+          <h1 class="card-title">Edit Product</h1>
           <div class="row">
-
+            <?php 
+                include_once "../Components/connection.php";
+                $id = $_GET['id'];
+                
+                $sql = "SELECT * FROM `product` where id = $id";
+                $result = $conn->query($sql);
+                $UpdateData = $result->fetch_assoc();
+            ?>
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="text" name="ProductName" class="form-control" id="floatingInput" placeholder="" required>
+                <input type="text" name="ProductName" value="<?php echo$UpdateData["ProductName"]; ?>" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Product Name</label>
               </div>
             </div>
 
             <div class="col">
               <div class="form-floating mb-3 ">
-                <input type="number" name="NumberOfItems" class="form-control" id="floatingInput" placeholder="" required>
+                <input value="<?php echo$UpdateData["Available"]; ?>" type="number" name="NumberOfItems" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Number Of Items</label>
               </div>
             </div>
@@ -80,14 +88,14 @@
           <div class="row">
             <div class="col">
               <div class="form-floating mb-3">
-                <input type="date" name="Date" max="<?= date('Y-m-d'); ?>" class="form-control" id="floatingInput" placeholder="" required>
+                <input value="<?php echo$UpdateData["AddDate"]; ?>" type="date" name="Date" max="<?= date('Y-m-d'); ?>" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Date</label>
               </div>
             </div>
 
             <div class="col">
               <div class="form-floating mb-3">
-                <input type="number" step="0.001" name="purchaseAmount" class="form-control" id="floatingInput" placeholder="" required>
+                <input value="<?php echo$UpdateData["PurchaseAmount"]; ?>" type="number" step="0.001" name="purchaseAmount" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Purchase Price</label>
               </div>
             </div>
@@ -96,11 +104,11 @@
           <div class="row">
             <div class="col">
               <div class="form-floating mb-3">
-                <input type="number" step="0.001" name="sellPrice" class="form-control" id="floatingInput" placeholder="" required>
+                <input value="<?php echo$UpdateData["Amount"]; ?>" type="number" step="0.001" name="sellPrice" class="form-control" id="floatingInput" placeholder="" required>
                 <label for="floatingInput">Unit Sell</label>
               </div>
             </div>
-            <input type="submit" class="JazzeraBtn col" value="Submit" name="add">
+            <input type="submit" class="JazzeraBtn col" value="Update" name="Update">
           </div>
 
         </div>
@@ -180,7 +188,6 @@
               <th scope="col">Sell Price</th>
               <th scope="col">Date</th>
               <th scope="col">Last Updated</th>
-              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -200,7 +207,8 @@
               } else {
                 echo "<td class='text-bg-warning'>$row[Available]</td>";
               }
-              $link = "../Products/DeleteProduct.php?id=".$row['id'];
+
+              $link = "../Prducts/DeleteProduct.php?id=" . $row['id'];
               echo "
                     <td>$row[Amount]</td>
                     <td>$row[AddDate]</td>
@@ -209,7 +217,7 @@
                         <a style='color: black;' href='../Products/UpdateProduct.php?id=$row[id]'>
                             <i class='bi bi-pencil-fill'></i>
                         </a>
-                        <a style='color: black;' onclick='alertProduct(\"$link\")' href='javascript:void(0);'>
+                        <a style='color: black;' onclick='alertUser(\"$link\")' href='javascript:void(0);'>
                             <i class='bi bi-trash-fill'></i>
                         </a> 
                       </td>
@@ -226,21 +234,13 @@
 
   <script>
 
-
-    const alertProduct = (url) => {
-      const res = confirm("Are you sure to delete");
-      if (res) {
-        window.location.href = url;
-      }
-    } 
-
-
     document.addEventListener("DOMContentLoaded", function() {
-
+    // let price = 0;
     // Function to handle change in select dropdown
     document.getElementById("floatingSelectRestock").addEventListener("change", function() {
         var selectedProduct = this.value;
-      
+
+        // console.log(this.te);
         // Make a fetch request
         fetch("http://localhost/CarWashProject/Products/GetProductInfo.php?product=" + encodeURIComponent(selectedProduct))
             .then(function(response) {

@@ -156,15 +156,16 @@
             <tbody>
               <?php
               include_once "../Components/connection.php";
-              $sql = "SELECT `id`, `CarName`, `Amount`, `ServiceCategoryId` FROM `services`";
+              $sql = "SELECT s.`id`, s.`CarName`, s.`Amount`, sc.CatName as cname FROM services as s
+                      JOIN servicecategory as sc on sc.id =  s.ServiceCategoryId;";
 
               $result = $conn->query($sql);
               while ($row = $result->fetch_assoc()) {
                 echo "
                         <tr>
                         <td>$row[CarName]</td>
-                        <td>$row[Amount]</td>
-                        <td>$row[ServiceCategoryId]</td>
+                        <td>$$row[Amount]</td>
+                        <td>$row[cname]</td>
                         ";
                 echo "
                         <td class='d-flex gap-4' ><a style='color: black;' href='../Services/UpdateService.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
@@ -203,7 +204,7 @@
                         <td>$row[CatName]</td>
                         <td>$row[CommisionRate]</td>
                         ";
-                        $link = "../Services/DeleteCategory.php?id=" . $row['id'];
+                        $link = "../Services/DeleteCategory.php?id=".$row['id'];
                         echo "
                             <td class='d-flex gap-4'> 
                                 <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'>

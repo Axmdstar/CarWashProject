@@ -22,22 +22,24 @@
           }
           // Check if form is submitted
           if (isset($_POST['submit'])) {
+            // echo $_POST['amount'];
             $cartype = $_POST['cartype'];
             $category = $_POST['category'];
             $amount = $_POST['amount'];
+            $discount = $_POST['discount'];
             $customernumber = $_POST['customernumber'];
             // Validate input data
             if (!empty($cartype) && !empty($category) && !empty($amount) && !empty($customernumber)) {
               $sql = "INSERT INTO dailyServices (`Cartype`, `category`, `Amount`, `CreatedAT`, `CustomerNumber`, `UsrId`) 
-                VALUES ('$cartype', '$category', $amount, Now(), '$customernumber', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]'))";
+                      VALUES ('$cartype', '$category', $amount - $discount, Now(), '$customernumber', (SELECT id FROM users WHERE Username = '$_COOKIE[Username]'))";
 
               if ($conn->query($sql) === TRUE) {
                 echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-          New record created successfully
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>';
+                      New record created successfully
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>';
               } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                echo "Error: ".$sql."<br>" . $conn->error;
               }
             } else {
               echo "Error: All fields are required.";
@@ -55,9 +57,7 @@
                   $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
                   $result = $conn->query($sql);
                   while ($row = $result->fetch_assoc()) {
-                    echo "
-                            <option value='$row[CatName]'>$row[CatName]</option>
-                              ";
+                    echo "<option value='$row[CatName]'>$row[CatName]</option>";
                   }
                   ?>
                 </select>
@@ -76,8 +76,15 @@
 
             <div class="col">
               <div class="form-floating mb-3">
-                <input required type="text" name="amount" class="form-control" id="floatingInputPrice" >
+                <input required type="number" readonly name="amount" class="form-control" id="floatingInputPrice" >
                 <label for="floatingInputPrice">Price</label>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-floating mb-3">
+                <input required type="number" min="0" max="2"  name="discount" class="form-control" id="floatingdiscount" >
+                <label for="floatingdiscount">Discount 0-2</label>
               </div>
             </div>
           </div>

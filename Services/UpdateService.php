@@ -68,7 +68,6 @@
                               ";    
                             }
                             else {
-
                                 echo "
                                 <option value='$row[id]'>$row[CatName]</option>
                                   ";
@@ -79,11 +78,9 @@
                   <label for="floatingSelect">Category</label>
               </div>
             </div>
-
           </div>
 
           <div class="row">
-            
           <div class="col">
               <div class="form-floating mb-3">
                 <input value="<?php echo$UpdateData["Amount"]; ?>" type="number" name="amount" class="form-control" id="floatingInput" required step="0.01" required placeholder="$">
@@ -196,7 +193,7 @@
               <!-- Table Ends  -->
 
               <!-- Table Two  -->
-              <div class="card col">
+            <div class="card col">
             <div class="card-body">
             <h1 class="card-title">All Categories</h1>
       
@@ -214,22 +211,22 @@
               $sql = "SELECT `id`, `CatName`, `CommisionRate` FROM `servicecategory`";
               $result = $conn->query($sql);
               while ($row = $result->fetch_assoc()) {
-                echo "  <tr>
-                        <td>$row[CatName]</td>
-                        <td>$row[CommisionRate]</td>
-                        ";
-                        $link = "../Services/DeleteCategory.php?id=" . $row['id'];
-                        echo "
-                            <td class='d-flex gap-4'> 
-                                <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'>
-                                    <i class='bi bi-pencil-fill'></i>
-                                </a> 
-                                <a style='color: black;' onclick='alertUser(\"$link\")' href='javascript:void(0);'>
-                                    <i class='bi bi-trash-fill'></i>
-                                </a> 
-                            </td>
-                            </tr>
-                        ";
+              echo "  <tr>
+                      <td>$row[CatName]</td>
+                      <td>$row[CommisionRate]</td>
+                      ";
+                      $link = "../Services/DeleteCategory.php?id=" . $row['id'];
+              echo "
+                  <td class='d-flex gap-4'> 
+                      <a style='color: black;' href='../Services/UpdateServiceCategory.php?id=$row[id]'>
+                          <i class='bi bi-pencil-fill'></i>
+                      </a> 
+                      <a style='color: black;' onclick='alertUser(\"$link\")' href='javascript:void(0);'>
+                          <i class='bi bi-trash-fill'></i>
+                      </a> 
+                  </td>
+                  </tr>
+              ";
               }
               ?>
                           

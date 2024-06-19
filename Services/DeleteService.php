@@ -11,6 +11,3 @@ echo $result;
 if ($result) {
     header('Location: ../Services/Services.php');
 }
-else {
-    
-}
