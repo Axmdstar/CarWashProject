@@ -115,12 +115,13 @@
               <th scope="col">Customer Number</th>
               <th scope="col">Createdby</th>
               <th scope="col">Date</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
             <?php
             include_once "../Components/connection.php";
-            $sql = "SELECT `Cartype`, `category`, `Amount`, `CreatedAT`, `CustomerNumber`, usr.Username as Createdby FROM
+            $sql = "SELECT ds.id, `Cartype`, `category`, `Amount`, `CreatedAT`, `CustomerNumber`, usr.Username as Createdby FROM
                     `dailyservices` as ds INNER JOIN users as usr on ds.UsrId = usr.id";
             $result = $conn->query($sql);
             while ($row = $result->fetch_assoc()) {
@@ -132,10 +133,12 @@
                       <td>$row[CustomerNumber]</td>
                       <td>$row[Createdby]</td>
                       <td>$row[CreatedAT]</td>
+                      <td class='d-flex gap-4'>
+                        <a style='color: black;' href='../Services/DeleteUService.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a>
+                      </td>
                       </tr>
                       ";
             }?>
-
           </tbody>
         </table>
       </div>

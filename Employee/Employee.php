@@ -209,10 +209,7 @@
                         </tr>
                         ";
                     }
-                    
                     ?>
-
-
                   </tbody>
                 </table>
                 <!-- Table Ends  -->

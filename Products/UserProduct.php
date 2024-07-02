@@ -9,7 +9,6 @@
 
   <main id="main" class="main">
 
-
     <form method="POST" >
       <?php
       include "../Components/connection.php";
@@ -126,12 +125,13 @@
                         <th scope="col">CustomerNumber</th>
                         <th scope="col">Date</th>
                         <th scope="col">CreatedBy</th>
+                        <th scope="col">Action</th>
                       </tr>
                     </thead>
                 <tbody>
                     <?php
                     include_once "../Components/connection.php";
-                    $sql = "SELECT `ProductName`, `Quantity`, `Amount`, `CustomerNumber`, `Solddate`, usr.Username as Createdby FROM `soldproducts` as sp
+                    $sql = "SELECT sp.id, `ProductName`, `Quantity`, `Amount`, `CustomerNumber`, `Solddate`, usr.Username as Createdby FROM `soldproducts` as sp
                             INNER JOIN users as usr on sp.UsrId = usr.id ";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
@@ -143,6 +143,9 @@
                             <td>$row[CustomerNumber]</td>
                             <td>$row[Solddate]</td>
                             <td>$row[Createdby]</td>
+                            <td class='d-flex gap-4'>
+                              <a style='color: black;' href='../Products/DeleteUProduct.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a>
+                            </td>
                             ";
                     }
                     ?>

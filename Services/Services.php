@@ -34,10 +34,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
         }
-        
       }
-
-
       ?>
 
       <div class="card">
@@ -91,7 +88,6 @@
 
           
           <?php
-
           if (isset($_POST['AddNewCategory'])) {
             $CommissionRate = $_POST['CommissionRate'];
             $CategoryName = $_POST['CategoryName'];
@@ -168,7 +164,8 @@
                         <td>$row[cname]</td>
                         ";
                 echo "
-                        <td class='d-flex gap-4' ><a style='color: black;' href='../Services/UpdateService.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
+                        <td class='d-flex gap-4' >
+                        <a style='color: black;' href='../Services/UpdateService.php?id=$row[id]'><i class='bi bi-pencil-fill'></i></a> 
                         <a style='color: black;' href='../Services/DeleteService.php?id=$row[id]'><i class='bi bi-trash-fill'></i></a> </td>
                         </tr>
                         ";
